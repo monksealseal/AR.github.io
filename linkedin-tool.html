@@ -908,6 +908,57 @@
         .act-tag.effort-medium { background: rgba(245,158,11,0.15); color: var(--accent-orange); }
         .act-tag.effort-high { background: rgba(239,68,68,0.15); color: var(--accent-red); }
 
+        /* ====== SECTION IMPORT PANEL STYLES ====== */
+        .section-import-toggle {
+            display: inline-flex; align-items: center; gap: 6px;
+            background: rgba(6,182,212,0.1); border: 1px solid rgba(6,182,212,0.25);
+            color: var(--accent-cyan); padding: 6px 14px; border-radius: var(--radius-sm);
+            font-size: 12px; font-weight: 600; cursor: pointer;
+            transition: var(--transition-fast);
+        }
+        .section-import-toggle:hover { background: rgba(6,182,212,0.18); }
+        .section-import-panel {
+            display: none; margin-top: 14px; margin-bottom: 16px;
+            background: var(--bg-card); border: 1px solid var(--border-color);
+            border-radius: var(--radius-md); padding: 18px;
+            border-top: 3px solid var(--accent-cyan);
+        }
+        .section-import-panel.open { display: block; }
+        .section-import-panel .sip-instructions {
+            font-size: 12px; color: var(--text-secondary); margin-bottom: 12px; line-height: 1.6;
+        }
+        .section-import-panel .sip-instructions strong { color: var(--text-primary); }
+        .section-import-panel .sip-instructions .step-num {
+            display: inline-flex; align-items: center; justify-content: center;
+            width: 20px; height: 20px; border-radius: 50%;
+            background: var(--accent-cyan); color: #fff; font-size: 10px;
+            font-weight: 700; margin-right: 6px;
+        }
+        .section-import-panel textarea {
+            width: 100%; background: var(--bg-input); border: 1px solid var(--border-color);
+            color: var(--text-primary); padding: 12px; border-radius: var(--radius-sm);
+            font-family: 'JetBrains Mono', monospace; font-size: 12px;
+            resize: vertical; min-height: 100px;
+        }
+        .section-import-panel textarea:focus {
+            outline: none; border-color: var(--accent-cyan);
+            box-shadow: 0 0 0 3px rgba(6,182,212,0.15);
+        }
+        .section-import-panel textarea::placeholder { color: var(--text-muted); font-family: 'Inter', sans-serif; }
+        .sip-btn-row { display: flex; gap: 8px; margin-top: 10px; align-items: center; }
+        .sip-result {
+            margin-top: 10px; padding: 10px 14px; border-radius: var(--radius-sm);
+            font-size: 12px; display: none;
+        }
+        .sip-result.success {
+            display: block; background: rgba(16,185,129,0.1);
+            border: 1px solid rgba(16,185,129,0.3); color: var(--accent-green);
+        }
+        .sip-result.error {
+            display: block; background: rgba(239,68,68,0.1);
+            border: 1px solid rgba(239,68,68,0.3); color: var(--accent-red);
+        }
+
         /* AI Metrics Row */
         .ai-metrics-row {
             display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
@@ -1488,6 +1539,24 @@
                     </div>
                 </div>
                 <div class="ai-enhancement" id="ai-zone-profile-strength"></div>
+                <!-- Section Import: Profile Overview -->
+                <div style="margin-bottom:8px;">
+                    <button class="section-import-toggle" onclick="this.nextElementSibling.classList.toggle('open')">
+                        <i class="fas fa-paste"></i> Import from LinkedIn
+                    </button>
+                    <div class="section-import-panel" id="sip-profile">
+                        <div class="sip-instructions">
+                            <span class="step-num">1</span> Go to any LinkedIn profile page<br>
+                            <span class="step-num">2</span> Press <strong>Ctrl+A</strong> to select all, then <strong>Ctrl+C</strong> to copy<br>
+                            <span class="step-num">3</span> Paste below — we'll extract the name, headline, about, location, and connection count
+                        </div>
+                        <textarea id="sipProfileInput" rows="6" placeholder="Paste full LinkedIn profile page text here..."></textarea>
+                        <div class="sip-btn-row">
+                            <button class="btn btn-sm btn-primary" onclick="App.importSectionPaste('profile')"><i class="fas fa-magic"></i> Import Profile</button>
+                            <button class="btn btn-sm btn-secondary" onclick="document.getElementById('sipProfileInput').value=''"><i class="fas fa-eraser"></i> Clear</button>
+                        </div>
+                        <div class="sip-result" id="sipProfileResult"></div>
+                    </div>
                 </div>
                 <div id="strengthEmpty" class="empty-state">
                     <i class="fas fa-shield-alt"></i>
@@ -1536,7 +1605,6 @@
                     </div>
                 </div>
                 <div class="ai-enhancement" id="ai-zone-career"></div>
-                </div>
                 <div id="careerEmpty" class="empty-state">
                     <i class="fas fa-chart-line"></i><h3>No Experience Data</h3>
                     <p>Add work experience to analyze your career trajectory.</p>
@@ -1580,6 +1648,24 @@
                     </div>
                 </div>
                 <div class="ai-enhancement" id="ai-zone-skills"></div>
+                <!-- Section Import: Skills -->
+                <div style="margin-bottom:8px;">
+                    <button class="section-import-toggle" onclick="this.nextElementSibling.classList.toggle('open')">
+                        <i class="fas fa-paste"></i> Import Skills
+                    </button>
+                    <div class="section-import-panel" id="sip-skills">
+                        <div class="sip-instructions">
+                            <span class="step-num">1</span> Go to a LinkedIn profile's <strong>Skills</strong> section (click "Show all skills")<br>
+                            <span class="step-num">2</span> Press <strong>Ctrl+A</strong> and <strong>Ctrl+C</strong><br>
+                            <span class="step-num">3</span> Paste below — we'll extract skill names and endorsement counts
+                        </div>
+                        <textarea id="sipSkillsInput" rows="6" placeholder="Paste LinkedIn skills section here...&#10;&#10;Example:&#10;Python&#10;99+ endorsements&#10;JavaScript&#10;42 endorsements&#10;React&#10;Machine Learning"></textarea>
+                        <div class="sip-btn-row">
+                            <button class="btn btn-sm btn-primary" onclick="App.importSectionPaste('skills')"><i class="fas fa-magic"></i> Import Skills</button>
+                            <button class="btn btn-sm btn-secondary" onclick="document.getElementById('sipSkillsInput').value=''"><i class="fas fa-eraser"></i> Clear</button>
+                        </div>
+                        <div class="sip-result" id="sipSkillsResult"></div>
+                    </div>
                 </div>
                 <div id="skillsEmpty" class="empty-state">
                     <i class="fas fa-cogs"></i><h3>No Skills Data</h3>
@@ -1640,6 +1726,24 @@
                     </div>
                 </div>
                 <div class="ai-enhancement" id="ai-zone-network"></div>
+                <!-- Section Import: Connections -->
+                <div style="margin-bottom:8px;">
+                    <button class="section-import-toggle" onclick="this.nextElementSibling.classList.toggle('open')">
+                        <i class="fas fa-paste"></i> Import Connections
+                    </button>
+                    <div class="section-import-panel" id="sip-connections">
+                        <div class="sip-instructions">
+                            <span class="step-num">1</span> Go to your <strong>LinkedIn Connections</strong> page (My Network > Connections)<br>
+                            <span class="step-num">2</span> Scroll down to load connections, then press <strong>Ctrl+A</strong> and <strong>Ctrl+C</strong><br>
+                            <span class="step-num">3</span> Paste below — we'll extract names, titles, companies, and connection dates
+                        </div>
+                        <textarea id="sipConnectionsInput" rows="8" placeholder="Paste your LinkedIn connections page here...&#10;&#10;Example of what it looks like:&#10;John Doe&#10;Software Engineer at Google&#10;Connected 2 weeks ago&#10;&#10;Jane Smith&#10;Product Manager at Meta&#10;Connected 3 months ago"></textarea>
+                        <div class="sip-btn-row">
+                            <button class="btn btn-sm btn-primary" onclick="App.importSectionPaste('connections')"><i class="fas fa-magic"></i> Import Connections</button>
+                            <button class="btn btn-sm btn-secondary" onclick="document.getElementById('sipConnectionsInput').value=''"><i class="fas fa-eraser"></i> Clear</button>
+                        </div>
+                        <div class="sip-result" id="sipConnectionsResult"></div>
+                    </div>
                 </div>
                 <div id="networkEmpty" class="empty-state">
                     <i class="fas fa-project-diagram"></i><h3>No Network Data</h3>
@@ -1694,7 +1798,6 @@
                     </div>
                 </div>
                 <div class="ai-enhancement" id="ai-zone-keywords"></div>
-                </div>
                 <div id="keywordsEmpty" class="empty-state">
                     <i class="fas fa-search"></i><h3>No Profile Data</h3>
                     <p>Import profile data to analyze keywords and SEO.</p>
@@ -1736,6 +1839,24 @@
                     </div>
                 </div>
                 <div class="ai-enhancement" id="ai-zone-experience"></div>
+                <!-- Section Import: Experience -->
+                <div style="margin-bottom:8px;">
+                    <button class="section-import-toggle" onclick="this.nextElementSibling.classList.toggle('open')">
+                        <i class="fas fa-paste"></i> Import Experience
+                    </button>
+                    <div class="section-import-panel" id="sip-experience">
+                        <div class="sip-instructions">
+                            <span class="step-num">1</span> Go to a LinkedIn profile's <strong>Experience</strong> section<br>
+                            <span class="step-num">2</span> Press <strong>Ctrl+A</strong> and <strong>Ctrl+C</strong>, or select just the Experience section<br>
+                            <span class="step-num">3</span> Paste below — we'll extract job titles, companies, dates, and descriptions
+                        </div>
+                        <textarea id="sipExperienceInput" rows="8" placeholder="Paste LinkedIn experience section here...&#10;&#10;Example:&#10;Senior Software Engineer&#10;Google&#10;Jan 2020 - Present · 4 yrs&#10;San Francisco, CA&#10;Built ML pipelines serving 1M+ users...&#10;&#10;Software Engineer&#10;Meta&#10;Jun 2017 - Dec 2019 · 2 yrs 6 mos"></textarea>
+                        <div class="sip-btn-row">
+                            <button class="btn btn-sm btn-primary" onclick="App.importSectionPaste('experience')"><i class="fas fa-magic"></i> Import Experience</button>
+                            <button class="btn btn-sm btn-secondary" onclick="document.getElementById('sipExperienceInput').value=''"><i class="fas fa-eraser"></i> Clear</button>
+                        </div>
+                        <div class="sip-result" id="sipExperienceResult"></div>
+                    </div>
                 </div>
                 <div id="expEmpty" class="empty-state">
                     <i class="fas fa-briefcase"></i><h3>No Experience Data</h3>
@@ -1812,6 +1933,25 @@
                     <h2>Education & Certifications Analysis</h2>
                     <p>Evaluate education relevance, certification gaps, and learning trajectory</p>
                 </div>
+                <!-- Section Import: Education -->
+                <div style="margin-bottom:8px;">
+                    <button class="section-import-toggle" onclick="this.nextElementSibling.classList.toggle('open')">
+                        <i class="fas fa-paste"></i> Import Education
+                    </button>
+                    <div class="section-import-panel" id="sip-education">
+                        <div class="sip-instructions">
+                            <span class="step-num">1</span> Go to a LinkedIn profile's <strong>Education</strong> section<br>
+                            <span class="step-num">2</span> Select and copy the education entries<br>
+                            <span class="step-num">3</span> Paste below — we'll extract schools, degrees, fields of study, and years
+                        </div>
+                        <textarea id="sipEducationInput" rows="6" placeholder="Paste LinkedIn education section here...&#10;&#10;Example:&#10;Stanford University&#10;Master of Science - MS, Computer Science&#10;2015 - 2017&#10;&#10;UC Berkeley&#10;Bachelor of Science - BS, Electrical Engineering&#10;2011 - 2015"></textarea>
+                        <div class="sip-btn-row">
+                            <button class="btn btn-sm btn-primary" onclick="App.importSectionPaste('education')"><i class="fas fa-magic"></i> Import Education</button>
+                            <button class="btn btn-sm btn-secondary" onclick="document.getElementById('sipEducationInput').value=''"><i class="fas fa-eraser"></i> Clear</button>
+                        </div>
+                        <div class="sip-result" id="sipEducationResult"></div>
+                    </div>
+                </div>
                 <div id="eduEmpty" class="empty-state">
                     <i class="fas fa-graduation-cap"></i><h3>No Education Data</h3>
                     <p>Add education and certifications for analysis.</p>
@@ -1846,6 +1986,25 @@
                 <div class="section-header">
                     <h2>Recommendations Analysis</h2>
                     <p>Assess recommendation strength, sentiment, and strategic coverage</p>
+                </div>
+                <!-- Section Import: Recommendations -->
+                <div style="margin-bottom:8px;">
+                    <button class="section-import-toggle" onclick="this.nextElementSibling.classList.toggle('open')">
+                        <i class="fas fa-paste"></i> Import Recommendations
+                    </button>
+                    <div class="section-import-panel" id="sip-recommendations">
+                        <div class="sip-instructions">
+                            <span class="step-num">1</span> Go to a LinkedIn profile's <strong>Recommendations</strong> section<br>
+                            <span class="step-num">2</span> Select and copy the recommendations<br>
+                            <span class="step-num">3</span> Paste below — we'll extract recommender names, relationships, and recommendation text
+                        </div>
+                        <textarea id="sipRecommendationsInput" rows="8" placeholder="Paste LinkedIn recommendations here...&#10;&#10;Example:&#10;John Doe&#10;Senior Manager at Google · March 15, 2023&#10;John managed me directly for 2 years. His technical leadership...&#10;&#10;Jane Smith&#10;VP Engineering at Meta · January 8, 2022&#10;Working with Jane was a privilege. She consistently..."></textarea>
+                        <div class="sip-btn-row">
+                            <button class="btn btn-sm btn-primary" onclick="App.importSectionPaste('recommendations')"><i class="fas fa-magic"></i> Import Recommendations</button>
+                            <button class="btn btn-sm btn-secondary" onclick="document.getElementById('sipRecommendationsInput').value=''"><i class="fas fa-eraser"></i> Clear</button>
+                        </div>
+                        <div class="sip-result" id="sipRecommendationsResult"></div>
+                    </div>
                 </div>
                 <div id="recEmpty" class="empty-state">
                     <i class="fas fa-star"></i><h3>No Recommendation Data</h3>
@@ -1882,7 +2041,6 @@
                     </div>
                 </div>
                 <div class="ai-enhancement" id="ai-zone-brand"></div>
-                </div>
                 <div id="brandEmpty" class="empty-state">
                     <i class="fas fa-fingerprint"></i><h3>No Profile Data</h3>
                     <p>Import profile data for brand assessment.</p>
@@ -1918,7 +2076,6 @@
                     </div>
                 </div>
                 <div class="ai-enhancement" id="ai-zone-recruiter"></div>
-                </div>
                 <div id="recruiterEmpty" class="empty-state">
                     <i class="fas fa-eye"></i><h3>No Profile Data</h3>
                     <p>Import profile data for recruiter visibility analysis.</p>
@@ -2002,7 +2159,6 @@
                     </div>
                 </div>
                 <div class="ai-enhancement" id="ai-zone-salary"></div>
-                </div>
                 <div id="salaryEmpty" class="empty-state">
                     <i class="fas fa-dollar-sign"></i><h3>No Profile Data</h3>
                     <p>Import profile data for salary estimates.</p>
@@ -3410,6 +3566,316 @@ Give 3-4 salary metrics (market rate, negotiation leverage, etc.), 3-4 insights 
                 }
             }
         };
+        // ============================================================
+        //  SECTION PASTE PARSERS
+        //  Smart parsers for Ctrl+A copied LinkedIn page sections
+        // ============================================================
+        const SectionPasteParser = {
+            // --- Shared helpers ---
+            cleanLines(text) {
+                return text.split('\n').map(l => l.trim()).filter(l => l.length > 0);
+            },
+            isNavJunk(line) {
+                const junk = /^(Home|My Network|Jobs|Messaging|Notifications|Me|Post|Search|Premium|LinkedIn|Sign|Log|©|Privacy|Terms|Cookie|Accessibility|Talent|Marketing|Sales|Learning|More|Message|Connect|Follow|Pending|Report|Block|Remove|Endorse|Show all|Show less|Show more|See all|see all|See more|see more|…more|\.\.\.more|All filters|People|Posts|Groups|Events|Sort by|Manage|Add profile section|Open to|Add section|People also viewed|People you may know|Mutual|connections?$|followers?$)/i;
+                return junk.test(line) || line.length < 2 || /^[•·\-–—]{1,3}$/.test(line);
+            },
+
+            // --- Profile Overview Parser ---
+            parseProfile(text) {
+                const lines = this.cleanLines(text);
+                const result = { fullName: '', headline: '', summary: '', location: '', connectionCount: 0, industry: '' };
+                let foundAbout = false;
+                let aboutLines = [];
+
+                for (let i = 0; i < lines.length; i++) {
+                    const line = lines[i];
+
+                    // Connection count
+                    const connMatch = line.match(/(\d[\d,]+)\+?\s*(connections|followers)/i);
+                    if (connMatch) {
+                        result.connectionCount = Math.max(result.connectionCount, parseInt(connMatch[1].replace(/,/g, '')));
+                        continue;
+                    }
+
+                    // About section
+                    if (/^about$/i.test(line)) { foundAbout = true; continue; }
+                    if (foundAbout) {
+                        if (/^(experience|education|skills|licenses|activity|interests|publications)$/i.test(line)) {
+                            foundAbout = false; continue;
+                        }
+                        if (!this.isNavJunk(line) && line.length > 10) aboutLines.push(line);
+                        continue;
+                    }
+
+                    // Location pattern (City, State/Country)
+                    if (!result.location && /^[A-Z][a-z]+[\s,]/.test(line) && line.length < 60) {
+                        if (/,/.test(line) || /(area|metro|region|city)/i.test(line)) {
+                            result.location = line;
+                            continue;
+                        }
+                    }
+
+                    // Name: first substantial non-junk line that looks like a name
+                    if (!result.fullName && !this.isNavJunk(line) && line.length >= 3 && line.length < 60) {
+                        if (/^[A-Z][a-z]/.test(line) && !/\d/.test(line) && !/[@#]/.test(line) && line.split(' ').length <= 5) {
+                            result.fullName = line;
+                            // Next non-junk line is likely headline
+                            for (let j = i + 1; j < Math.min(i + 5, lines.length); j++) {
+                                if (!this.isNavJunk(lines[j]) && lines[j].length > 5 && lines[j] !== result.fullName) {
+                                    if (!/^\d+\+?\s*connections/i.test(lines[j]) && !/^[A-Z][a-z]+,/.test(lines[j])) {
+                                        result.headline = lines[j];
+                                        break;
+                                    }
+                                }
+                            }
+                            continue;
+                        }
+                    }
+                }
+                result.summary = aboutLines.join('\n');
+                return result;
+            },
+
+            // --- Connections Page Parser ---
+            parseConnections(text) {
+                const lines = this.cleanLines(text);
+                const connections = [];
+                let i = 0;
+
+                while (i < lines.length) {
+                    const line = lines[i];
+
+                    // Skip obvious junk
+                    if (this.isNavJunk(line)) { i++; continue; }
+
+                    // Look for connection pattern: Name, then headline with "at", then "Connected X ago"
+                    if (line.length >= 3 && line.length < 80 && /^[A-Z]/.test(line) && !/connected/i.test(line)) {
+                        const name = line;
+                        let position = '', company = '', connectedOn = '';
+
+                        // Look ahead for headline and connection date
+                        for (let j = i + 1; j < Math.min(i + 6, lines.length); j++) {
+                            const next = lines[j];
+                            if (/connected\s+/i.test(next)) {
+                                connectedOn = next;
+                                break;
+                            }
+                            if (!position && !this.isNavJunk(next) && next.length > 3) {
+                                // Parse "Title at Company"
+                                const atMatch = next.match(/^(.+?)\s+at\s+(.+)$/i);
+                                if (atMatch) {
+                                    position = atMatch[1].trim();
+                                    company = atMatch[2].trim();
+                                } else {
+                                    position = next;
+                                }
+                            }
+                        }
+
+                        if (position || connectedOn) {
+                            const nameParts = name.split(/\s+/);
+                            connections.push({
+                                firstName: nameParts[0] || '',
+                                lastName: nameParts.slice(1).join(' ') || '',
+                                company: company,
+                                position: position,
+                                connectedOn: connectedOn.replace(/connected\s+/i, '').trim(),
+                                email: ''
+                            });
+                        }
+                    }
+                    i++;
+                }
+                return connections;
+            },
+
+            // --- Skills Parser ---
+            parseSkills(text) {
+                const lines = this.cleanLines(text);
+                const skills = [];
+                const seen = new Set();
+
+                for (let i = 0; i < lines.length; i++) {
+                    const line = lines[i];
+                    if (this.isNavJunk(line)) continue;
+
+                    // "Skill Name · X endorsements" or "Skill Name (X endorsements)"
+                    let m = line.match(/^(.+?)\s*[·•|]\s*(\d+)\+?\s*endorsement/i);
+                    if (!m) m = line.match(/^(.+?)\s*\((\d+)\+?\s*endorsement/i);
+                    if (m) {
+                        const name = m[1].trim();
+                        if (name.length > 1 && name.length < 80 && !seen.has(name.toLowerCase())) {
+                            seen.add(name.toLowerCase());
+                            skills.push({ name, endorsements: parseInt(m[2]) });
+                        }
+                        continue;
+                    }
+
+                    // Next line might have endorsement count
+                    const nextLine = lines[i + 1] || '';
+                    const endorseNext = nextLine.match(/^(\d+)\+?\s*endorsement/i);
+
+                    // Skill candidate: reasonable length, no dates, not a number
+                    if (line.length > 1 && line.length < 80 && !/^\d+/.test(line) && !/endorsement/i.test(line)) {
+                        // Avoid common non-skill lines
+                        if (/^(skills|show|see|all|endorse|top skills|industry)/i.test(line)) continue;
+
+                        const name = line;
+                        if (!seen.has(name.toLowerCase())) {
+                            seen.add(name.toLowerCase());
+                            skills.push({
+                                name,
+                                endorsements: endorseNext ? parseInt(endorseNext[1]) : 0
+                            });
+                            if (endorseNext) i++; // skip the endorsement count line
+                        }
+                    }
+                }
+                return skills;
+            },
+
+            // --- Experience Parser ---
+            parseExperience(text) {
+                const lines = this.cleanLines(text);
+                const experiences = [];
+                const datePattern = /(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\s+\d{4}\s*[-–—]\s*(?:Present|(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\s+\d{4})/i;
+                const durationPattern = /^\d+\s*(?:yr|mo|year|month)/i;
+                let current = null;
+
+                for (let i = 0; i < lines.length; i++) {
+                    const line = lines[i];
+                    if (this.isNavJunk(line)) continue;
+                    if (/^experience$/i.test(line)) continue;
+
+                    // Date range line
+                    const dateMatch = line.match(datePattern);
+                    if (dateMatch) {
+                        if (current) {
+                            const parts = dateMatch[0].split(/[-–—]/);
+                            current.startDate = parts[0].trim();
+                            current.endDate = parts[1] ? parts[1].trim() : 'Present';
+                        }
+                        continue;
+                    }
+
+                    // Duration line (e.g., "2 yrs 3 mos") - skip
+                    if (durationPattern.test(line)) continue;
+
+                    // Location line (e.g., "San Francisco, CA")
+                    if (current && !current.location && /^[A-Z][a-z]+.*,/.test(line) && line.length < 60 && !datePattern.test(line)) {
+                        current.location = line;
+                        continue;
+                    }
+
+                    // Description: longer text lines after we have title and company
+                    if (current && current.company && line.length > 50) {
+                        current.description += (current.description ? '\n' : '') + line;
+                        continue;
+                    }
+
+                    // New role: reasonable length title-like line
+                    if (line.length > 2 && line.length < 120 && !durationPattern.test(line)) {
+                        // Check if this looks like a company name for the current role
+                        if (current && !current.company) {
+                            current.company = line;
+                        } else {
+                            // Start a new experience entry
+                            current = { title: line, company: '', description: '', startDate: '', endDate: '', location: '' };
+                            experiences.push(current);
+                        }
+                    }
+                }
+                return experiences;
+            },
+
+            // --- Education Parser ---
+            parseEducation(text) {
+                const lines = this.cleanLines(text);
+                const education = [];
+                const yearPattern = /(\d{4})\s*[-–—]\s*(\d{4})/;
+                let current = null;
+
+                for (let i = 0; i < lines.length; i++) {
+                    const line = lines[i];
+                    if (this.isNavJunk(line)) continue;
+                    if (/^education$/i.test(line)) continue;
+
+                    // Year range
+                    const ym = line.match(yearPattern);
+                    if (ym && current) {
+                        current.startYear = ym[1];
+                        current.endYear = ym[2];
+                        continue;
+                    }
+                    // Single year
+                    if (/^\d{4}$/.test(line.trim()) && current) {
+                        if (!current.startYear) current.startYear = line.trim();
+                        continue;
+                    }
+
+                    // Degree line patterns
+                    if (current && !current.degree && line.length > 3) {
+                        const degreePattern = /(bachelor|master|doctor|phd|mba|associate|b\.?s\.?|m\.?s\.?|b\.?a\.?|m\.?a\.?|b\.?eng|m\.?eng)/i;
+                        if (degreePattern.test(line) || /[-–,]/.test(line)) {
+                            // Parse "Degree - Field" or "Degree, Field"
+                            const parts = line.split(/[-–,]\s*/);
+                            current.degree = parts[0].trim();
+                            if (parts[1]) current.field = parts[1].trim();
+                            continue;
+                        }
+                    }
+
+                    // Activities or description lines
+                    if (current && current.degree && line.length > 40) continue;
+
+                    // New school entry
+                    if (line.length >= 3 && line.length < 120 && !/^\d/.test(line)) {
+                        current = { school: line, degree: '', field: '', startYear: '', endYear: '' };
+                        education.push(current);
+                    }
+                }
+                return education;
+            },
+
+            // --- Recommendations Parser ---
+            parseRecommendations(text) {
+                const lines = this.cleanLines(text);
+                const recs = [];
+                let current = null;
+
+                for (let i = 0; i < lines.length; i++) {
+                    const line = lines[i];
+                    if (this.isNavJunk(line)) continue;
+                    if (/^(recommendations?|received|given)$/i.test(line)) continue;
+                    if (/^\d+$/.test(line)) continue; // count only
+
+                    // Recommender pattern: "Name · Title · Date" or just "Name"
+                    // followed by recommendation text (longer lines)
+                    const dateIndicator = /(January|February|March|April|May|June|July|August|September|October|November|December|\d{4}|·)/i;
+
+                    if (line.length > 50 && !/^[A-Z][a-z]+\s+[A-Z]/.test(line.substring(0, 20))) {
+                        // This looks like recommendation text
+                        if (current) {
+                            current.text += (current.text ? ' ' : '') + line;
+                        } else {
+                            recs.push({ recommender: '', text: line, relationship: '', date: '' });
+                        }
+                    } else if (line.length >= 3 && line.length < 120) {
+                        // Could be a recommender line
+                        if (dateIndicator.test(line) && current && !current.relationship) {
+                            current.relationship = line;
+                        } else {
+                            // New recommender
+                            current = { recommender: line, text: '', relationship: '', date: '' };
+                            recs.push(current);
+                        }
+                    }
+                }
+                // Filter out entries with no meaningful text
+                return recs.filter(r => r.text.length > 15 || r.recommender);
+            }
+        };
+
         // ============================================================
         //  HELPER: Create empty profile
         // ============================================================
@@ -6706,6 +7172,151 @@ Give 3-4 salary metrics (market rate, negotiation leverage, etc.), 3-4 insights 
         }
 
         // ============================================================
+        //  SECTION PASTE IMPORT HANDLERS
+        // ============================================================
+        function showSipResult(sectionKey, success, message) {
+            const el = document.getElementById('sip' + sectionKey.charAt(0).toUpperCase() + sectionKey.slice(1) + 'Result');
+            if (!el) return;
+            el.className = 'sip-result ' + (success ? 'success' : 'error');
+            el.innerHTML = `<i class="fas fa-${success ? 'check-circle' : 'exclamation-triangle'}"></i> ${message}`;
+            el.style.display = 'block';
+            if (success) setTimeout(() => { el.style.display = 'none'; }, 6000);
+        }
+
+        function getOrCreateProfile() {
+            let profile = DataStore.getActiveProfile();
+            if (!profile) {
+                profile = createEmptyProfile();
+                const id = 'profile_' + Date.now();
+                DataStore.saveProfile(id, profile);
+                DataStore.setActiveId(id);
+                updateProfileSelector();
+            }
+            return { profile, id: DataStore.getActiveId() };
+        }
+
+        function importSectionPaste(sectionKey) {
+            const inputId = 'sip' + sectionKey.charAt(0).toUpperCase() + sectionKey.slice(1) + 'Input';
+            const textarea = document.getElementById(inputId);
+            const text = textarea?.value?.trim();
+            if (!text) {
+                showSipResult(sectionKey, false, 'Nothing to import. Paste text first.');
+                return;
+            }
+
+            try {
+                const { profile, id } = getOrCreateProfile();
+                let count = 0;
+
+                switch (sectionKey) {
+                    case 'profile': {
+                        const parsed = SectionPasteParser.parseProfile(text);
+                        if (parsed.fullName) profile.fullName = parsed.fullName;
+                        if (parsed.headline) profile.headline = parsed.headline;
+                        if (parsed.summary) profile.summary = parsed.summary;
+                        if (parsed.location) profile.location = parsed.location;
+                        if (parsed.connectionCount) profile.connectionCount = parsed.connectionCount;
+                        const fields = [parsed.fullName, parsed.headline, parsed.summary, parsed.location, parsed.connectionCount].filter(Boolean);
+                        count = fields.length;
+                        showSipResult(sectionKey, count > 0, count > 0
+                            ? `Imported profile: ${profile.fullName || 'unknown'}${profile.headline ? ' — ' + profile.headline : ''} (${count} fields)`
+                            : 'Could not parse profile data. Try copying the full profile page.');
+                        break;
+                    }
+                    case 'connections': {
+                        const conns = SectionPasteParser.parseConnections(text);
+                        count = conns.length;
+                        if (count > 0) {
+                            // Merge: avoid duplicates by name
+                            const existingNames = new Set(profile.connections.map(c => (c.firstName + ' ' + c.lastName).toLowerCase()));
+                            const newConns = conns.filter(c => !existingNames.has((c.firstName + ' ' + c.lastName).toLowerCase()));
+                            profile.connections.push(...newConns);
+                            profile.connectionCount = Math.max(profile.connectionCount, profile.connections.length);
+                            // Rebuild company/industry lists
+                            profile.connCompanies = [...new Set(profile.connections.map(c => c.company).filter(Boolean))].map(c => ({ name: c, count: profile.connections.filter(x => x.company === c).length }));
+                        }
+                        showSipResult(sectionKey, count > 0, count > 0
+                            ? `Imported ${count} connections (${profile.connections.length} total)`
+                            : 'Could not parse connections. Make sure you copied from the Connections page.');
+                        break;
+                    }
+                    case 'skills': {
+                        const skills = SectionPasteParser.parseSkills(text);
+                        count = skills.length;
+                        if (count > 0) {
+                            const existingNames = new Set(profile.skills.map(s => s.name.toLowerCase()));
+                            const newSkills = skills.filter(s => !existingNames.has(s.name.toLowerCase()));
+                            profile.skills.push(...newSkills);
+                        }
+                        showSipResult(sectionKey, count > 0, count > 0
+                            ? `Imported ${count} skills (${profile.skills.length} total)`
+                            : 'Could not parse skills. Try selecting just the Skills section.');
+                        break;
+                    }
+                    case 'experience': {
+                        const exps = SectionPasteParser.parseExperience(text);
+                        count = exps.length;
+                        if (count > 0) {
+                            // Replace experience if we got good data, otherwise merge
+                            if (profile.experience.length === 0) {
+                                profile.experience = exps;
+                            } else {
+                                const existingTitles = new Set(profile.experience.map(e => (e.title + e.company).toLowerCase()));
+                                const newExps = exps.filter(e => !existingTitles.has((e.title + e.company).toLowerCase()));
+                                profile.experience.push(...newExps);
+                            }
+                        }
+                        showSipResult(sectionKey, count > 0, count > 0
+                            ? `Imported ${count} positions (${profile.experience.length} total)`
+                            : 'Could not parse experience. Try copying the Experience section.');
+                        break;
+                    }
+                    case 'education': {
+                        const edu = SectionPasteParser.parseEducation(text);
+                        count = edu.length;
+                        if (count > 0) {
+                            if (profile.education.length === 0) {
+                                profile.education = edu;
+                            } else {
+                                const existingSchools = new Set(profile.education.map(e => e.school.toLowerCase()));
+                                const newEdu = edu.filter(e => !existingSchools.has(e.school.toLowerCase()));
+                                profile.education.push(...newEdu);
+                            }
+                        }
+                        showSipResult(sectionKey, count > 0, count > 0
+                            ? `Imported ${count} education entries (${profile.education.length} total)`
+                            : 'Could not parse education. Try copying the Education section.');
+                        break;
+                    }
+                    case 'recommendations': {
+                        const recs = SectionPasteParser.parseRecommendations(text);
+                        count = recs.length;
+                        if (count > 0) {
+                            profile.recommendations.push(...recs);
+                            profile.recsReceived = profile.recommendations.length;
+                            profile.recTexts = profile.recommendations.map(r => r.text).filter(Boolean);
+                        }
+                        showSipResult(sectionKey, count > 0, count > 0
+                            ? `Imported ${count} recommendations (${profile.recommendations.length} total)`
+                            : 'Could not parse recommendations. Try copying the Recommendations section.');
+                        break;
+                    }
+                    default:
+                        showSipResult(sectionKey, false, 'Unknown import type.');
+                        return;
+                }
+
+                if (count > 0) {
+                    DataStore.saveProfile(id, profile);
+                    updateProfileSelector();
+                    runFullAnalysis();
+                }
+            } catch (err) {
+                showSipResult(sectionKey, false, 'Parse error: ' + err.message);
+            }
+        }
+
+        // ============================================================
         //  DRAG & DROP
         // ============================================================
         function initDragDrop() {
@@ -6756,6 +7367,8 @@ Give 3-4 salary metrics (market rate, negotiation leverage, etc.), 3-4 insights 
             // Claude AI
             saveAIKey, clearAIKey, sendAIMessage,
             enhanceSection, enhanceAllSections, clearAllEnhancements, clearAIChat,
+            // Section Paste Import
+            importSectionPaste,
             init
         };
     })();
