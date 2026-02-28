@@ -745,25 +745,18 @@
             .trust-ring.ring-outer { width: 230px; height: 230px; }
         }
 
-        /* ====== AI INSIGHTS STYLES ====== */
+        /* ====== AI ENHANCEMENT STYLES ====== */
         .ai-setup-card {
             background: linear-gradient(135deg, rgba(139,92,246,0.08), rgba(59,130,246,0.08));
             border: 1px solid var(--accent-purple);
-            border-radius: var(--radius-md);
-            padding: 24px;
+            border-radius: var(--radius-md); padding: 24px;
         }
         .ai-setup-card .setup-header {
             display: flex; align-items: center; gap: 12px; margin-bottom: 16px;
         }
-        .ai-setup-card .setup-header i {
-            font-size: 28px; color: var(--accent-purple);
-        }
-        .ai-setup-card .setup-header h3 {
-            font-size: 16px; font-weight: 700;
-        }
-        .ai-setup-card .setup-header p {
-            font-size: 12px; color: var(--text-secondary); margin-top: 2px;
-        }
+        .ai-setup-card .setup-header i { font-size: 28px; color: var(--accent-purple); }
+        .ai-setup-card .setup-header h3 { font-size: 16px; font-weight: 700; }
+        .ai-setup-card .setup-header p { font-size: 12px; color: var(--text-secondary); margin-top: 2px; }
         .ai-key-input-row {
             display: flex; gap: 10px; align-items: center; margin-bottom: 12px;
         }
@@ -782,35 +775,200 @@
             color: var(--text-primary); padding: 10px 14px; border-radius: var(--radius-sm);
             font-size: 13px; cursor: pointer;
         }
-        .ai-model-select:focus {
-            outline: none; border-color: var(--accent-purple);
-        }
+        .ai-model-select:focus { outline: none; border-color: var(--accent-purple); }
         .ai-status-pill {
             display: inline-flex; align-items: center; gap: 6px;
             padding: 4px 12px; border-radius: 20px; font-size: 11px; font-weight: 600;
         }
-        .ai-status-pill.connected {
-            background: rgba(16,185,129,0.15); color: var(--accent-green);
+        .ai-status-pill.connected { background: rgba(16,185,129,0.15); color: var(--accent-green); }
+        .ai-status-pill.disconnected { background: rgba(90,106,122,0.15); color: var(--text-muted); }
+
+        /* Enhancement Button */
+        .ai-enhance-btn {
+            background: linear-gradient(135deg, #8b5cf6, #6366f1);
+            color: #fff; border: none; padding: 8px 18px; border-radius: var(--radius-sm);
+            font-size: 12px; font-weight: 600; cursor: pointer;
+            transition: var(--transition-fast); display: inline-flex;
+            align-items: center; gap: 7px; white-space: nowrap;
         }
-        .ai-status-pill.disconnected {
-            background: rgba(90,106,122,0.15); color: var(--text-muted);
+        .ai-enhance-btn:hover { filter: brightness(1.15); transform: translateY(-1px); }
+        .ai-enhance-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; filter: none; }
+        .ai-enhance-btn.loading { pointer-events: none; }
+        .ai-enhance-btn .spin { animation: aiSpin 1s linear infinite; }
+        @keyframes aiSpin { to { transform: rotate(360deg); } }
+
+        /* Enhancement Container */
+        .ai-enhancement {
+            margin-top: 16px; display: none;
         }
+        .ai-enhancement.visible { display: block; }
+        .ai-enhancement-header {
+            display: flex; align-items: center; justify-content: space-between;
+            margin-bottom: 14px; padding-bottom: 10px;
+            border-bottom: 1px solid rgba(139,92,246,0.2);
+        }
+        .ai-enhancement-header .ai-badge {
+            display: inline-flex; align-items: center; gap: 5px;
+            background: rgba(139,92,246,0.12); color: var(--accent-purple);
+            padding: 4px 10px; border-radius: 12px; font-size: 10px;
+            font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;
+        }
+        .ai-enhancement-header .ai-timestamp {
+            font-size: 10px; color: var(--text-muted);
+        }
+
+        /* Insight Cards */
+        .ai-insight-grid { display: grid; grid-template-columns: 1fr; gap: 12px; margin-bottom: 16px; }
+        .ai-insight-card {
+            background: var(--bg-card); border: 1px solid var(--border-color);
+            border-radius: var(--radius-md); padding: 16px;
+            border-left: 4px solid var(--accent-purple);
+            transition: var(--transition-fast);
+        }
+        .ai-insight-card:hover { border-color: var(--border-hover); background: var(--bg-card-hover); }
+        .ai-insight-card.strength { border-left-color: var(--accent-green); }
+        .ai-insight-card.weakness { border-left-color: var(--accent-red); }
+        .ai-insight-card.opportunity { border-left-color: var(--accent-orange); }
+        .ai-insight-card.tip { border-left-color: var(--accent-cyan); }
+        .ai-insight-card .ic-header {
+            display: flex; align-items: center; gap: 8px; margin-bottom: 8px;
+        }
+        .ai-insight-card .ic-header i {
+            font-size: 14px; width: 28px; height: 28px; border-radius: 6px;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .ai-insight-card.strength .ic-header i { background: rgba(16,185,129,0.15); color: var(--accent-green); }
+        .ai-insight-card.weakness .ic-header i { background: rgba(239,68,68,0.15); color: var(--accent-red); }
+        .ai-insight-card.opportunity .ic-header i { background: rgba(245,158,11,0.15); color: var(--accent-orange); }
+        .ai-insight-card.tip .ic-header i { background: rgba(6,182,212,0.15); color: var(--accent-cyan); }
+        .ai-insight-card .ic-title { font-size: 13px; font-weight: 700; }
+        .ai-insight-card .ic-body { font-size: 12px; color: var(--text-secondary); line-height: 1.65; }
+        .ai-insight-card .ic-body ul { padding-left: 16px; margin-top: 6px; }
+        .ai-insight-card .ic-body li { margin-bottom: 3px; }
+
+        /* Rewrite Cards (before/after) */
+        .ai-rewrite-card {
+            background: var(--bg-card); border: 1px solid var(--border-color);
+            border-radius: var(--radius-md); padding: 18px; margin-bottom: 12px;
+            position: relative;
+        }
+        .ai-rewrite-card .rw-label {
+            font-size: 11px; font-weight: 700; text-transform: uppercase;
+            letter-spacing: 0.5px; margin-bottom: 6px;
+        }
+        .ai-rewrite-card .rw-label.before { color: var(--accent-red); }
+        .ai-rewrite-card .rw-label.after { color: var(--accent-green); }
+        .ai-rewrite-card .rw-text {
+            font-size: 13px; line-height: 1.7; color: var(--text-primary);
+            padding: 12px; background: var(--bg-input); border-radius: var(--radius-sm);
+            border: 1px solid var(--border-color); position: relative;
+        }
+        .ai-rewrite-card .rw-text.improved {
+            border-color: rgba(16,185,129,0.3);
+            background: rgba(16,185,129,0.04);
+        }
+        .ai-rewrite-card .rw-copy-btn {
+            position: absolute; top: 8px; right: 8px; background: var(--bg-card);
+            border: 1px solid var(--border-color); color: var(--text-muted);
+            padding: 4px 8px; border-radius: 4px; font-size: 10px; cursor: pointer;
+            transition: var(--transition-fast);
+        }
+        .ai-rewrite-card .rw-copy-btn:hover { color: var(--accent-green); border-color: var(--accent-green); }
+        .ai-rewrite-card .rw-reasoning {
+            font-size: 11px; color: var(--text-muted); margin-top: 8px;
+            padding-top: 8px; border-top: 1px solid var(--border-color);
+        }
+
+        /* Action Items */
+        .ai-actions-list { margin-bottom: 16px; }
+        .ai-action-item {
+            display: flex; align-items: flex-start; gap: 12px; padding: 12px 14px;
+            background: var(--bg-card); border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm); margin-bottom: 8px;
+            transition: var(--transition-fast);
+        }
+        .ai-action-item:hover { border-color: var(--border-hover); }
+        .ai-action-item .act-num {
+            min-width: 26px; height: 26px; border-radius: 50%;
+            background: var(--accent-purple); color: #fff; font-size: 11px;
+            font-weight: 700; display: flex; align-items: center;
+            justify-content: center; flex-shrink: 0;
+        }
+        .ai-action-item .act-content { flex: 1; }
+        .ai-action-item .act-text { font-size: 13px; font-weight: 600; margin-bottom: 3px; }
+        .ai-action-item .act-detail { font-size: 11px; color: var(--text-secondary); line-height: 1.5; }
+        .ai-action-item .act-tags { display: flex; gap: 6px; margin-top: 6px; }
+        .ai-action-item .act-tag {
+            font-size: 10px; padding: 2px 8px; border-radius: 10px; font-weight: 600;
+        }
+        .act-tag.impact-high { background: rgba(16,185,129,0.15); color: var(--accent-green); }
+        .act-tag.impact-medium { background: rgba(245,158,11,0.15); color: var(--accent-orange); }
+        .act-tag.impact-low { background: rgba(90,106,122,0.15); color: var(--text-muted); }
+        .act-tag.effort-low { background: rgba(6,182,212,0.15); color: var(--accent-cyan); }
+        .act-tag.effort-medium { background: rgba(245,158,11,0.15); color: var(--accent-orange); }
+        .act-tag.effort-high { background: rgba(239,68,68,0.15); color: var(--accent-red); }
+
+        /* AI Metrics Row */
+        .ai-metrics-row {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 10px; margin-bottom: 16px;
+        }
+        .ai-metric-card {
+            background: var(--bg-card); border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm); padding: 14px; text-align: center;
+        }
+        .ai-metric-card .am-value {
+            font-size: 22px; font-weight: 800; margin-bottom: 2px;
+        }
+        .ai-metric-card .am-value.green { color: var(--accent-green); }
+        .ai-metric-card .am-value.orange { color: var(--accent-orange); }
+        .ai-metric-card .am-value.red { color: var(--accent-red); }
+        .ai-metric-card .am-value.blue { color: var(--accent-blue); }
+        .ai-metric-card .am-value.purple { color: var(--accent-purple); }
+        .ai-metric-card .am-label {
+            font-size: 10px; color: var(--text-muted); text-transform: uppercase;
+            letter-spacing: 0.5px; font-weight: 600;
+        }
+
+        /* Keyword Tags */
+        .ai-tag-cloud { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px; }
+        .ai-tag {
+            padding: 4px 12px; border-radius: 14px; font-size: 11px; font-weight: 600;
+            background: var(--bg-card); border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+        }
+        .ai-tag.add { border-color: rgba(16,185,129,0.4); color: var(--accent-green); background: rgba(16,185,129,0.08); }
+        .ai-tag.remove { border-color: rgba(239,68,68,0.3); color: var(--accent-red); background: rgba(239,68,68,0.06); text-decoration: line-through; }
+        .ai-tag.keep { border-color: rgba(59,130,246,0.3); color: var(--accent-blue); background: rgba(59,130,246,0.06); }
+
+        /* Loading Shimmer */
+        .ai-shimmer {
+            background: linear-gradient(90deg, var(--bg-card) 25%, var(--bg-card-hover) 50%, var(--bg-card) 75%);
+            background-size: 200% 100%; animation: aiShimmer 1.5s infinite;
+            border-radius: var(--radius-sm); height: 20px; margin-bottom: 10px;
+        }
+        .ai-shimmer.w60 { width: 60%; }
+        .ai-shimmer.w80 { width: 80%; }
+        .ai-shimmer.w100 { width: 100%; }
+        .ai-shimmer.h40 { height: 40px; }
+        .ai-shimmer.h80 { height: 80px; }
+        @keyframes aiShimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+
+        /* Chat (secondary) */
         .ai-chat-container {
-            display: flex; flex-direction: column; height: 520px;
+            display: flex; flex-direction: column; height: 400px;
             background: var(--bg-card); border: 1px solid var(--border-color);
             border-radius: var(--radius-md); overflow: hidden;
         }
         .ai-chat-messages {
-            flex: 1; overflow-y: auto; padding: 20px; display: flex;
-            flex-direction: column; gap: 16px;
+            flex: 1; overflow-y: auto; padding: 16px; display: flex;
+            flex-direction: column; gap: 12px;
         }
-        .ai-chat-messages::-webkit-scrollbar { width: 6px; }
-        .ai-chat-messages::-webkit-scrollbar-thumb {
-            background: var(--border-color); border-radius: 3px;
-        }
+        .ai-chat-messages::-webkit-scrollbar { width: 5px; }
+        .ai-chat-messages::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 3px; }
         .ai-msg {
-            max-width: 85%; padding: 12px 16px; border-radius: var(--radius-md);
-            font-size: 13px; line-height: 1.6; word-wrap: break-word;
+            max-width: 85%; padding: 10px 14px; border-radius: var(--radius-md);
+            font-size: 12px; line-height: 1.6; word-wrap: break-word;
         }
         .ai-msg.user {
             align-self: flex-end; background: var(--accent-blue);
@@ -821,23 +979,16 @@
             border: 1px solid var(--border-color); border-bottom-left-radius: 4px;
         }
         .ai-msg.assistant strong { color: var(--accent-purple); }
-        .ai-msg.assistant ul, .ai-msg.assistant ol {
-            padding-left: 18px; margin: 8px 0;
-        }
-        .ai-msg.assistant li { margin-bottom: 4px; }
-        .ai-msg.assistant code {
-            background: rgba(0,0,0,0.3); padding: 2px 6px; border-radius: 3px;
-            font-family: 'JetBrains Mono', monospace; font-size: 12px;
-        }
+        .ai-msg.assistant ul, .ai-msg.assistant ol { padding-left: 16px; margin: 6px 0; }
+        .ai-msg.assistant li { margin-bottom: 3px; }
         .ai-msg.system {
             align-self: center; background: rgba(139,92,246,0.1);
-            border: 1px solid rgba(139,92,246,0.2); font-size: 12px;
+            border: 1px solid rgba(139,92,246,0.2); font-size: 11px;
             color: var(--text-secondary); text-align: center; max-width: 90%;
         }
         .ai-msg .typing-indicator span {
-            display: inline-block; width: 6px; height: 6px; border-radius: 50%;
-            background: var(--text-muted); animation: typingDot 1.2s infinite;
-            margin-right: 4px;
+            display: inline-block; width: 5px; height: 5px; border-radius: 50%;
+            background: var(--text-muted); animation: typingDot 1.2s infinite; margin-right: 3px;
         }
         .ai-msg .typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
         .ai-msg .typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
@@ -846,73 +997,41 @@
             30% { opacity: 1; transform: translateY(-3px); }
         }
         .ai-chat-input-area {
-            display: flex; gap: 8px; padding: 16px; border-top: 1px solid var(--border-color);
+            display: flex; gap: 8px; padding: 12px; border-top: 1px solid var(--border-color);
             background: var(--bg-secondary);
         }
         .ai-chat-input-area textarea {
             flex: 1; background: var(--bg-input); border: 1px solid var(--border-color);
-            color: var(--text-primary); padding: 10px 14px; border-radius: var(--radius-sm);
-            font-family: 'Inter', sans-serif; font-size: 13px; resize: none;
-            min-height: 42px; max-height: 120px;
+            color: var(--text-primary); padding: 8px 12px; border-radius: var(--radius-sm);
+            font-family: 'Inter', sans-serif; font-size: 12px; resize: none;
+            min-height: 38px; max-height: 100px;
         }
-        .ai-chat-input-area textarea:focus {
-            outline: none; border-color: var(--accent-purple);
-        }
+        .ai-chat-input-area textarea:focus { outline: none; border-color: var(--accent-purple); }
         .ai-chat-input-area textarea::placeholder { color: var(--text-muted); }
         .ai-send-btn {
             background: var(--accent-purple); color: #fff; border: none;
-            border-radius: var(--radius-sm); width: 42px; cursor: pointer;
+            border-radius: var(--radius-sm); width: 38px; cursor: pointer;
             display: flex; align-items: center; justify-content: center;
             transition: var(--transition-fast);
         }
         .ai-send-btn:hover { background: #7c3aed; }
         .ai-send-btn:disabled { opacity: 0.4; cursor: not-allowed; }
-        .ai-quick-actions {
-            display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-            gap: 10px; margin-bottom: 20px;
+
+        /* Enhance All banner */
+        .ai-enhance-all-banner {
+            background: linear-gradient(135deg, rgba(139,92,246,0.1), rgba(99,102,241,0.1));
+            border: 1px solid rgba(139,92,246,0.25);
+            border-radius: var(--radius-md); padding: 20px; margin-bottom: 20px;
+            display: flex; align-items: center; justify-content: space-between; gap: 20px;
         }
-        .ai-quick-btn {
-            background: var(--bg-card); border: 1px solid var(--border-color);
-            border-radius: var(--radius-sm); padding: 12px 16px;
-            cursor: pointer; text-align: left; transition: var(--transition-fast);
-            color: var(--text-primary);
+        .ai-enhance-all-banner .eab-text h3 { font-size: 15px; font-weight: 700; margin-bottom: 3px; }
+        .ai-enhance-all-banner .eab-text p { font-size: 12px; color: var(--text-secondary); }
+        .ai-enhance-all-banner .eab-progress {
+            font-size: 11px; color: var(--accent-purple); font-weight: 600; display: none;
         }
-        .ai-quick-btn:hover {
-            border-color: var(--accent-purple); background: var(--bg-card-hover);
-        }
-        .ai-quick-btn .qb-icon {
-            font-size: 16px; color: var(--accent-purple); margin-bottom: 6px;
-        }
-        .ai-quick-btn .qb-title {
-            font-size: 13px; font-weight: 600; margin-bottom: 2px;
-        }
-        .ai-quick-btn .qb-desc {
-            font-size: 11px; color: var(--text-muted);
-        }
-        .ai-section-btn {
-            background: rgba(139,92,246,0.1); border: 1px solid rgba(139,92,246,0.25);
-            color: var(--accent-purple); padding: 6px 14px; border-radius: var(--radius-sm);
-            font-size: 12px; font-weight: 600; cursor: pointer;
-            transition: var(--transition-fast); display: inline-flex;
-            align-items: center; gap: 6px;
-        }
-        .ai-section-btn:hover {
-            background: rgba(139,92,246,0.2); border-color: var(--accent-purple);
-        }
-        .ai-section-btn:disabled { opacity: 0.4; cursor: not-allowed; }
-        .ai-inline-result {
-            margin-top: 12px; padding: 16px; border-radius: var(--radius-sm);
-            background: rgba(139,92,246,0.05); border: 1px solid rgba(139,92,246,0.15);
-            font-size: 13px; line-height: 1.7; color: var(--text-secondary);
-            display: none;
-        }
-        .ai-inline-result.visible { display: block; }
-        .ai-inline-result strong { color: var(--text-primary); }
-        .ai-inline-result ul { padding-left: 18px; margin: 6px 0; }
-        .ai-inline-result li { margin-bottom: 3px; }
         .ai-disclaimer {
-            font-size: 11px; color: var(--text-muted); text-align: center;
-            padding: 8px; margin-top: 8px;
+            font-size: 10px; color: var(--text-muted); text-align: center;
+            padding: 6px; margin-top: 6px;
         }
     </style>
 </head>
@@ -1023,8 +1142,11 @@
                 <button class="btn btn-sm btn-primary" onclick="App.runFullAnalysis()">
                     <i class="fas fa-play"></i> Run Analysis
                 </button>
+                <button class="ai-enhance-btn" onclick="App.enhanceAllSections()" title="Enhance all sections with Claude AI">
+                    <i class="fas fa-bolt"></i> Enhance All
+                </button>
                 <button class="btn btn-sm" style="background:var(--accent-purple);color:#fff;" onclick="App.navigate('ai-insights')">
-                    <i class="fas fa-brain"></i> AI Insights
+                    <i class="fas fa-brain"></i> AI Settings
                 </button>
             </div>
         </div>
@@ -1362,9 +1484,10 @@
                     <div style="display:flex;justify-content:space-between;align-items:flex-start;">
                         <div><h2>Profile Strength Analysis</h2>
                         <p>Multi-dimensional assessment of your LinkedIn profile completeness and quality</p></div>
-                        <button class="ai-section-btn" onclick="App.aiAnalyzeSection('profile-strength')"><i class="fas fa-brain"></i> Ask Claude</button>
+                        <button class="ai-enhance-btn" id="ai-btn-profile-strength" onclick="App.enhanceSection('profile-strength')"><i class="fas fa-brain"></i> Enhance with AI</button>
                     </div>
-                    <div class="ai-inline-result" id="ai-inline-profile-strength"></div>
+                </div>
+                <div class="ai-enhancement" id="ai-zone-profile-strength"></div>
                 </div>
                 <div id="strengthEmpty" class="empty-state">
                     <i class="fas fa-shield-alt"></i>
@@ -1409,9 +1532,10 @@
                     <div style="display:flex;justify-content:space-between;align-items:flex-start;">
                         <div><h2>Career Trajectory Analysis</h2>
                         <p>Understand your career progression, momentum, and growth patterns</p></div>
-                        <button class="ai-section-btn" onclick="App.aiAnalyzeSection('career')"><i class="fas fa-brain"></i> Ask Claude</button>
+                        <button class="ai-enhance-btn" id="ai-btn-career" onclick="App.enhanceSection('career')"><i class="fas fa-brain"></i> Enhance with AI</button>
                     </div>
-                    <div class="ai-inline-result" id="ai-inline-career"></div>
+                </div>
+                <div class="ai-enhancement" id="ai-zone-career"></div>
                 </div>
                 <div id="careerEmpty" class="empty-state">
                     <i class="fas fa-chart-line"></i><h3>No Experience Data</h3>
@@ -1452,9 +1576,10 @@
                     <div style="display:flex;justify-content:space-between;align-items:flex-start;">
                         <div><h2>Skills Intelligence</h2>
                         <p>Deep analysis of your skills, endorsements, and industry alignment</p></div>
-                        <button class="ai-section-btn" onclick="App.aiAnalyzeSection('skills')"><i class="fas fa-brain"></i> Ask Claude</button>
+                        <button class="ai-enhance-btn" id="ai-btn-skills" onclick="App.enhanceSection('skills')"><i class="fas fa-brain"></i> Enhance with AI</button>
                     </div>
-                    <div class="ai-inline-result" id="ai-inline-skills"></div>
+                </div>
+                <div class="ai-enhancement" id="ai-zone-skills"></div>
                 </div>
                 <div id="skillsEmpty" class="empty-state">
                     <i class="fas fa-cogs"></i><h3>No Skills Data</h3>
@@ -1511,9 +1636,10 @@
                     <div style="display:flex;justify-content:space-between;align-items:flex-start;">
                         <div><h2>Network Analytics</h2>
                         <p>Analyze your connection distribution, diversity, and growth patterns</p></div>
-                        <button class="ai-section-btn" onclick="App.aiAnalyzeSection('network')"><i class="fas fa-brain"></i> Ask Claude</button>
+                        <button class="ai-enhance-btn" id="ai-btn-network" onclick="App.enhanceSection('network')"><i class="fas fa-brain"></i> Enhance with AI</button>
                     </div>
-                    <div class="ai-inline-result" id="ai-inline-network"></div>
+                </div>
+                <div class="ai-enhancement" id="ai-zone-network"></div>
                 </div>
                 <div id="networkEmpty" class="empty-state">
                     <i class="fas fa-project-diagram"></i><h3>No Network Data</h3>
@@ -1564,9 +1690,10 @@
                     <div style="display:flex;justify-content:space-between;align-items:flex-start;">
                         <div><h2>Keyword & SEO Analysis</h2>
                         <p>Optimize your profile's discoverability and recruiter search visibility</p></div>
-                        <button class="ai-section-btn" onclick="App.aiAnalyzeSection('keywords')"><i class="fas fa-brain"></i> Ask Claude</button>
+                        <button class="ai-enhance-btn" id="ai-btn-keywords" onclick="App.enhanceSection('keywords')"><i class="fas fa-brain"></i> Enhance with AI</button>
                     </div>
-                    <div class="ai-inline-result" id="ai-inline-keywords"></div>
+                </div>
+                <div class="ai-enhancement" id="ai-zone-keywords"></div>
                 </div>
                 <div id="keywordsEmpty" class="empty-state">
                     <i class="fas fa-search"></i><h3>No Profile Data</h3>
@@ -1605,9 +1732,10 @@
                     <div style="display:flex;justify-content:space-between;align-items:flex-start;">
                         <div><h2>Experience Deep-Dive</h2>
                         <p>Quality analysis of your work experience descriptions and impact</p></div>
-                        <button class="ai-section-btn" onclick="App.aiAnalyzeSection('experience')"><i class="fas fa-brain"></i> Ask Claude</button>
+                        <button class="ai-enhance-btn" id="ai-btn-experience" onclick="App.enhanceSection('experience')"><i class="fas fa-brain"></i> Enhance with AI</button>
                     </div>
-                    <div class="ai-inline-result" id="ai-inline-experience"></div>
+                </div>
+                <div class="ai-enhancement" id="ai-zone-experience"></div>
                 </div>
                 <div id="expEmpty" class="empty-state">
                     <i class="fas fa-briefcase"></i><h3>No Experience Data</h3>
@@ -1750,9 +1878,10 @@
                     <div style="display:flex;justify-content:space-between;align-items:flex-start;">
                         <div><h2>Personal Brand Assessment</h2>
                         <p>Evaluate brand consistency, authority signals, and unique value proposition</p></div>
-                        <button class="ai-section-btn" onclick="App.aiAnalyzeSection('brand')"><i class="fas fa-brain"></i> Ask Claude</button>
+                        <button class="ai-enhance-btn" id="ai-btn-brand" onclick="App.enhanceSection('brand')"><i class="fas fa-brain"></i> Enhance with AI</button>
                     </div>
-                    <div class="ai-inline-result" id="ai-inline-brand"></div>
+                </div>
+                <div class="ai-enhancement" id="ai-zone-brand"></div>
                 </div>
                 <div id="brandEmpty" class="empty-state">
                     <i class="fas fa-fingerprint"></i><h3>No Profile Data</h3>
@@ -1785,9 +1914,10 @@
                     <div style="display:flex;justify-content:space-between;align-items:flex-start;">
                         <div><h2>Recruiter Visibility Score</h2>
                         <p>Estimate how visible and attractive your profile is to recruiters</p></div>
-                        <button class="ai-section-btn" onclick="App.aiAnalyzeSection('recruiter')"><i class="fas fa-brain"></i> Ask Claude</button>
+                        <button class="ai-enhance-btn" id="ai-btn-recruiter" onclick="App.enhanceSection('recruiter')"><i class="fas fa-brain"></i> Enhance with AI</button>
                     </div>
-                    <div class="ai-inline-result" id="ai-inline-recruiter"></div>
+                </div>
+                <div class="ai-enhancement" id="ai-zone-recruiter"></div>
                 </div>
                 <div id="recruiterEmpty" class="empty-state">
                     <i class="fas fa-eye"></i><h3>No Profile Data</h3>
@@ -1868,9 +1998,10 @@
                     <div style="display:flex;justify-content:space-between;align-items:flex-start;">
                         <div><h2>Salary Intelligence</h2>
                         <p>Estimated compensation ranges based on role, experience, and location</p></div>
-                        <button class="ai-section-btn" onclick="App.aiAnalyzeSection('salary')"><i class="fas fa-brain"></i> Ask Claude</button>
+                        <button class="ai-enhance-btn" id="ai-btn-salary" onclick="App.enhanceSection('salary')"><i class="fas fa-brain"></i> Enhance with AI</button>
                     </div>
-                    <div class="ai-inline-result" id="ai-inline-salary"></div>
+                </div>
+                <div class="ai-enhancement" id="ai-zone-salary"></div>
                 </div>
                 <div id="salaryEmpty" class="empty-state">
                     <i class="fas fa-dollar-sign"></i><h3>No Profile Data</h3>
@@ -1987,18 +2118,16 @@
             <div class="section" id="sec-ai-insights">
                 <div class="section-header">
                     <h2><i class="fas fa-brain" style="color:var(--accent-purple);"></i> Claude AI Insights</h2>
-                    <p>Connect your Anthropic API key to get personalized, AI-powered career analysis</p>
+                    <p>Connect your Anthropic API key — Claude enhances every section with personalized analysis that feels native</p>
                 </div>
 
                 <!-- API Key Setup -->
                 <div class="ai-setup-card mb-20">
                     <div class="setup-header">
-                        <div>
-                            <i class="fas fa-key"></i>
-                        </div>
+                        <div><i class="fas fa-key"></i></div>
                         <div style="flex:1;">
                             <h3>Connect to Claude</h3>
-                            <p>Enter your Anthropic API key to enable AI-powered analysis. Your key is stored locally in your browser and never sent anywhere except Anthropic's API.</p>
+                            <p>Your API key is stored locally and sent only to Anthropic's API. Claude will analyze your profile data to generate native insights across every section of the app.</p>
                         </div>
                         <div id="aiStatusPill" class="ai-status-pill disconnected">
                             <i class="fas fa-circle" style="font-size:6px;"></i> <span>Not Connected</span>
@@ -2021,77 +2150,49 @@
                     <div style="font-size:11px;color:var(--text-muted);">
                         <i class="fas fa-lock" style="margin-right:4px;"></i>
                         Get your API key at <a href="https://console.anthropic.com/settings/keys" target="_blank" style="color:var(--accent-purple);">console.anthropic.com</a>.
-                        Your key stays in your browser's localStorage — it's never logged or stored on any server.
+                        Your key stays in your browser's localStorage — never logged or stored on any server.
                     </div>
                 </div>
 
-                <!-- Quick Actions -->
+                <!-- Enhance All Sections -->
+                <div class="ai-enhance-all-banner" id="aiEnhanceAllBanner">
+                    <div class="eab-text">
+                        <h3><i class="fas fa-magic" style="color:var(--accent-purple);margin-right:8px;"></i>Enhance All Sections</h3>
+                        <p>Run Claude across your entire dashboard. Every section gets personalized insights, rewrites, and action items that appear as native features.</p>
+                    </div>
+                    <div>
+                        <div class="eab-progress" id="aiEnhanceProgress"></div>
+                        <button class="ai-enhance-btn" style="font-size:14px;padding:12px 24px;" onclick="App.enhanceAllSections()">
+                            <i class="fas fa-bolt"></i> Enhance All Sections
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Section Enhancement Status -->
                 <div class="card mb-20">
                     <div class="card-header">
-                        <div class="card-title"><i class="fas fa-bolt" style="color:var(--accent-orange);"></i> Quick AI Analysis</div>
-                        <span style="font-size:11px;color:var(--text-muted);">Click any prompt to get instant AI insights about your profile</span>
+                        <div class="card-title"><i class="fas fa-layer-group" style="color:var(--accent-cyan);"></i> Section Enhancements</div>
+                        <button class="btn btn-sm btn-secondary" onclick="App.clearAllEnhancements()"><i class="fas fa-trash-alt"></i> Clear All</button>
                     </div>
-                    <div class="ai-quick-actions" id="aiQuickActions">
-                        <button class="ai-quick-btn" onclick="App.aiQuickAction('profile_review')">
-                            <div class="qb-icon"><i class="fas fa-user-check"></i></div>
-                            <div class="qb-title">Full Profile Review</div>
-                            <div class="qb-desc">Comprehensive strengths & weaknesses analysis</div>
-                        </button>
-                        <button class="ai-quick-btn" onclick="App.aiQuickAction('headline_optimize')">
-                            <div class="qb-icon"><i class="fas fa-pen-fancy"></i></div>
-                            <div class="qb-title">Optimize Headline</div>
-                            <div class="qb-desc">Get 5 optimized headline variations</div>
-                        </button>
-                        <button class="ai-quick-btn" onclick="App.aiQuickAction('summary_rewrite')">
-                            <div class="qb-icon"><i class="fas fa-edit"></i></div>
-                            <div class="qb-title">Rewrite Summary</div>
-                            <div class="qb-desc">AI-crafted About section that converts</div>
-                        </button>
-                        <button class="ai-quick-btn" onclick="App.aiQuickAction('career_advice')">
-                            <div class="qb-icon"><i class="fas fa-route"></i></div>
-                            <div class="qb-title">Career Next Steps</div>
-                            <div class="qb-desc">Personalized career trajectory advice</div>
-                        </button>
-                        <button class="ai-quick-btn" onclick="App.aiQuickAction('skill_gaps')">
-                            <div class="qb-icon"><i class="fas fa-puzzle-piece"></i></div>
-                            <div class="qb-title">Skill Gap Analysis</div>
-                            <div class="qb-desc">What skills to learn next for your goals</div>
-                        </button>
-                        <button class="ai-quick-btn" onclick="App.aiQuickAction('networking_strategy')">
-                            <div class="qb-icon"><i class="fas fa-network-wired"></i></div>
-                            <div class="qb-title">Networking Strategy</div>
-                            <div class="qb-desc">Who to connect with and how to reach out</div>
-                        </button>
-                        <button class="ai-quick-btn" onclick="App.aiQuickAction('interview_prep')">
-                            <div class="qb-icon"><i class="fas fa-comments"></i></div>
-                            <div class="qb-title">Interview Prep</div>
-                            <div class="qb-desc">Practice questions based on your experience</div>
-                        </button>
-                        <button class="ai-quick-btn" onclick="App.aiQuickAction('personal_brand')">
-                            <div class="qb-icon"><i class="fas fa-bullhorn"></i></div>
-                            <div class="qb-title">Brand Strategy</div>
-                            <div class="qb-desc">Content ideas and positioning advice</div>
-                        </button>
+                    <div id="aiSectionStatusGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px;padding:4px 0;">
                     </div>
                 </div>
 
-                <!-- Chat Interface -->
+                <!-- Chat (secondary) -->
                 <div class="card">
                     <div class="card-header">
-                        <div class="card-title"><i class="fas fa-comment-dots" style="color:var(--accent-purple);"></i> Chat with Claude</div>
-                        <button class="btn btn-sm btn-secondary" onclick="App.clearAIChat()">
-                            <i class="fas fa-trash-alt"></i> Clear Chat
-                        </button>
+                        <div class="card-title"><i class="fas fa-comment-dots" style="color:var(--text-muted);"></i> Ask Claude Anything</div>
+                        <button class="btn btn-sm btn-secondary" onclick="App.clearAIChat()"><i class="fas fa-trash-alt"></i> Clear</button>
                     </div>
                     <div class="ai-chat-container">
                         <div class="ai-chat-messages" id="aiChatMessages">
                             <div class="ai-msg system">
-                                <i class="fas fa-brain" style="margin-right:6px;"></i>
-                                Connect your API key above, then ask me anything about your LinkedIn profile. I have full context of your profile data and analysis results.
+                                <i class="fas fa-brain" style="margin-right:5px;"></i>
+                                Have a specific question? Ask here. For section enhancements, use the buttons above or the <strong>Enhance with AI</strong> button on any section.
                             </div>
                         </div>
                         <div class="ai-chat-input-area">
-                            <textarea id="aiChatInput" placeholder="Ask Claude about your profile..." rows="1"
+                            <textarea id="aiChatInput" placeholder="Ask anything about your profile..." rows="1"
                                 onkeydown="if(event.key==='Enter' && !event.shiftKey){event.preventDefault();App.sendAIMessage();}"></textarea>
                             <button class="ai-send-btn" id="aiSendBtn" onclick="App.sendAIMessage()">
                                 <i class="fas fa-paper-plane"></i>
@@ -2099,7 +2200,7 @@
                         </div>
                     </div>
                     <div class="ai-disclaimer">
-                        <i class="fas fa-info-circle"></i> Claude AI responses are generated based on your profile data. Your API key and profile data are sent directly to Anthropic's API. Always verify career advice independently.
+                        <i class="fas fa-info-circle"></i> Your API key and profile data are sent directly to Anthropic's API. Always verify career advice independently.
                     </div>
                 </div>
             </div>
@@ -2664,127 +2765,174 @@
             storageKeyApi: 'li_analyzer_claude_key',
             storageKeyModel: 'li_analyzer_claude_model',
             storageKeyChat: 'li_analyzer_claude_chat',
+            storageKeyEnhancements: 'li_analyzer_ai_enhancements',
             apiUrl: 'https://api.anthropic.com/v1/messages',
             defaultModel: 'claude-sonnet-4-20250514',
-            maxTokens: 4096
+            maxTokens: 4096,
+            enhanceableSections: ['profile-strength','career','skills','network','keywords','experience','brand','recruiter','salary']
         };
 
         const ClaudeAI = {
-            getApiKey() {
-                return localStorage.getItem(CLAUDE_CONFIG.storageKeyApi) || '';
+            getApiKey() { return localStorage.getItem(CLAUDE_CONFIG.storageKeyApi) || ''; },
+            setApiKey(key) { key ? localStorage.setItem(CLAUDE_CONFIG.storageKeyApi, key) : localStorage.removeItem(CLAUDE_CONFIG.storageKeyApi); },
+            getModel() { return localStorage.getItem(CLAUDE_CONFIG.storageKeyModel) || CLAUDE_CONFIG.defaultModel; },
+            setModel(m) { localStorage.setItem(CLAUDE_CONFIG.storageKeyModel, m); },
+            isConnected() { return !!this.getApiKey(); },
+
+            // Chat history
+            getChatHistory() { try { return JSON.parse(localStorage.getItem(CLAUDE_CONFIG.storageKeyChat)) || []; } catch(e) { return []; } },
+            saveChatHistory(msgs) { try { localStorage.setItem(CLAUDE_CONFIG.storageKeyChat, JSON.stringify(msgs.slice(-30))); } catch(e) {} },
+            clearChatHistory() { localStorage.removeItem(CLAUDE_CONFIG.storageKeyChat); },
+
+            // Enhancement cache
+            getEnhancementCache() { try { return JSON.parse(localStorage.getItem(CLAUDE_CONFIG.storageKeyEnhancements)) || {}; } catch(e) { return {}; } },
+            cacheEnhancement(section, data) {
+                const cache = this.getEnhancementCache();
+                cache[section] = { data, timestamp: Date.now(), profileId: DataStore.getActiveId() };
+                try { localStorage.setItem(CLAUDE_CONFIG.storageKeyEnhancements, JSON.stringify(cache)); } catch(e) {}
             },
-            setApiKey(key) {
-                if (key) localStorage.setItem(CLAUDE_CONFIG.storageKeyApi, key);
-                else localStorage.removeItem(CLAUDE_CONFIG.storageKeyApi);
+            getCachedEnhancement(section) {
+                const cache = this.getEnhancementCache();
+                const entry = cache[section];
+                if (!entry) return null;
+                // Invalidate if profile changed or older than 2 hours
+                if (entry.profileId !== DataStore.getActiveId()) return null;
+                if (Date.now() - entry.timestamp > 2 * 60 * 60 * 1000) return null;
+                return entry.data;
             },
-            getModel() {
-                return localStorage.getItem(CLAUDE_CONFIG.storageKeyModel) || CLAUDE_CONFIG.defaultModel;
-            },
-            setModel(model) {
-                localStorage.setItem(CLAUDE_CONFIG.storageKeyModel, model);
-            },
-            isConnected() {
-                return !!this.getApiKey();
-            },
-            getChatHistory() {
-                try { return JSON.parse(localStorage.getItem(CLAUDE_CONFIG.storageKeyChat)) || []; }
-                catch(e) { return []; }
-            },
-            saveChatHistory(messages) {
-                try { localStorage.setItem(CLAUDE_CONFIG.storageKeyChat, JSON.stringify(messages.slice(-40))); }
-                catch(e) { /* storage full, keep going */ }
-            },
-            clearChatHistory() {
-                localStorage.removeItem(CLAUDE_CONFIG.storageKeyChat);
-            },
+            clearEnhancementCache() { localStorage.removeItem(CLAUDE_CONFIG.storageKeyEnhancements); },
 
             buildProfileContext(profile, analyses) {
                 if (!profile) return 'No profile data loaded.';
-                const parts = [];
-                parts.push(`Name: ${profile.fullName || 'Unknown'}`);
-                parts.push(`Headline: ${profile.headline || 'None'}`);
-                parts.push(`Location: ${profile.location || 'Unknown'}`);
-                parts.push(`Industry: ${profile.industry || 'Unknown'}`);
-                parts.push(`Connections: ${profile.connectionCount || 0}`);
-                if (profile.summary) parts.push(`About/Summary: ${profile.summary}`);
-                if (profile.experience && profile.experience.length) {
-                    parts.push('Experience:');
+                const p = [];
+                p.push(`Name: ${profile.fullName || 'Unknown'}`);
+                p.push(`Headline: ${profile.headline || 'None'}`);
+                p.push(`Location: ${profile.location || 'Unknown'}`);
+                p.push(`Industry: ${profile.industry || 'Unknown'}`);
+                p.push(`Connections: ${profile.connectionCount || 0}`);
+                if (profile.summary) p.push(`About/Summary: ${profile.summary}`);
+                if (profile.experience?.length) {
+                    p.push('Experience:');
                     profile.experience.forEach((exp, i) => {
-                        parts.push(`  ${i+1}. ${exp.title || 'Role'} at ${exp.company || 'Company'} (${exp.startDate || '?'} - ${exp.endDate || 'Present'})`);
-                        if (exp.description) parts.push(`     ${exp.description.substring(0, 300)}`);
+                        p.push(`  ${i+1}. ${exp.title || 'Role'} at ${exp.company || 'Company'} (${exp.startDate || '?'} - ${exp.endDate || 'Present'})`);
+                        if (exp.description) p.push(`     ${exp.description.substring(0, 400)}`);
                     });
                 }
-                if (profile.education && profile.education.length) {
-                    parts.push('Education:');
-                    profile.education.forEach(edu => {
-                        parts.push(`  - ${edu.degree || ''} ${edu.field || ''} at ${edu.school || 'School'} (${edu.startYear||'?'}-${edu.endYear||'?'})`);
-                    });
+                if (profile.education?.length) {
+                    p.push('Education:');
+                    profile.education.forEach(edu => p.push(`  - ${edu.degree || ''} ${edu.field || ''} at ${edu.school || 'School'} (${edu.startYear||'?'}-${edu.endYear||'?'})`));
                 }
-                if (profile.skills && profile.skills.length) {
-                    parts.push(`Skills (${profile.skills.length}): ${profile.skills.map(s => s.name + (s.endorsements > 0 ? ` (${s.endorsements} endorsements)` : '')).join(', ')}`);
-                }
-                if (profile.certifications && profile.certifications.length) {
-                    parts.push(`Certifications: ${profile.certifications.map(c => c.name).join(', ')}`);
-                }
-                if (analyses) {
-                    if (analyses.profileScore) {
-                        parts.push(`\nProfile Score: ${analyses.profileScore.total}/100 (${analyses.profileScore.grade})`);
-                    }
-                    if (analyses.career) {
-                        parts.push(`Career Seniority Level: ${analyses.career.currentSeniority || 'N/A'}`);
-                    }
-                    if (analyses.salary && analyses.salary.mid) {
-                        parts.push(`Estimated Salary Range: $${analyses.salary.low?.toLocaleString()}-$${analyses.salary.high?.toLocaleString()}`);
-                    }
-                }
-                return parts.join('\n');
+                if (profile.skills?.length) p.push(`Skills (${profile.skills.length}): ${profile.skills.map(s => s.name + (s.endorsements > 0 ? ` (${s.endorsements})` : '')).join(', ')}`);
+                if (profile.certifications?.length) p.push(`Certifications: ${profile.certifications.map(c => c.name).join(', ')}`);
+                if (analyses?.profileScore) p.push(`\nProfile Score: ${analyses.profileScore.total}/100 (${analyses.profileScore.grade})`);
+                if (analyses?.career) p.push(`Career Seniority Level: ${analyses.career.currentSeniority || 'N/A'}`);
+                if (analyses?.salary?.mid) p.push(`Estimated Salary: $${analyses.salary.low?.toLocaleString()}-$${analyses.salary.high?.toLocaleString()}`);
+                return p.join('\n');
             },
 
-            getSystemPrompt(profile, analyses) {
-                const context = this.buildProfileContext(profile, analyses);
-                return `You are a world-class career coach and LinkedIn optimization expert. You have access to the following LinkedIn profile data and analysis results for the user you are helping:
-
----
-${context}
----
-
-Guidelines:
-- Give specific, actionable advice based on their actual profile data
-- Reference their specific experience, skills, and career level when giving advice
-- Be direct and practical. Avoid generic platitudes
-- Use markdown-style formatting: **bold** for emphasis, bullet points with - for lists, numbered lists for steps
-- Keep responses concise but thorough (aim for 200-400 words unless asked for more detail)
-- When suggesting profile edits, provide concrete text they can copy/paste
-- Tailor advice to their industry, seniority level, and career trajectory`;
+            getChatSystemPrompt(profile, analyses) {
+                return `You are a world-class career coach and LinkedIn expert. The user's profile data:\n\n${this.buildProfileContext(profile, analyses)}\n\nBe specific, reference their actual data. Use **bold** and - bullets for formatting.`;
             },
 
-            quickActionPrompts: {
-                profile_review: "Give me a comprehensive profile review. What are my top 3 strengths and top 3 weaknesses? Be specific — reference my actual headline, summary, experience, and skills. End with a prioritized action list of the 5 most impactful changes I can make this week.",
-                headline_optimize: "Write me 5 optimized LinkedIn headline variations. My current headline is included in my profile data. Each variation should: (1) include relevant keywords for my industry, (2) communicate value, not just a job title, (3) be under 120 characters. Explain why each one works better than my current headline.",
-                summary_rewrite: "Rewrite my LinkedIn About/Summary section to be compelling and conversion-focused. Use the proven framework: Hook (attention-grabbing first line) → Story (career narrative) → Value (what I bring) → Proof (results/metrics) → CTA (what I want readers to do). Make it sound human, not corporate.",
-                career_advice: "Based on my career trajectory, give me specific next-step advice. What roles should I target next? What companies would be a good fit? What gaps do I need to fill to get there? Give me a 6-month and 12-month action plan.",
-                skill_gaps: "Analyze my current skill set against the most in-demand skills in my industry and career level. Identify the top 5 skill gaps holding me back, and for each one: (1) why it matters, (2) how to learn it efficiently, (3) how to showcase it on LinkedIn once learned.",
-                networking_strategy: "Create a targeted networking strategy for me. Based on my industry, role, and career goals: (1) what types of people should I connect with, (2) craft 3 personalized connection request messages I can use, (3) suggest specific outreach cadences, (4) what content should I engage with or post.",
-                interview_prep: "Based on my experience and career level, give me: (1) The 10 most likely interview questions I'd face for my next career move, (2) STAR-format answer frameworks for the 3 hardest behavioral questions, (3) 5 smart questions I should ask interviewers, (4) Skills or knowledge areas I should brush up on.",
-                personal_brand: "Help me develop a LinkedIn personal brand strategy. Based on my profile: (1) What's my unique positioning? (2) Give me 10 specific content ideas/topics I can post about, (3) What's my ideal posting cadence? (4) How should I engage with others' content? (5) Craft a personal brand statement I can use."
+            // Section-specific enhancement prompts that request structured JSON
+            sectionPrompts: {
+                'profile-strength': `Analyze this LinkedIn profile's strength. Return ONLY valid JSON (no markdown, no code fences):
+{
+  "metrics": [
+    {"label": "string (short metric name)", "value": "string (number or grade)", "color": "green|orange|red|blue|purple"}
+  ],
+  "insights": [
+    {"type": "strength|weakness|opportunity", "title": "string", "body": "string (2-3 sentences, specific to their profile)"}
+  ],
+  "rewrites": [
+    {"section": "Headline|Summary|etc", "before": "their current text", "after": "your improved version", "reasoning": "why this is better"}
+  ],
+  "actions": [
+    {"text": "specific action", "detail": "how to do it", "impact": "high|medium|low", "effort": "low|medium|high"}
+  ]
+}
+Provide 3-4 metrics, 3-5 insights, 1-2 rewrites (headline and/or summary), and 3-5 prioritized actions. Reference their ACTUAL profile content.`,
+
+                'career': `Analyze this person's career trajectory. Return ONLY valid JSON (no markdown, no code fences):
+{
+  "metrics": [
+    {"label": "string", "value": "string", "color": "green|orange|red|blue|purple"}
+  ],
+  "insights": [
+    {"type": "strength|weakness|opportunity", "title": "string", "body": "string"}
+  ],
+  "actions": [
+    {"text": "string", "detail": "string", "impact": "high|medium|low", "effort": "low|medium|high"}
+  ]
+}
+Include metrics like Career Velocity, Avg Tenure, Growth Trajectory, Next Role ETA. Give 3-4 insights about their progression. Give 3-5 career actions (roles to target, companies that fit, gaps to fill).`,
+
+                'skills': `Analyze this person's skills. Return ONLY valid JSON (no markdown, no code fences):
+{
+  "metrics": [{"label": "string", "value": "string", "color": "green|orange|red|blue|purple"}],
+  "tags": [
+    {"name": "skill name", "action": "keep|add|remove"}
+  ],
+  "insights": [{"type": "strength|weakness|opportunity|tip", "title": "string", "body": "string"}],
+  "actions": [{"text": "string", "detail": "string", "impact": "high|medium|low", "effort": "low|medium|high"}]
+}
+Provide 3 metrics, 8-12 skill tags (mix of keep/add/remove), 3-4 insights, and 3-5 actions about skills to learn.`,
+
+                'network': `Analyze this person's network. Return ONLY valid JSON (no markdown, no code fences):
+{
+  "metrics": [{"label": "string", "value": "string", "color": "green|orange|red|blue|purple"}],
+  "insights": [{"type": "strength|weakness|opportunity|tip", "title": "string", "body": "string"}],
+  "actions": [{"text": "string", "detail": "string", "impact": "high|medium|low", "effort": "low|medium|high"}]
+}
+Give 3-4 metrics about network health, 3-4 insights about composition/gaps, and 3-5 networking actions with specific outreach templates.`,
+
+                'keywords': `Analyze this profile's keywords and SEO. Return ONLY valid JSON (no markdown, no code fences):
+{
+  "metrics": [{"label": "string", "value": "string", "color": "green|orange|red|blue|purple"}],
+  "tags": [{"name": "keyword", "action": "keep|add|remove"}],
+  "insights": [{"type": "strength|weakness|opportunity|tip", "title": "string", "body": "string"}],
+  "actions": [{"text": "string", "detail": "string", "impact": "high|medium|low", "effort": "low|medium|high"}]
+}
+Give 3 metrics, 10-15 keyword tags, 3-4 insights about SEO optimization, and 3-5 actions.`,
+
+                'experience': `Analyze this person's experience descriptions. Return ONLY valid JSON (no markdown, no code fences):
+{
+  "metrics": [{"label": "string", "value": "string", "color": "green|orange|red|blue|purple"}],
+  "insights": [{"type": "strength|weakness|opportunity|tip", "title": "string", "body": "string"}],
+  "rewrites": [{"section": "Role at Company", "before": "their current description or 'No description provided'", "after": "your improved bullet-point description with metrics and action verbs", "reasoning": "why better"}],
+  "actions": [{"text": "string", "detail": "string", "impact": "high|medium|low", "effort": "low|medium|high"}]
+}
+Give 3 metrics, 2-3 insights, rewrite their weakest 1-2 experience descriptions, and 3-4 actions.`,
+
+                'brand': `Analyze this person's personal brand. Return ONLY valid JSON (no markdown, no code fences):
+{
+  "metrics": [{"label": "string", "value": "string", "color": "green|orange|red|blue|purple"}],
+  "insights": [{"type": "strength|weakness|opportunity|tip", "title": "string", "body": "string"}],
+  "rewrites": [{"section": "Brand Statement", "before": "what their profile currently communicates", "after": "a compelling personal brand statement", "reasoning": "positioning strategy"}],
+  "actions": [{"text": "string", "detail": "string", "impact": "high|medium|low", "effort": "low|medium|high"}]
+}
+Give 3-4 metrics, 3-4 brand insights, 1 brand statement rewrite, and 4-5 content/positioning actions.`,
+
+                'recruiter': `Analyze recruiter visibility for this profile. Return ONLY valid JSON (no markdown, no code fences):
+{
+  "metrics": [{"label": "string", "value": "string", "color": "green|orange|red|blue|purple"}],
+  "insights": [{"type": "strength|weakness|opportunity|tip", "title": "string", "body": "string"}],
+  "actions": [{"text": "string", "detail": "string", "impact": "high|medium|low", "effort": "low|medium|high"}]
+}
+Give 3-4 recruiter-focused metrics, 3-4 insights about search visibility, and 4-5 actions to increase recruiter discoverability.`,
+
+                'salary': `Analyze salary positioning for this person. Return ONLY valid JSON (no markdown, no code fences):
+{
+  "metrics": [{"label": "string", "value": "string", "color": "green|orange|red|blue|purple"}],
+  "insights": [{"type": "strength|weakness|opportunity|tip", "title": "string", "body": "string"}],
+  "actions": [{"text": "string", "detail": "string", "impact": "high|medium|low", "effort": "low|medium|high"}]
+}
+Give 3-4 salary metrics (market rate, negotiation leverage, etc.), 3-4 insights about compensation positioning, and 3-5 actions for salary growth.`
             },
 
-            async sendMessage(userMessage, systemPrompt) {
+            async callAPI(systemPrompt, userMessage) {
                 const apiKey = this.getApiKey();
-                if (!apiKey) throw new Error('No API key configured. Please add your Anthropic API key above.');
-
-                const chatHistory = this.getChatHistory();
-                chatHistory.push({ role: 'user', content: userMessage });
-
-                const apiMessages = chatHistory.map(m => ({ role: m.role, content: m.content }));
-
-                const body = {
-                    model: this.getModel(),
-                    max_tokens: CLAUDE_CONFIG.maxTokens,
-                    system: systemPrompt,
-                    messages: apiMessages
-                };
-
+                if (!apiKey) throw new Error('No API key configured.');
                 const response = await fetch(CLAUDE_CONFIG.apiUrl, {
                     method: 'POST',
                     headers: {
@@ -2793,25 +2941,200 @@ Guidelines:
                         'anthropic-version': '2023-06-01',
                         'anthropic-dangerous-direct-browser-access': 'true'
                     },
-                    body: JSON.stringify(body)
+                    body: JSON.stringify({
+                        model: this.getModel(),
+                        max_tokens: CLAUDE_CONFIG.maxTokens,
+                        system: systemPrompt,
+                        messages: [{ role: 'user', content: userMessage }]
+                    })
                 });
-
                 if (!response.ok) {
-                    const errData = await response.json().catch(() => ({}));
-                    if (response.status === 401) throw new Error('Invalid API key. Please check your Anthropic API key and try again.');
-                    if (response.status === 429) throw new Error('Rate limited. Please wait a moment and try again.');
-                    if (response.status === 400 && errData?.error?.message?.includes('credit'))
-                        throw new Error('Insufficient API credits. Please add credits at console.anthropic.com.');
-                    throw new Error(errData?.error?.message || `API error (${response.status})`);
+                    const err = await response.json().catch(() => ({}));
+                    if (response.status === 401) throw new Error('Invalid API key. Check your key at console.anthropic.com.');
+                    if (response.status === 429) throw new Error('Rate limited. Wait a moment and try again.');
+                    throw new Error(err?.error?.message || `API error (${response.status})`);
                 }
-
                 const data = await response.json();
-                const assistantMessage = data.content?.[0]?.text || 'No response generated.';
+                return data.content?.[0]?.text || '';
+            },
 
-                chatHistory.push({ role: 'assistant', content: assistantMessage });
-                this.saveChatHistory(chatHistory);
+            async sendChatMessage(userMessage, profile, analyses) {
+                const history = this.getChatHistory();
+                history.push({ role: 'user', content: userMessage });
+                const response = await fetch(CLAUDE_CONFIG.apiUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'x-api-key': this.getApiKey(),
+                        'anthropic-version': '2023-06-01',
+                        'anthropic-dangerous-direct-browser-access': 'true'
+                    },
+                    body: JSON.stringify({
+                        model: this.getModel(),
+                        max_tokens: CLAUDE_CONFIG.maxTokens,
+                        system: this.getChatSystemPrompt(profile, analyses),
+                        messages: history.map(m => ({ role: m.role, content: m.content }))
+                    })
+                });
+                if (!response.ok) {
+                    const err = await response.json().catch(() => ({}));
+                    throw new Error(err?.error?.message || `API error (${response.status})`);
+                }
+                const data = await response.json();
+                const reply = data.content?.[0]?.text || 'No response.';
+                history.push({ role: 'assistant', content: reply });
+                this.saveChatHistory(history);
+                return reply;
+            },
 
-                return assistantMessage;
+            async enhanceSection(section, profile, analyses) {
+                const prompt = this.sectionPrompts[section];
+                if (!prompt) throw new Error('Unknown section: ' + section);
+                const context = this.buildProfileContext(profile, analyses);
+                const systemPrompt = `You are a world-class LinkedIn optimization expert. Analyze this profile and return structured JSON for the ${section} section. The user's profile:\n\n${context}\n\nCRITICAL: Return ONLY valid JSON. No markdown formatting, no code fences, no explanation text before or after the JSON.`;
+                const raw = await this.callAPI(systemPrompt, prompt);
+                return this.parseJSON(raw);
+            },
+
+            parseJSON(raw) {
+                // Strip markdown code fences if present
+                let cleaned = raw.trim();
+                if (cleaned.startsWith('```')) {
+                    cleaned = cleaned.replace(/^```(?:json)?\s*\n?/, '').replace(/\n?```\s*$/, '');
+                }
+                // Find first { and last }
+                const start = cleaned.indexOf('{');
+                const end = cleaned.lastIndexOf('}');
+                if (start === -1 || end === -1) throw new Error('No JSON found in response');
+                cleaned = cleaned.substring(start, end + 1);
+                return JSON.parse(cleaned);
+            }
+        };
+
+        // ============================================================
+        //  AI RENDERER - Converts structured JSON to native UI
+        // ============================================================
+        const AIRenderer = {
+            render(section, data) {
+                let html = '';
+                html += this.renderHeader();
+                if (data.metrics?.length) html += this.renderMetrics(data.metrics);
+                if (data.tags?.length) html += this.renderTags(data.tags);
+                if (data.insights?.length) html += this.renderInsights(data.insights);
+                if (data.rewrites?.length) html += this.renderRewrites(data.rewrites);
+                if (data.actions?.length) html += this.renderActions(data.actions);
+                return html;
+            },
+
+            renderHeader() {
+                const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                return `<div class="ai-enhancement-header">
+                    <div class="ai-badge"><i class="fas fa-brain"></i> AI Enhanced</div>
+                    <div class="ai-timestamp">Generated ${time}</div>
+                </div>`;
+            },
+
+            renderMetrics(metrics) {
+                return `<div class="ai-metrics-row">${metrics.map(m =>
+                    `<div class="ai-metric-card">
+                        <div class="am-value ${m.color || ''}">${this.esc(m.value)}</div>
+                        <div class="am-label">${this.esc(m.label)}</div>
+                    </div>`
+                ).join('')}</div>`;
+            },
+
+            renderTags(tags) {
+                return `<div class="ai-tag-cloud">${tags.map(t =>
+                    `<span class="ai-tag ${t.action || ''}">${t.action === 'add' ? '+ ' : t.action === 'remove' ? '- ' : ''}${this.esc(t.name)}</span>`
+                ).join('')}</div>`;
+            },
+
+            renderInsights(insights) {
+                const iconMap = {
+                    strength: 'fas fa-check-circle', weakness: 'fas fa-exclamation-circle',
+                    opportunity: 'fas fa-lightbulb', tip: 'fas fa-info-circle'
+                };
+                return `<div class="ai-insight-grid">${insights.map(ins =>
+                    `<div class="ai-insight-card ${ins.type || 'tip'}">
+                        <div class="ic-header">
+                            <i class="${iconMap[ins.type] || iconMap.tip}"></i>
+                            <span class="ic-title">${this.esc(ins.title)}</span>
+                        </div>
+                        <div class="ic-body">${this.formatText(ins.body)}</div>
+                    </div>`
+                ).join('')}</div>`;
+            },
+
+            renderRewrites(rewrites) {
+                return rewrites.map(rw =>
+                    `<div class="ai-rewrite-card">
+                        <div style="font-size:13px;font-weight:700;margin-bottom:12px;">${this.esc(rw.section)}</div>
+                        <div class="rw-label before">Current</div>
+                        <div class="rw-text">${this.formatText(rw.before)}</div>
+                        <div style="text-align:center;padding:8px 0;color:var(--accent-purple);"><i class="fas fa-arrow-down"></i></div>
+                        <div class="rw-label after">AI Improved</div>
+                        <div class="rw-text improved" style="position:relative;">
+                            ${this.formatText(rw.after)}
+                            <button class="rw-copy-btn" onclick="navigator.clipboard.writeText(this.parentElement.textContent.trim().replace('Copy',''));this.textContent='Copied!'"><i class="fas fa-copy"></i> Copy</button>
+                        </div>
+                        ${rw.reasoning ? `<div class="rw-reasoning"><i class="fas fa-info-circle" style="margin-right:4px;"></i>${this.esc(rw.reasoning)}</div>` : ''}
+                    </div>`
+                ).join('');
+            },
+
+            renderActions(actions) {
+                return `<div class="ai-actions-list">${actions.map((a, i) =>
+                    `<div class="ai-action-item">
+                        <div class="act-num">${i + 1}</div>
+                        <div class="act-content">
+                            <div class="act-text">${this.esc(a.text)}</div>
+                            ${a.detail ? `<div class="act-detail">${this.formatText(a.detail)}</div>` : ''}
+                            <div class="act-tags">
+                                ${a.impact ? `<span class="act-tag impact-${a.impact}">${a.impact} impact</span>` : ''}
+                                ${a.effort ? `<span class="act-tag effort-${a.effort}">${a.effort} effort</span>` : ''}
+                            </div>
+                        </div>
+                    </div>`
+                ).join('')}</div>`;
+            },
+
+            renderShimmer() {
+                return `<div class="ai-enhancement-header">
+                    <div class="ai-badge"><i class="fas fa-brain"></i> Enhancing...</div>
+                </div>
+                <div class="ai-metrics-row">
+                    <div class="ai-shimmer h40 w100"></div>
+                    <div class="ai-shimmer h40 w100"></div>
+                    <div class="ai-shimmer h40 w100"></div>
+                </div>
+                <div class="ai-shimmer h80 w100"></div>
+                <div class="ai-shimmer h80 w80"></div>
+                <div class="ai-shimmer w60"></div>
+                <div class="ai-shimmer w80"></div>`;
+            },
+
+            renderError(msg) {
+                return `<div class="ai-insight-card weakness" style="margin-top:12px;">
+                    <div class="ic-header"><i class="fas fa-exclamation-triangle"></i><span class="ic-title">Enhancement Failed</span></div>
+                    <div class="ic-body">${this.esc(msg)}</div>
+                </div>`;
+            },
+
+            esc(str) {
+                if (!str) return '';
+                const d = document.createElement('div');
+                d.textContent = String(str);
+                return d.innerHTML;
+            },
+
+            formatText(str) {
+                if (!str) return '';
+                let html = this.esc(str);
+                html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+                html = html.replace(/^[-•]\s+(.+)$/gm, '<li>$1</li>');
+                html = html.replace(/(<li>.*?<\/li>(?:\s*<li>.*?<\/li>)*)/gs, '<ul>$1</ul>');
+                html = html.replace(/\n/g, '<br>');
+                return html;
             }
         };
 
@@ -6159,18 +6482,16 @@ Guidelines:
                 pill.className = 'ai-status-pill disconnected';
                 pill.innerHTML = '<i class="fas fa-circle" style="font-size:6px;"></i> <span>Not Connected</span>';
             }
+            updateSectionStatusGrid();
         }
 
         function initAI() {
             const keyInput = document.getElementById('aiApiKeyInput');
             const modelSelect = document.getElementById('aiModelSelect');
-            if (keyInput && ClaudeAI.getApiKey()) {
-                keyInput.value = ClaudeAI.getApiKey();
-            }
-            if (modelSelect) {
-                modelSelect.value = ClaudeAI.getModel();
-            }
+            if (keyInput && ClaudeAI.getApiKey()) keyInput.value = ClaudeAI.getApiKey();
+            if (modelSelect) modelSelect.value = ClaudeAI.getModel();
             updateAIStatus();
+            restoreCachedEnhancements();
             restoreAIChatUI();
         }
 
@@ -6179,11 +6500,10 @@ Guidelines:
             const modelSelect = document.getElementById('aiModelSelect');
             const key = keyInput?.value?.trim();
             if (!key) { alert('Please enter an API key.'); return; }
-            if (!key.startsWith('sk-ant-')) { alert('That doesn\'t look like a valid Anthropic API key. Keys start with sk-ant-'); return; }
+            if (!key.startsWith('sk-ant-')) { alert('Invalid key format. Anthropic API keys start with sk-ant-'); return; }
             ClaudeAI.setApiKey(key);
             if (modelSelect) ClaudeAI.setModel(modelSelect.value);
             updateAIStatus();
-            appendAIChatMessage('system', 'Connected to Claude! You can now ask questions about your profile.');
         }
 
         function clearAIKey() {
@@ -6191,209 +6511,197 @@ Guidelines:
             const keyInput = document.getElementById('aiApiKeyInput');
             if (keyInput) keyInput.value = '';
             updateAIStatus();
-            appendAIChatMessage('system', 'API key removed.');
         }
 
+        // --- Section Enhancement ---
+        function setEnhanceBtnState(section, loading) {
+            const btn = document.getElementById('ai-btn-' + section);
+            if (!btn) return;
+            if (loading) {
+                btn.disabled = true;
+                btn.classList.add('loading');
+                btn.innerHTML = '<i class="fas fa-spinner spin"></i> Enhancing...';
+            } else {
+                btn.disabled = false;
+                btn.classList.remove('loading');
+                const cached = ClaudeAI.getCachedEnhancement(section);
+                if (cached) {
+                    btn.innerHTML = '<i class="fas fa-sync-alt"></i> Re-enhance';
+                } else {
+                    btn.innerHTML = '<i class="fas fa-brain"></i> Enhance with AI';
+                }
+            }
+        }
+
+        function renderEnhancementToZone(section, data) {
+            const zone = document.getElementById('ai-zone-' + section);
+            if (!zone) return;
+            try {
+                zone.innerHTML = AIRenderer.render(section, data);
+                zone.classList.add('visible');
+            } catch(e) {
+                zone.innerHTML = AIRenderer.renderError('Failed to render: ' + e.message);
+                zone.classList.add('visible');
+            }
+        }
+
+        function restoreCachedEnhancements() {
+            CLAUDE_CONFIG.enhanceableSections.forEach(section => {
+                const cached = ClaudeAI.getCachedEnhancement(section);
+                if (cached) {
+                    renderEnhancementToZone(section, cached);
+                    setEnhanceBtnState(section, false);
+                }
+            });
+            updateSectionStatusGrid();
+        }
+
+        async function enhanceSection(section) {
+            if (!ClaudeAI.isConnected()) {
+                navigate('ai-insights');
+                return;
+            }
+            const profile = DataStore.getActiveProfile();
+            if (!profile) { alert('Import a profile first.'); return; }
+
+            const zone = document.getElementById('ai-zone-' + section);
+            if (zone) {
+                zone.innerHTML = AIRenderer.renderShimmer();
+                zone.classList.add('visible');
+            }
+            setEnhanceBtnState(section, true);
+
+            try {
+                const data = await ClaudeAI.enhanceSection(section, profile, currentAnalyses);
+                ClaudeAI.cacheEnhancement(section, data);
+                renderEnhancementToZone(section, data);
+            } catch(err) {
+                if (zone) {
+                    zone.innerHTML = AIRenderer.renderError(err.message);
+                    zone.classList.add('visible');
+                }
+            } finally {
+                setEnhanceBtnState(section, false);
+                updateSectionStatusGrid();
+            }
+        }
+
+        async function enhanceAllSections() {
+            if (!ClaudeAI.isConnected()) { navigate('ai-insights'); return; }
+            const profile = DataStore.getActiveProfile();
+            if (!profile) { alert('Import a profile first.'); return; }
+
+            const sections = CLAUDE_CONFIG.enhanceableSections;
+            const progressEl = document.getElementById('aiEnhanceProgress');
+            if (progressEl) { progressEl.style.display = 'block'; }
+
+            for (let i = 0; i < sections.length; i++) {
+                const section = sections[i];
+                if (progressEl) progressEl.textContent = `Enhancing ${i + 1} of ${sections.length}: ${section}...`;
+                await enhanceSection(section);
+                // Small delay to avoid rate limits
+                if (i < sections.length - 1) await new Promise(r => setTimeout(r, 1200));
+            }
+            if (progressEl) {
+                progressEl.textContent = 'All sections enhanced!';
+                setTimeout(() => { progressEl.style.display = 'none'; }, 3000);
+            }
+        }
+
+        function clearAllEnhancements() {
+            ClaudeAI.clearEnhancementCache();
+            CLAUDE_CONFIG.enhanceableSections.forEach(section => {
+                const zone = document.getElementById('ai-zone-' + section);
+                if (zone) { zone.innerHTML = ''; zone.classList.remove('visible'); }
+                setEnhanceBtnState(section, false);
+            });
+            updateSectionStatusGrid();
+        }
+
+        function updateSectionStatusGrid() {
+            const grid = document.getElementById('aiSectionStatusGrid');
+            if (!grid) return;
+            const sectionNames = {
+                'profile-strength': 'Profile Strength', 'career': 'Career', 'skills': 'Skills',
+                'network': 'Network', 'keywords': 'Keywords & SEO', 'experience': 'Experience',
+                'brand': 'Personal Brand', 'recruiter': 'Recruiter', 'salary': 'Salary'
+            };
+            grid.innerHTML = CLAUDE_CONFIG.enhanceableSections.map(s => {
+                const cached = ClaudeAI.getCachedEnhancement(s);
+                const active = cached ? 'var(--accent-green)' : 'var(--border-color)';
+                const icon = cached ? 'fa-check-circle' : 'fa-circle';
+                const color = cached ? 'var(--accent-green)' : 'var(--text-muted)';
+                const time = cached ? new Date(ClaudeAI.getEnhancementCache()[s]?.timestamp).toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'}) : 'Not enhanced';
+                return `<div style="display:flex;align-items:center;gap:8px;padding:8px 12px;background:var(--bg-card);border:1px solid ${active};border-radius:var(--radius-sm);cursor:pointer;" onclick="App.navigate('${s}')">
+                    <i class="fas ${icon}" style="color:${color};font-size:12px;"></i>
+                    <div style="flex:1;">
+                        <div style="font-size:12px;font-weight:600;">${sectionNames[s]}</div>
+                        <div style="font-size:10px;color:var(--text-muted);">${time}</div>
+                    </div>
+                    ${!cached ? `<button class="ai-enhance-btn" style="padding:4px 10px;font-size:10px;" onclick="event.stopPropagation();App.enhanceSection('${s}')"><i class="fas fa-brain"></i></button>` : ''}
+                </div>`;
+            }).join('');
+        }
+
+        // --- Chat (secondary) ---
         function clearAIChat() {
             ClaudeAI.clearChatHistory();
-            const container = document.getElementById('aiChatMessages');
-            if (container) {
-                container.innerHTML = `<div class="ai-msg system">
-                    <i class="fas fa-brain" style="margin-right:6px;"></i>
-                    Chat cleared. Ask me anything about your LinkedIn profile.
-                </div>`;
-            }
+            const c = document.getElementById('aiChatMessages');
+            if (c) c.innerHTML = '<div class="ai-msg system"><i class="fas fa-brain" style="margin-right:5px;"></i>Chat cleared.</div>';
         }
 
         function restoreAIChatUI() {
             const history = ClaudeAI.getChatHistory();
             if (!history.length) return;
-            const container = document.getElementById('aiChatMessages');
-            if (!container) return;
-            history.forEach(msg => {
-                appendAIChatMessage(msg.role, msg.content, false);
-            });
-            container.scrollTop = container.scrollHeight;
+            const c = document.getElementById('aiChatMessages');
+            if (!c) return;
+            history.forEach(msg => appendAIChatMessage(msg.role, msg.content, false));
+            c.scrollTop = c.scrollHeight;
         }
 
         function appendAIChatMessage(role, content, scroll = true) {
-            const container = document.getElementById('aiChatMessages');
-            if (!container) return;
+            const c = document.getElementById('aiChatMessages');
+            if (!c) return;
             const div = document.createElement('div');
             div.className = 'ai-msg ' + role;
-            if (role === 'assistant') {
-                div.innerHTML = formatAIResponse(content);
-            } else if (role === 'system') {
-                div.innerHTML = '<i class="fas fa-info-circle" style="margin-right:6px;"></i>' + escapeHtml(content);
-            } else {
-                div.textContent = content;
-            }
-            container.appendChild(div);
-            if (scroll) container.scrollTop = container.scrollHeight;
-            return div;
+            if (role === 'assistant') div.innerHTML = AIRenderer.formatText(content);
+            else if (role === 'system') div.innerHTML = '<i class="fas fa-info-circle" style="margin-right:5px;"></i>' + AIRenderer.esc(content);
+            else div.textContent = content;
+            c.appendChild(div);
+            if (scroll) c.scrollTop = c.scrollHeight;
         }
 
-        function formatAIResponse(text) {
-            let html = escapeHtml(text);
-            // Bold
-            html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
-            // Inline code
-            html = html.replace(/`([^`]+)`/g, '<code>$1</code>');
-            // Numbered lists
-            html = html.replace(/^(\d+)\.\s+(.+)$/gm, '<li>$2</li>');
-            html = html.replace(/(<li>.*<\/li>\n?)+/g, '<ol>$&</ol>');
-            // Bullet lists
-            html = html.replace(/^[-•]\s+(.+)$/gm, '<li>$1</li>');
-            html = html.replace(/(<li>.*<\/li>\n?)+/g, (match) => {
-                if (match.includes('<ol>')) return match;
-                return '<ul>' + match + '</ul>';
-            });
-            // Line breaks for paragraphs
-            html = html.replace(/\n\n/g, '<br><br>');
-            html = html.replace(/\n/g, '<br>');
-            return html;
-        }
-
-        function escapeHtml(text) {
-            const div = document.createElement('div');
-            div.textContent = text;
-            return div.innerHTML;
-        }
-
-        function showTypingIndicator() {
-            const container = document.getElementById('aiChatMessages');
-            const div = document.createElement('div');
-            div.className = 'ai-msg assistant';
-            div.id = 'aiTypingIndicator';
-            div.innerHTML = '<div class="typing-indicator"><span></span><span></span><span></span></div>';
-            container.appendChild(div);
-            container.scrollTop = container.scrollHeight;
-        }
-
-        function removeTypingIndicator() {
-            const el = document.getElementById('aiTypingIndicator');
-            if (el) el.remove();
-        }
-
-        async function sendAIMessage(presetMessage) {
+        async function sendAIMessage() {
             const input = document.getElementById('aiChatInput');
-            const sendBtn = document.getElementById('aiSendBtn');
-            const message = presetMessage || input?.value?.trim();
-            if (!message) return;
-
-            if (!ClaudeAI.isConnected()) {
-                appendAIChatMessage('system', 'Please connect your Anthropic API key first.');
-                return;
-            }
-
+            const btn = document.getElementById('aiSendBtn');
+            const msg = input?.value?.trim();
+            if (!msg) return;
+            if (!ClaudeAI.isConnected()) { appendAIChatMessage('system', 'Connect your API key first.'); return; }
             const profile = DataStore.getActiveProfile();
-            if (!profile && !presetMessage) {
-                appendAIChatMessage('system', 'Please import a LinkedIn profile first, then ask me about it.');
-                return;
-            }
 
-            // Show user message
-            appendAIChatMessage('user', message);
-            if (input) input.value = '';
-            if (sendBtn) sendBtn.disabled = true;
+            appendAIChatMessage('user', msg);
+            input.value = '';
+            if (btn) btn.disabled = true;
 
-            // Show typing
-            showTypingIndicator();
+            // Typing indicator
+            const c = document.getElementById('aiChatMessages');
+            const typing = document.createElement('div');
+            typing.className = 'ai-msg assistant';
+            typing.id = 'aiTyping';
+            typing.innerHTML = '<div class="typing-indicator"><span></span><span></span><span></span></div>';
+            c.appendChild(typing);
+            c.scrollTop = c.scrollHeight;
 
             try {
-                const systemPrompt = ClaudeAI.getSystemPrompt(profile, currentAnalyses);
-                const response = await ClaudeAI.sendMessage(message, systemPrompt);
-                removeTypingIndicator();
-                appendAIChatMessage('assistant', response);
-            } catch (err) {
-                removeTypingIndicator();
+                const reply = await ClaudeAI.sendChatMessage(msg, profile, currentAnalyses);
+                document.getElementById('aiTyping')?.remove();
+                appendAIChatMessage('assistant', reply);
+            } catch(err) {
+                document.getElementById('aiTyping')?.remove();
                 appendAIChatMessage('system', 'Error: ' + err.message);
             } finally {
-                if (sendBtn) sendBtn.disabled = false;
-                if (input) input.focus();
-            }
-        }
-
-        function aiQuickAction(actionKey) {
-            const prompt = ClaudeAI.quickActionPrompts[actionKey];
-            if (!prompt) return;
-            if (!ClaudeAI.isConnected()) {
-                appendAIChatMessage('system', 'Please connect your Anthropic API key first.');
-                navigate('ai-insights');
-                return;
-            }
-            if (!DataStore.getActiveProfile()) {
-                appendAIChatMessage('system', 'Please import a LinkedIn profile first.');
-                navigate('ai-insights');
-                return;
-            }
-            // Scroll to chat
-            navigate('ai-insights');
-            sendAIMessage(prompt);
-        }
-
-        async function aiAnalyzeSection(sectionType) {
-            if (!ClaudeAI.isConnected()) {
-                navigate('ai-insights');
-                appendAIChatMessage('system', 'Please connect your Anthropic API key first.');
-                return;
-            }
-            const profile = DataStore.getActiveProfile();
-            if (!profile) return;
-
-            const sectionPrompts = {
-                'profile-strength': 'Analyze my profile strength score and give me the top 3 specific changes I should make today to improve it. Reference my actual profile sections.',
-                'career': 'Based on my career trajectory, what are my realistic next roles? How does my progression compare to others in my industry?',
-                'skills': 'Review my skills list and endorsements. Which skills should I add, remove, or re-order? What trending skills in my field am I missing?',
-                'network': 'Analyze my network composition and give me specific strategies to improve it for my career goals.',
-                'keywords': 'What keywords am I missing from my profile for maximum recruiter visibility? Give me a keyword optimization plan.',
-                'experience': 'Review my experience descriptions. Rewrite the weakest one to be more impactful using metrics, action verbs, and results.',
-                'brand': 'Assess my personal brand on LinkedIn. What story does my profile tell? What should it tell instead? Give specific changes.',
-                'recruiter': 'How can I maximize my recruiter visibility? What specific changes will make me show up more in LinkedIn recruiter searches?',
-                'salary': 'Based on my experience and skills, am I likely underpaid, fairly paid, or overpaid? What should I target for my next role?'
-            };
-            const prompt = sectionPrompts[sectionType];
-            if (!prompt) return;
-
-            // Show inline result area
-            const resultDiv = document.getElementById('ai-inline-' + sectionType);
-            if (resultDiv) {
-                resultDiv.innerHTML = '<div class="typing-indicator" style="padding:8px;"><span></span><span></span><span></span></div>';
-                resultDiv.classList.add('visible');
-            }
-
-            try {
-                const systemPrompt = ClaudeAI.getSystemPrompt(profile, currentAnalyses);
-                // Temporarily use a separate call (don't add to chat history)
-                const apiKey = ClaudeAI.getApiKey();
-                const response = await fetch(CLAUDE_CONFIG.apiUrl, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'x-api-key': apiKey,
-                        'anthropic-version': '2023-06-01',
-                        'anthropic-dangerous-direct-browser-access': 'true'
-                    },
-                    body: JSON.stringify({
-                        model: ClaudeAI.getModel(),
-                        max_tokens: CLAUDE_CONFIG.maxTokens,
-                        system: systemPrompt,
-                        messages: [{ role: 'user', content: prompt }]
-                    })
-                });
-                if (!response.ok) {
-                    const errData = await response.json().catch(() => ({}));
-                    throw new Error(errData?.error?.message || `API error (${response.status})`);
-                }
-                const data = await response.json();
-                const text = data.content?.[0]?.text || 'No response.';
-                if (resultDiv) {
-                    resultDiv.innerHTML = formatAIResponse(text);
-                }
-            } catch (err) {
-                if (resultDiv) {
-                    resultDiv.innerHTML = '<span style="color:var(--accent-red);"><i class="fas fa-exclamation-triangle"></i> ' + escapeHtml(err.message) + '</span>';
-                }
+                if (btn) btn.disabled = false;
+                input?.focus();
             }
         }
 
@@ -6446,8 +6754,8 @@ Guidelines:
             addKeyContact, markContacted, removeKeyContact,
             showTemplate, saveCustomTemplate,
             // Claude AI
-            saveAIKey, clearAIKey, sendAIMessage, aiQuickAction,
-            aiAnalyzeSection, clearAIChat,
+            saveAIKey, clearAIKey, sendAIMessage,
+            enhanceSection, enhanceAllSections, clearAllEnhancements, clearAIChat,
             init
         };
     })();
