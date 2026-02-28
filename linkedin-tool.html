@@ -554,6 +554,196 @@
         .text-center { text-align: center; }
         .text-right { text-align: right; }
         .font-mono { font-family: 'JetBrains Mono', monospace; }
+
+        /* ============ NETWORKING HUB STYLES ============ */
+        .trust-circles {
+            position: relative; width: 360px; height: 360px; margin: 0 auto;
+        }
+        .trust-ring {
+            position: absolute; border-radius: 50%; border: 2px dashed;
+            display: flex; align-items: center; justify-content: center;
+            transition: all var(--transition-normal);
+        }
+        .trust-ring:hover { border-style: solid; }
+        .trust-ring.ring-inner {
+            width: 120px; height: 120px; top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            border-color: var(--accent-green); background: rgba(16, 185, 129, 0.08);
+        }
+        .trust-ring.ring-mid {
+            width: 220px; height: 220px; top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            border-color: var(--accent-blue); background: rgba(59, 130, 246, 0.05);
+        }
+        .trust-ring.ring-outer {
+            width: 320px; height: 320px; top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            border-color: var(--accent-purple); background: rgba(139, 92, 246, 0.03);
+        }
+        .trust-ring-label {
+            position: absolute; font-size: 10px; text-transform: uppercase;
+            letter-spacing: 1px; font-weight: 600; white-space: nowrap;
+        }
+        .trust-ring.ring-inner .trust-ring-label { bottom: -18px; color: var(--accent-green); }
+        .trust-ring.ring-mid .trust-ring-label { bottom: -18px; color: var(--accent-blue); }
+        .trust-ring.ring-outer .trust-ring-label { bottom: -18px; color: var(--accent-purple); }
+        .trust-ring-count {
+            font-size: 28px; font-weight: 800; font-family: 'JetBrains Mono', monospace;
+        }
+
+        .contact-card {
+            background: var(--bg-card); border: 1px solid var(--border-color);
+            border-radius: var(--radius-md); padding: 14px 16px;
+            display: flex; align-items: center; gap: 12px;
+            transition: all var(--transition-fast); cursor: default;
+        }
+        .contact-card:hover { border-color: var(--border-hover); transform: translateY(-1px); box-shadow: var(--shadow-card); }
+        .contact-avatar {
+            width: 40px; height: 40px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 700; font-size: 14px; color: #fff; flex-shrink: 0;
+        }
+        .contact-info { flex: 1; min-width: 0; }
+        .contact-name { font-size: 13px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .contact-role { font-size: 11px; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .contact-actions { display: flex; gap: 6px; flex-shrink: 0; }
+        .contact-actions button {
+            width: 28px; height: 28px; border: 1px solid var(--border-color);
+            background: transparent; color: var(--text-muted); border-radius: 4px;
+            cursor: pointer; font-size: 11px; transition: all var(--transition-fast);
+        }
+        .contact-actions button:hover { border-color: var(--accent-blue); color: var(--accent-blue); }
+
+        .outreach-pipeline {
+            display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px;
+        }
+        .pipeline-column {
+            background: var(--bg-input); border-radius: var(--radius-md);
+            padding: 12px; min-height: 200px;
+        }
+        .pipeline-column-header {
+            font-size: 11px; text-transform: uppercase; letter-spacing: 1px;
+            font-weight: 600; margin-bottom: 10px; padding-bottom: 8px;
+            border-bottom: 2px solid; display: flex; align-items: center;
+            justify-content: space-between;
+        }
+        .pipeline-card {
+            background: var(--bg-card); border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm); padding: 10px 12px; margin-bottom: 8px;
+            font-size: 12px; cursor: default; transition: all var(--transition-fast);
+        }
+        .pipeline-card:hover { border-color: var(--border-hover); }
+        .pipeline-card .pc-name { font-weight: 600; margin-bottom: 2px; }
+        .pipeline-card .pc-meta { color: var(--text-muted); font-size: 10px; }
+
+        .template-card {
+            background: var(--bg-card); border: 1px solid var(--border-color);
+            border-radius: var(--radius-md); padding: 18px; cursor: pointer;
+            transition: all var(--transition-fast); position: relative;
+        }
+        .template-card:hover { border-color: var(--accent-blue); transform: translateY(-2px); box-shadow: var(--shadow-card); }
+        .template-card h4 { font-size: 14px; font-weight: 600; margin-bottom: 6px; }
+        .template-card p { font-size: 12px; color: var(--text-secondary); line-height: 1.5; }
+        .template-card .template-tag {
+            position: absolute; top: 12px; right: 12px;
+        }
+        .template-preview {
+            background: var(--bg-input); border-radius: var(--radius-sm);
+            padding: 12px 14px; font-size: 12px; color: var(--text-secondary);
+            line-height: 1.6; white-space: pre-wrap; margin-top: 10px;
+            font-family: inherit; border: 1px solid var(--border-color);
+        }
+
+        .weekly-cadence {
+            display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px;
+        }
+        .cadence-day {
+            background: var(--bg-card); border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm); padding: 10px 8px; text-align: center;
+            transition: all var(--transition-fast); min-height: 90px;
+        }
+        .cadence-day:hover { border-color: var(--border-hover); }
+        .cadence-day .day-name {
+            font-size: 10px; text-transform: uppercase; letter-spacing: 1px;
+            color: var(--text-muted); font-weight: 600; margin-bottom: 6px;
+        }
+        .cadence-day .day-count {
+            font-size: 20px; font-weight: 700; font-family: 'JetBrains Mono', monospace;
+        }
+        .cadence-day .day-label { font-size: 9px; color: var(--text-muted); margin-top: 2px; }
+        .cadence-day.today { border-color: var(--accent-blue); background: rgba(59, 130, 246, 0.08); }
+
+        .streak-bar {
+            display: flex; gap: 3px; align-items: flex-end; height: 60px;
+            padding: 8px 0;
+        }
+        .streak-bar .streak-day {
+            flex: 1; border-radius: 2px; min-height: 4px;
+            transition: all var(--transition-fast);
+        }
+        .streak-bar .streak-day:hover { opacity: 0.8; }
+
+        .goal-card {
+            background: var(--bg-card); border: 1px solid var(--border-color);
+            border-radius: var(--radius-md); padding: 16px;
+            display: flex; align-items: center; gap: 14px;
+        }
+        .goal-icon {
+            width: 44px; height: 44px; border-radius: var(--radius-sm);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 18px; flex-shrink: 0;
+        }
+        .goal-progress { flex: 1; }
+        .goal-title { font-size: 13px; font-weight: 500; margin-bottom: 4px; }
+        .goal-stat {
+            font-size: 11px; color: var(--text-muted); margin-bottom: 6px;
+            display: flex; justify-content: space-between;
+        }
+
+        .event-item {
+            display: flex; align-items: flex-start; gap: 14px;
+            padding: 14px; background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md); margin-bottom: 10px;
+            transition: all var(--transition-fast);
+        }
+        .event-item:hover { border-color: var(--border-hover); }
+        .event-date-badge {
+            width: 48px; text-align: center; flex-shrink: 0;
+            background: var(--bg-input); border-radius: var(--radius-sm);
+            padding: 6px 4px;
+        }
+        .event-date-badge .edb-month { font-size: 9px; text-transform: uppercase; color: var(--accent-blue); font-weight: 600; letter-spacing: 1px; }
+        .event-date-badge .edb-day { font-size: 20px; font-weight: 800; font-family: 'JetBrains Mono', monospace; line-height: 1.2; }
+        .event-info h4 { font-size: 13px; font-weight: 600; margin-bottom: 3px; }
+        .event-info p { font-size: 11px; color: var(--text-muted); }
+
+        .strategy-card {
+            background: var(--bg-card); border: 1px solid var(--border-color);
+            border-radius: var(--radius-md); padding: 20px;
+            border-left: 4px solid;
+        }
+        .strategy-card h4 { font-size: 14px; font-weight: 600; margin-bottom: 8px; }
+        .strategy-card ul { padding-left: 16px; font-size: 12px; color: var(--text-secondary); }
+        .strategy-card li { margin-bottom: 4px; }
+        .strategy-card.st-green { border-left-color: var(--accent-green); }
+        .strategy-card.st-blue { border-left-color: var(--accent-blue); }
+        .strategy-card.st-purple { border-left-color: var(--accent-purple); }
+        .strategy-card.st-orange { border-left-color: var(--accent-orange); }
+        .strategy-card.st-cyan { border-left-color: var(--accent-cyan); }
+
+        @media (max-width: 1200px) {
+            .outreach-pipeline { grid-template-columns: repeat(2, 1fr); }
+            .weekly-cadence { grid-template-columns: repeat(4, 1fr); }
+        }
+        @media (max-width: 768px) {
+            .outreach-pipeline { grid-template-columns: 1fr; }
+            .weekly-cadence { grid-template-columns: repeat(3, 1fr); }
+            .trust-circles { width: 260px; height: 260px; }
+            .trust-ring.ring-inner { width: 90px; height: 90px; }
+            .trust-ring.ring-mid { width: 160px; height: 160px; }
+            .trust-ring.ring-outer { width: 230px; height: 230px; }
+        }
     </style>
 </head>
 <body>
@@ -617,6 +807,12 @@
             </div>
             <div class="nav-item" data-section="recruiter" onclick="App.navigate('recruiter')">
                 <i class="fas fa-eye"></i> Recruiter Visibility
+            </div>
+
+            <div class="nav-section-label">Growth</div>
+            <div class="nav-item" data-section="networking-hub" onclick="App.navigate('networking-hub')">
+                <i class="fas fa-handshake"></i> Networking Hub
+                <span class="badge" style="background:var(--accent-green);">New</span>
             </div>
 
             <div class="nav-section-label">Tools</div>
@@ -1568,6 +1764,427 @@
                         <button class="btn btn-secondary" style="color:var(--accent-red); border-color:rgba(239,68,68,0.3);" onclick="App.clearCurrentProfile()">
                             <i class="fas fa-trash"></i> Delete Current Profile
                         </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ==================== NETWORKING HUB ==================== -->
+            <div class="section" id="sec-networking-hub">
+                <div class="section-header">
+                    <h2>Networking Hub</h2>
+                    <p>Build, nurture, and strategically grow a powerful network of trusted contacts</p>
+                </div>
+
+                <!-- Tab Navigation -->
+                <div class="tab-bar">
+                    <button class="tab-btn active" onclick="App.switchTab(this, 'nh-overview')">Overview & Health</button>
+                    <button class="tab-btn" onclick="App.switchTab(this, 'nh-trust-circles')">Trust Circles</button>
+                    <button class="tab-btn" onclick="App.switchTab(this, 'nh-outreach')">Outreach Pipeline</button>
+                    <button class="tab-btn" onclick="App.switchTab(this, 'nh-cadence')">Weekly Cadence</button>
+                    <button class="tab-btn" onclick="App.switchTab(this, 'nh-templates')">Message Templates</button>
+                    <button class="tab-btn" onclick="App.switchTab(this, 'nh-events')">Events & Meetups</button>
+                    <button class="tab-btn" onclick="App.switchTab(this, 'nh-strategies')">Growth Strategies</button>
+                    <button class="tab-btn" onclick="App.switchTab(this, 'nh-contacts')">Key Contacts</button>
+                </div>
+
+                <!-- ===== TAB: OVERVIEW & HEALTH ===== -->
+                <div class="tab-content active" id="tab-nh-overview">
+                    <div class="grid-4 mb-20" id="nhOverviewMetrics"></div>
+                    <div class="grid-2 mb-20">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title"><i class="fas fa-heartbeat"></i> Network Health Score</div>
+                            </div>
+                            <div class="flex items-center gap-24">
+                                <div class="score-ring-container" id="nhHealthRing"></div>
+                                <div id="nhHealthDims" style="flex:1;"></div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title"><i class="fas fa-chart-radar"></i> Network Composition</div>
+                            </div>
+                            <div class="chart-container" style="height:280px;">
+                                <canvas id="nhCompositionRadar"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="grid-2 mb-20">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title"><i class="fas fa-chart-line"></i> Network Growth Projection</div>
+                            </div>
+                            <div class="chart-container" style="height:260px;">
+                                <canvas id="nhGrowthChart"></canvas>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title"><i class="fas fa-chart-pie"></i> Connection Quality Distribution</div>
+                            </div>
+                            <div class="chart-container" style="height:260px;">
+                                <canvas id="nhQualityDoughnut"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card mb-20">
+                        <div class="card-header">
+                            <div class="card-title"><i class="fas fa-bullseye"></i> Networking Goals</div>
+                            <button class="btn btn-sm btn-secondary" onclick="App.addNetworkingGoal()"><i class="fas fa-plus"></i> Add Goal</button>
+                        </div>
+                        <div id="nhGoalsList"></div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title"><i class="fas fa-exclamation-triangle"></i> Network Gaps & Recommendations</div>
+                        </div>
+                        <div id="nhGapsRecs"></div>
+                    </div>
+                </div>
+
+                <!-- ===== TAB: TRUST CIRCLES ===== -->
+                <div class="tab-content" id="tab-nh-trust-circles">
+                    <div class="grid-2 mb-20">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title"><i class="fas fa-bullseye"></i> Trust Circle Mapping</div>
+                            </div>
+                            <p style="font-size:12px; color:var(--text-muted); margin-bottom:16px;">Organize contacts into concentric circles of relationship strength.</p>
+                            <div class="trust-circles">
+                                <div class="trust-ring ring-outer" id="nhRingOuter">
+                                    <span class="trust-ring-count" id="nhOuterCount">0</span>
+                                    <span class="trust-ring-label">Acquaintances</span>
+                                </div>
+                                <div class="trust-ring ring-mid" id="nhRingMid">
+                                    <span class="trust-ring-count" id="nhMidCount">0</span>
+                                    <span class="trust-ring-label">Active Network</span>
+                                </div>
+                                <div class="trust-ring ring-inner" id="nhRingInner">
+                                    <span class="trust-ring-count" id="nhInnerCount">0</span>
+                                    <span class="trust-ring-label">Inner Circle</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title"><i class="fas fa-user-plus"></i> Assign to Trust Circle</div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Contact Name</label>
+                                <input class="form-input" id="nhTrustName" placeholder="Jane Smith">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Role / Company</label>
+                                <input class="form-input" id="nhTrustRole" placeholder="VP Engineering at Google">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Trust Level</label>
+                                <select class="form-select" id="nhTrustLevel">
+                                    <option value="inner">Inner Circle — Trusted advisors, mentors, close allies</option>
+                                    <option value="active" selected>Active Network — Regular collaborators, warm contacts</option>
+                                    <option value="acquaintance">Acquaintances — Met once, passive connections</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Relationship Notes</label>
+                                <textarea class="form-textarea" id="nhTrustNotes" rows="2" placeholder="How you know them, last interaction, common interests..."></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Relationship Strength (1-10)</label>
+                                <input class="form-input" id="nhTrustStrength" type="number" min="1" max="10" value="5">
+                            </div>
+                            <button class="btn btn-primary" onclick="App.addTrustContact()"><i class="fas fa-plus"></i> Add to Trust Circle</button>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title"><i class="fas fa-list"></i> Trust Circle Directory</div>
+                        </div>
+                        <div class="tab-bar mb-16">
+                            <button class="tab-btn active" onclick="App.filterTrustCircle('all', this)">All</button>
+                            <button class="tab-btn" onclick="App.filterTrustCircle('inner', this)">Inner Circle</button>
+                            <button class="tab-btn" onclick="App.filterTrustCircle('active', this)">Active Network</button>
+                            <button class="tab-btn" onclick="App.filterTrustCircle('acquaintance', this)">Acquaintances</button>
+                        </div>
+                        <div id="nhTrustDirectory" class="grid-2"></div>
+                    </div>
+                </div>
+
+                <!-- ===== TAB: OUTREACH PIPELINE ===== -->
+                <div class="tab-content" id="tab-nh-outreach">
+                    <div class="card mb-20">
+                        <div class="card-header">
+                            <div class="card-title"><i class="fas fa-plus-circle"></i> Add Outreach Target</div>
+                        </div>
+                        <div class="grid-4">
+                            <div class="form-group">
+                                <label class="form-label">Name</label>
+                                <input class="form-input" id="nhOutreachName" placeholder="Contact name">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Role / Company</label>
+                                <input class="form-input" id="nhOutreachRole" placeholder="Title at Company">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Purpose</label>
+                                <select class="form-select" id="nhOutreachPurpose">
+                                    <option>Informational interview</option>
+                                    <option>Job referral</option>
+                                    <option>Partnership / Collaboration</option>
+                                    <option>Mentorship request</option>
+                                    <option>Industry insight</option>
+                                    <option>Reconnection</option>
+                                    <option>Event follow-up</option>
+                                    <option>Warm introduction</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">&nbsp;</label>
+                                <button class="btn btn-primary w-full" onclick="App.addOutreachTarget()"><i class="fas fa-plus"></i> Add to Pipeline</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="grid-4 mb-16" id="nhOutreachStats"></div>
+                    <div class="outreach-pipeline" id="nhPipeline">
+                        <div class="pipeline-column">
+                            <div class="pipeline-column-header" style="border-color:var(--accent-blue); color:var(--accent-blue);">
+                                <span>Identified</span><span class="font-mono" id="nhPipeIdentCount">0</span>
+                            </div>
+                            <div id="nhPipeIdentified"></div>
+                        </div>
+                        <div class="pipeline-column">
+                            <div class="pipeline-column-header" style="border-color:var(--accent-orange); color:var(--accent-orange);">
+                                <span>Reached Out</span><span class="font-mono" id="nhPipeReachCount">0</span>
+                            </div>
+                            <div id="nhPipeReached"></div>
+                        </div>
+                        <div class="pipeline-column">
+                            <div class="pipeline-column-header" style="border-color:var(--accent-green); color:var(--accent-green);">
+                                <span>Connected</span><span class="font-mono" id="nhPipeConnCount">0</span>
+                            </div>
+                            <div id="nhPipeConnected"></div>
+                        </div>
+                        <div class="pipeline-column">
+                            <div class="pipeline-column-header" style="border-color:var(--accent-purple); color:var(--accent-purple);">
+                                <span>Relationship Built</span><span class="font-mono" id="nhPipeBuiltCount">0</span>
+                            </div>
+                            <div id="nhPipeBuilt"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ===== TAB: WEEKLY CADENCE ===== -->
+                <div class="tab-content" id="tab-nh-cadence">
+                    <div class="grid-3 mb-20" id="nhCadenceMetrics"></div>
+                    <div class="card mb-20">
+                        <div class="card-header">
+                            <div class="card-title"><i class="fas fa-calendar-week"></i> This Week's Networking Plan</div>
+                            <button class="btn btn-sm btn-secondary" onclick="App.resetWeeklyCadence()"><i class="fas fa-redo"></i> Reset Week</button>
+                        </div>
+                        <div class="weekly-cadence" id="nhWeeklyCadence"></div>
+                    </div>
+                    <div class="grid-2 mb-20">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title"><i class="fas fa-fire"></i> Networking Streak</div>
+                            </div>
+                            <div id="nhStreakDisplay"></div>
+                            <div class="streak-bar" id="nhStreakBar"></div>
+                            <p style="font-size:11px; color:var(--text-muted); text-align:center;" id="nhStreakText"></p>
+                        </div>
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title"><i class="fas fa-chart-bar"></i> Weekly Activity</div>
+                            </div>
+                            <div class="chart-container" style="height:200px;">
+                                <canvas id="nhWeeklyActivityChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title"><i class="fas fa-clipboard-list"></i> Daily Networking Actions</div>
+                            <button class="btn btn-sm btn-primary" onclick="App.logNetworkingAction()"><i class="fas fa-plus"></i> Log Action</button>
+                        </div>
+                        <div id="nhActionLog"></div>
+                    </div>
+                </div>
+
+                <!-- ===== TAB: MESSAGE TEMPLATES ===== -->
+                <div class="tab-content" id="tab-nh-templates">
+                    <div class="section-header mb-20">
+                        <p style="font-size:13px; color:var(--text-secondary);">
+                            Ready-to-customize message templates for every networking scenario. Click any template to copy it.
+                        </p>
+                    </div>
+                    <div id="nhTemplatesGrid" class="grid-2 mb-20"></div>
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title"><i class="fas fa-pen"></i> Custom Template Builder</div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Template Name</label>
+                            <input class="form-input" id="nhCustomTemplateName" placeholder="My Custom Template">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Category</label>
+                            <select class="form-select" id="nhCustomTemplateCategory">
+                                <option>Connection Request</option>
+                                <option>Follow-up</option>
+                                <option>Informational Interview</option>
+                                <option>Thank You</option>
+                                <option>Referral Ask</option>
+                                <option>Event Networking</option>
+                                <option>Reconnection</option>
+                                <option>Introduction Facilitation</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Message Text (use {name}, {company}, {role}, {your_name} as placeholders)</label>
+                            <textarea class="form-textarea" id="nhCustomTemplateText" rows="6" placeholder="Hi {name},&#10;&#10;I noticed your work at {company}..."></textarea>
+                        </div>
+                        <button class="btn btn-primary" onclick="App.saveCustomTemplate()"><i class="fas fa-save"></i> Save Template</button>
+                    </div>
+                </div>
+
+                <!-- ===== TAB: EVENTS & MEETUPS ===== -->
+                <div class="tab-content" id="tab-nh-events">
+                    <div class="grid-3 mb-20" id="nhEventMetrics"></div>
+                    <div class="grid-2 mb-20">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title"><i class="fas fa-calendar-plus"></i> Add Networking Event</div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Event Name *</label>
+                                <input class="form-input" id="nhEventName" placeholder="TechCrunch Disrupt 2026">
+                            </div>
+                            <div class="grid-2">
+                                <div class="form-group">
+                                    <label class="form-label">Date</label>
+                                    <input class="form-input" id="nhEventDate" type="date">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Type</label>
+                                    <select class="form-select" id="nhEventType">
+                                        <option>Conference</option>
+                                        <option>Meetup</option>
+                                        <option>Webinar</option>
+                                        <option>Workshop</option>
+                                        <option>Networking Event</option>
+                                        <option>Industry Dinner</option>
+                                        <option>Career Fair</option>
+                                        <option>Alumni Event</option>
+                                        <option>Hackathon</option>
+                                        <option>Panel / Fireside Chat</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Goal / Notes</label>
+                                <textarea class="form-textarea" id="nhEventNotes" rows="2" placeholder="Meet 5 engineering leaders, get intros to..."></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Target Contacts to Meet (comma-separated)</label>
+                                <input class="form-input" id="nhEventTargets" placeholder="Jane Doe (CTO Startup), John Smith (VC Partner)">
+                            </div>
+                            <button class="btn btn-primary" onclick="App.addNetworkingEvent()"><i class="fas fa-plus"></i> Add Event</button>
+                        </div>
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title"><i class="fas fa-chart-bar"></i> Events by Type</div>
+                            </div>
+                            <div class="chart-container" style="height:280px;">
+                                <canvas id="nhEventTypeChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title"><i class="fas fa-calendar-alt"></i> Upcoming & Past Events</div>
+                        </div>
+                        <div id="nhEventsList"></div>
+                    </div>
+                </div>
+
+                <!-- ===== TAB: GROWTH STRATEGIES ===== -->
+                <div class="tab-content" id="tab-nh-strategies">
+                    <div class="section-header mb-20">
+                        <p style="font-size:13px; color:var(--text-secondary);">
+                            Personalized networking strategies based on your profile, industry, and career goals.
+                        </p>
+                    </div>
+                    <div id="nhStrategiesContent"></div>
+                </div>
+
+                <!-- ===== TAB: KEY CONTACTS ===== -->
+                <div class="tab-content" id="tab-nh-contacts">
+                    <div class="card mb-20">
+                        <div class="card-header">
+                            <div class="card-title"><i class="fas fa-user-plus"></i> Add Key Contact</div>
+                        </div>
+                        <div class="grid-3">
+                            <div class="form-group">
+                                <label class="form-label">Name *</label>
+                                <input class="form-input" id="nhContactName" placeholder="Jane Smith">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Title / Role</label>
+                                <input class="form-input" id="nhContactRole" placeholder="VP Engineering">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Company</label>
+                                <input class="form-input" id="nhContactCompany" placeholder="Google">
+                            </div>
+                        </div>
+                        <div class="grid-3">
+                            <div class="form-group">
+                                <label class="form-label">How You Met</label>
+                                <input class="form-input" id="nhContactMet" placeholder="Conference, mutual friend, online...">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Value They Provide</label>
+                                <select class="form-select" id="nhContactValue">
+                                    <option>Industry expertise</option>
+                                    <option>Job referrals</option>
+                                    <option>Mentorship</option>
+                                    <option>Business opportunities</option>
+                                    <option>Technical knowledge</option>
+                                    <option>Introductions to others</option>
+                                    <option>Career advice</option>
+                                    <option>Collaboration partner</option>
+                                    <option>Accountability partner</option>
+                                    <option>Domain expertise</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Follow-up Frequency</label>
+                                <select class="form-select" id="nhContactFreq">
+                                    <option value="7">Weekly</option>
+                                    <option value="14">Bi-weekly</option>
+                                    <option value="30" selected>Monthly</option>
+                                    <option value="90">Quarterly</option>
+                                    <option value="180">Twice a year</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Notes</label>
+                            <textarea class="form-textarea" id="nhContactNotes" rows="2" placeholder="Key conversation points, common interests, things to remember..."></textarea>
+                        </div>
+                        <button class="btn btn-primary" onclick="App.addKeyContact()"><i class="fas fa-plus"></i> Add Contact</button>
+                    </div>
+                    <div class="card mb-20">
+                        <div class="card-header">
+                            <div class="card-title"><i class="fas fa-bell"></i> Follow-up Reminders</div>
+                        </div>
+                        <div id="nhFollowUpReminders"></div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title"><i class="fas fa-address-book"></i> Key Contacts Directory</div>
+                        </div>
+                        <div id="nhContactsDirectory" class="grid-2"></div>
                     </div>
                 </div>
             </div>
@@ -2701,6 +3318,203 @@
                 return actions;
             }
         };
+
+        // ============================================================
+        //  NETWORKING HUB ENGINE
+        // ============================================================
+        const NH_STORAGE = {
+            trustCircle: 'li_nh_trust_circle',
+            outreach: 'li_nh_outreach',
+            cadence: 'li_nh_cadence',
+            streak: 'li_nh_streak',
+            events: 'li_nh_events',
+            contacts: 'li_nh_contacts',
+            goals: 'li_nh_goals',
+            templates: 'li_nh_templates',
+            actionLog: 'li_nh_action_log'
+        };
+
+        function nhLoad(key) { try { return JSON.parse(localStorage.getItem(key)) || []; } catch(e) { return []; } }
+        function nhSave(key, data) { localStorage.setItem(key, JSON.stringify(data)); }
+
+        const NetworkingHubEngine = {
+            analyze(profile) {
+                const connections = profile.connections || [];
+                const connCount = profile.connectionCount || connections.length || 0;
+                const trustCircle = nhLoad(NH_STORAGE.trustCircle);
+                const outreach = nhLoad(NH_STORAGE.outreach);
+                const contacts = nhLoad(NH_STORAGE.contacts);
+                const events = nhLoad(NH_STORAGE.events);
+                const goals = nhLoad(NH_STORAGE.goals);
+                const cadence = nhLoad(NH_STORAGE.cadence);
+                const actionLog = nhLoad(NH_STORAGE.actionLog);
+
+                // Health score: composite of multiple factors
+                const healthDims = this.computeHealthDimensions(profile, trustCircle, outreach, contacts, events, cadence, actionLog);
+                const healthScore = Math.round(Object.values(healthDims).reduce((s, v) => s + v, 0) / Object.keys(healthDims).length);
+
+                // Network quality distribution
+                const innerCount = trustCircle.filter(c => c.level === 'inner').length;
+                const activeCount = trustCircle.filter(c => c.level === 'active').length;
+                const acquaintanceCount = trustCircle.filter(c => c.level === 'acquaintance').length;
+
+                // Outreach pipeline stats
+                const pipeStats = { identified: 0, reached: 0, connected: 0, built: 0 };
+                outreach.forEach(o => { if (pipeStats[o.stage] !== undefined) pipeStats[o.stage]++; });
+
+                // Streak computation
+                const streak = this.computeStreak(actionLog);
+
+                // Gaps and recommendations
+                const gaps = this.identifyGaps(profile, trustCircle, contacts, connCount, healthDims);
+
+                // Growth projection (12-month)
+                const growthProjection = this.projectGrowth(connCount, outreach, actionLog);
+
+                return {
+                    healthScore, healthDims, innerCount, activeCount, acquaintanceCount,
+                    totalTracked: trustCircle.length, pipeStats,
+                    totalOutreach: outreach.length, totalContacts: contacts.length,
+                    totalEvents: events.length, streak, gaps, growthProjection,
+                    goalsCount: goals.length,
+                    goalsCompleted: goals.filter(g => g.completed).length,
+                    weeklyActionsCount: this.getThisWeekActions(actionLog).length,
+                    responseRate: outreach.length > 0 ? Math.round(((pipeStats.connected + pipeStats.built) / outreach.length) * 100) : 0
+                };
+            },
+
+            computeHealthDimensions(profile, trustCircle, outreach, contacts, events, cadence, actionLog) {
+                const connCount = profile.connectionCount || (profile.connections || []).length || 0;
+
+                // Size: Is the network large enough?
+                let sizeScore = Math.min(100, Math.round((connCount / 500) * 80));
+                if (connCount >= 500) sizeScore = Math.min(100, 80 + Math.round(((connCount - 500) / 2000) * 20));
+
+                // Depth: Are there deep relationships?
+                const innerCount = trustCircle.filter(c => c.level === 'inner').length;
+                let depthScore = Math.min(100, innerCount * 10 + contacts.length * 5);
+
+                // Diversity: Spread across industries/companies?
+                const industries = new Set((profile.connIndustries || []).map(c => c.name));
+                const locations = new Set((profile.connLocations || []).map(c => c.name));
+                let diversityScore = Math.min(100, industries.size * 12 + locations.size * 10);
+
+                // Engagement: Are you actively networking?
+                const thisWeek = this.getThisWeekActions(actionLog);
+                let engagementScore = Math.min(100, thisWeek.length * 15);
+
+                // Strategy: Do you have goals and tracked outreach?
+                const goals = nhLoad(NH_STORAGE.goals);
+                let strategyScore = 0;
+                if (goals.length > 0) strategyScore += 30;
+                if (outreach.length > 0) strategyScore += 25;
+                if (events.length > 0) strategyScore += 20;
+                if (contacts.length >= 5) strategyScore += 25;
+                strategyScore = Math.min(100, strategyScore);
+
+                // Reciprocity: Are you giving back?
+                const givenRecs = profile.recsGiven || 0;
+                const receivedRecs = profile.recsReceived || 0;
+                let reciprocityScore = 30; // baseline
+                if (givenRecs > 0) reciprocityScore += 30;
+                if (givenRecs >= receivedRecs && receivedRecs > 0) reciprocityScore += 20;
+                if (trustCircle.filter(c => c.notes && c.notes.length > 10).length > 3) reciprocityScore += 20;
+                reciprocityScore = Math.min(100, reciprocityScore);
+
+                return {
+                    'Size': sizeScore,
+                    'Depth': depthScore,
+                    'Diversity': diversityScore,
+                    'Engagement': engagementScore,
+                    'Strategy': strategyScore,
+                    'Reciprocity': reciprocityScore
+                };
+            },
+
+            computeStreak(actionLog) {
+                if (actionLog.length === 0) return { days: 0, history: [] };
+                const today = new Date(); today.setHours(0,0,0,0);
+                const dayMs = 86400000;
+                let streak = 0;
+                const history = [];
+                for (let i = 0; i < 28; i++) {
+                    const d = new Date(today - i * dayMs);
+                    const dateStr = d.toISOString().split('T')[0];
+                    const count = actionLog.filter(a => a.date === dateStr).length;
+                    history.unshift({ date: dateStr, count });
+                    if (i === 0 || streak > 0) {
+                        if (count > 0) streak++;
+                        else if (i > 0) break;
+                    }
+                }
+                return { days: streak, history };
+            },
+
+            getThisWeekActions(actionLog) {
+                const now = new Date();
+                const dayOfWeek = now.getDay();
+                const mondayOffset = dayOfWeek === 0 ? -6 : 1 - dayOfWeek;
+                const monday = new Date(now); monday.setDate(now.getDate() + mondayOffset); monday.setHours(0,0,0,0);
+                const mondayStr = monday.toISOString().split('T')[0];
+                return actionLog.filter(a => a.date >= mondayStr);
+            },
+
+            identifyGaps(profile, trustCircle, contacts, connCount, healthDims) {
+                const gaps = [];
+                if (connCount < 200) gaps.push({ type: 'size', severity: 'high', text: 'Your network is small. Aim for 500+ connections to unlock networking effects.', action: 'Send 5-10 targeted connection requests this week.' });
+                else if (connCount < 500) gaps.push({ type: 'size', severity: 'medium', text: 'Good base, but aim for 500+ for maximum recruiter visibility.', action: 'Add 3-5 strategic connections weekly.' });
+
+                if (trustCircle.filter(c => c.level === 'inner').length < 5) gaps.push({ type: 'depth', severity: 'high', text: 'You need more close, trusted contacts in your inner circle.', action: 'Identify 3 people to deepen your relationship with through regular 1:1s.' });
+
+                if (healthDims['Diversity'] < 40) gaps.push({ type: 'diversity', severity: 'medium', text: 'Your network lacks industry/geographic diversity.', action: 'Join 2-3 communities outside your main industry.' });
+
+                if (healthDims['Engagement'] < 30) gaps.push({ type: 'engagement', severity: 'high', text: 'Low networking activity this week.', action: 'Schedule 15 minutes daily for networking actions.' });
+
+                if (contacts.length < 5) gaps.push({ type: 'strategy', severity: 'medium', text: 'You\'re not tracking key contacts for strategic follow-up.', action: 'Add your 10 most important professional contacts to the Key Contacts directory.' });
+
+                const seniority = (profile.experience || []).map(e => {
+                    const t = e.title.toLowerCase();
+                    if (/director|vp|chief|head|president/i.test(t)) return 'senior';
+                    if (/manager|lead|principal|staff/i.test(t)) return 'mid-senior';
+                    return 'mid';
+                });
+                const currentLevel = seniority[0] || 'mid';
+                if (currentLevel === 'mid') gaps.push({ type: 'upward', severity: 'medium', text: 'Connect with more senior professionals for mentorship and sponsorship.', action: 'Identify 5 directors or VPs in your field and plan outreach.' });
+
+                if (!profile.recsGiven || profile.recsGiven === 0) gaps.push({ type: 'reciprocity', severity: 'medium', text: 'You haven\'t given any recommendations—networking is bidirectional.', action: 'Write 2-3 genuine recommendations for colleagues this week.' });
+
+                return gaps;
+            },
+
+            projectGrowth(currentCount, outreach, actionLog) {
+                const monthlyRate = Math.max(5, Math.round(actionLog.length / 4) * 3);
+                const months = [];
+                let count = currentCount;
+                for (let i = 0; i <= 12; i++) {
+                    months.push({ month: i, count: Math.round(count) });
+                    count += monthlyRate * (1 + i * 0.02); // slight acceleration
+                }
+                return months;
+            }
+        };
+
+        // ============================================================
+        //  NETWORKING HUB MESSAGE TEMPLATES (Built-in Library)
+        // ============================================================
+        const NH_TEMPLATES = [
+            { id: 'conn_mutual', name: 'Connection via Mutual Contact', category: 'Connection Request', text: 'Hi {name},\n\nI noticed we\'re both connected to [mutual contact]. I\'m a {role} with a focus on [your area], and your work at {company} really caught my eye—especially [specific detail].\n\nWould love to connect and exchange ideas. Looking forward to being in your network!\n\nBest,\n{your_name}' },
+            { id: 'conn_content', name: 'Engaging With Their Content', category: 'Connection Request', text: 'Hi {name},\n\nI just read your recent post about [topic] and it really resonated with me, especially the point about [specific detail]. As someone working in [your field], I find these insights incredibly valuable.\n\nWould love to connect and follow more of your thinking on this. Thanks for sharing such great content!\n\nBest,\n{your_name}' },
+            { id: 'conn_event', name: 'Post-Event Follow-up', category: 'Event Networking', text: 'Hi {name},\n\nGreat meeting you at [event name]! I really enjoyed our conversation about [topic]. Your perspective on [detail] was fascinating.\n\nI\'d love to continue the conversation and explore [potential collaboration/shared interest]. Let me know if you\'d be up for a coffee chat sometime in the next few weeks.\n\nBest,\n{your_name}' },
+            { id: 'info_interview', name: 'Informational Interview Request', category: 'Informational Interview', text: 'Hi {name},\n\nI\'m {your_name}, currently a [your role] exploring opportunities in [their field/company area]. Your career path from [their previous role] to {role} at {company} is really inspiring.\n\nWould you be open to a brief 20-minute call? I\'d love to learn about your experience and any advice you might have. I\'m happy to work around your schedule.\n\nCompletely understand if you\'re too busy—I appreciate your time either way.\n\nBest,\n{your_name}' },
+            { id: 'mentorship', name: 'Mentorship Request', category: 'Mentorship', text: 'Hi {name},\n\nI\'ve been following your career for some time, and your expertise in [area] is exactly the kind of guidance I\'m looking for as I grow in [your field].\n\nI\'m currently working on [your current focus], and I think your experience with [their expertise] could provide invaluable perspective.\n\nWould you be open to an occasional conversation—perhaps monthly or quarterly? I\'d be deeply grateful for any time you could share, and I\'d love to find ways to add value to you as well.\n\nBest regards,\n{your_name}' },
+            { id: 'referral', name: 'Asking for a Referral', category: 'Referral Ask', text: 'Hi {name},\n\nHope you\'re doing well! I saw that {company} has an opening for [role], and given our past conversations about [shared topic], I think it could be a great fit for my background in [your skills].\n\nWould you be comfortable providing a referral? I\'ve attached my updated resume for reference. I completely understand if the timing isn\'t right—no pressure at all.\n\nEither way, I appreciate our connection and would love to catch up soon.\n\nBest,\n{your_name}' },
+            { id: 'reconnect', name: 'Reconnecting After Time', category: 'Reconnection', text: 'Hi {name},\n\nIt\'s been a while since we connected, and I wanted to reach out! I\'ve been following your journey at {company}—congratulations on [recent achievement/role change].\n\nSince we last spoke, I\'ve [brief update about yourself]. I\'d love to hear what you\'ve been up to and see if there are ways we can support each other.\n\nWould you be free for a quick call or coffee chat?\n\nBest,\n{your_name}' },
+            { id: 'thank_you', name: 'Post-Meeting Thank You', category: 'Thank You', text: 'Hi {name},\n\nThank you so much for taking the time to chat with me today! I really appreciated your insights on [key topic discussed], especially [specific takeaway].\n\nI\'m going to follow up on your suggestion about [action item]. I\'ll keep you posted on how it goes.\n\nPlease don\'t hesitate to reach out if there\'s ever anything I can help with. Looking forward to staying in touch!\n\nBest,\n{your_name}' },
+            { id: 'intro_facilitate', name: 'Facilitating an Introduction', category: 'Introduction Facilitation', text: 'Hi {name},\n\nI\'d love to introduce you to [other person\'s name], who is a [their role] at [their company]. They\'re doing impressive work in [area], and I think you two would have a lot to talk about, especially around [shared interest].\n\n[Other person], {name} is a {role} at {company} who has deep expertise in [their area]. I think you\'d both benefit from connecting.\n\nI\'ll let you two take it from here!\n\nBest,\n{your_name}' },
+            { id: 'value_first', name: 'Leading With Value', category: 'Connection Request', text: 'Hi {name},\n\nI came across your profile while researching [topic], and I thought you might find [resource/article/tool] useful for what you\'re working on at {company}.\n\n[Brief description of why it\'s relevant to them.]\n\nI\'m a {role} focused on [your area], and I\'d love to connect and exchange insights. No strings attached—just thought this might help!\n\nBest,\n{your_name}' },
+            { id: 'alumni', name: 'Alumni Connection', category: 'Connection Request', text: 'Hi {name},\n\nFellow [school name] alum here! I graduated in [year] with a degree in [field]. I noticed you\'re now at {company} doing incredible work in [area].\n\nI\'m currently [your situation], and I\'d love to connect with a fellow [school nickname/name]. Always great to build the alumni network!\n\nGo [mascot/school cheer]!\n\nBest,\n{your_name}' },
+            { id: 'thought_leader', name: 'Thought Leadership Outreach', category: 'Thought Leadership', text: 'Hi {name},\n\nYour work on [topic] has been a major influence on my thinking about [related area]. The [article/talk/post] you shared about [specific piece] was particularly compelling.\n\nI\'m working on [your project/research], and I\'d value your perspective. Would you be open to a brief exchange—even async via messages?\n\nI also have some findings on [complementary topic] that might interest you.\n\nBest,\n{your_name}' }
+        ];
         // ============================================================
         //  SVG SCORE RING GENERATOR
         // ============================================================
@@ -3600,6 +4414,826 @@
             }).join('');
         }
         // ============================================================
+        //  NETWORKING HUB RENDERER
+        // ============================================================
+        function renderNetworkingHub(profile, analyses) {
+            const nh = analyses.networkingHub;
+            if (!nh) return;
+
+            // === OVERVIEW TAB ===
+            document.getElementById('nhOverviewMetrics').innerHTML = [
+                { label: 'Network Health', value: nh.healthScore + '/100', color: nh.healthScore >= 60 ? 'var(--accent-green)' : 'var(--accent-orange)' },
+                { label: 'Contacts Tracked', value: nh.totalTracked + nh.totalContacts, color: 'var(--accent-blue)' },
+                { label: 'Outreach Pipeline', value: nh.totalOutreach, color: 'var(--accent-purple)' },
+                { label: 'Weekly Actions', value: nh.weeklyActionsCount, color: nh.weeklyActionsCount >= 5 ? 'var(--accent-green)' : 'var(--accent-orange)' }
+            ].map(c => `<div class="metric-card"><div class="metric-label">${c.label}</div><div class="metric-value" style="color:${c.color}">${c.value}</div></div>`).join('');
+
+            // Health ring
+            document.getElementById('nhHealthRing').innerHTML = createScoreRing(nh.healthScore, 160);
+
+            // Health dimensions
+            const dimColors = { 'Size': 'var(--accent-blue)', 'Depth': 'var(--accent-green)', 'Diversity': 'var(--accent-purple)', 'Engagement': 'var(--accent-orange)', 'Strategy': 'var(--accent-cyan)', 'Reciprocity': 'var(--accent-pink)' };
+            document.getElementById('nhHealthDims').innerHTML = Object.entries(nh.healthDims).map(([k, v]) => `
+                <div class="mb-12">
+                    <div class="flex justify-between mb-4">
+                        <span style="font-size:12px; font-weight:500;">${k}</span>
+                        <span class="font-mono" style="font-size:11px; color:${v >= 60 ? 'var(--accent-green)' : 'var(--accent-orange)'};">${v}%</span>
+                    </div>
+                    <div class="progress-bar"><div class="progress-fill" style="width:${v}%; background:${dimColors[k] || 'var(--accent-blue)'};"></div></div>
+                </div>
+            `).join('');
+
+            // Composition radar
+            ChartManager.create('nhCompositionRadar', {
+                type: 'radar',
+                data: {
+                    labels: Object.keys(nh.healthDims),
+                    datasets: [{
+                        label: 'Your Network',
+                        data: Object.values(nh.healthDims),
+                        backgroundColor: 'rgba(59, 130, 246, 0.15)',
+                        borderColor: CONFIG.chartColors.blue, pointRadius: 4, pointBackgroundColor: CONFIG.chartColors.blue
+                    }, {
+                        label: 'Target (75)',
+                        data: Object.keys(nh.healthDims).map(() => 75),
+                        backgroundColor: 'rgba(16,185,129,0.05)',
+                        borderColor: 'rgba(16,185,129,0.4)', borderDash: [5, 5], pointRadius: 0
+                    }]
+                },
+                options: { scales: { r: { beginAtZero: true, max: 100, ticks: { display: false }, pointLabels: { font: { size: 11 } } } } }
+            });
+
+            // Growth projection
+            ChartManager.create('nhGrowthChart', {
+                type: 'line',
+                data: {
+                    labels: nh.growthProjection.map(m => m.month === 0 ? 'Now' : `+${m.month}mo`),
+                    datasets: [{
+                        label: 'Projected Connections',
+                        data: nh.growthProjection.map(m => m.count),
+                        borderColor: CONFIG.chartColors.green,
+                        backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                        fill: true, tension: 0.3, pointRadius: 4
+                    }]
+                },
+                options: { plugins: { legend: { display: false } }, scales: { y: { beginAtZero: false } } }
+            });
+
+            // Quality doughnut
+            ChartManager.create('nhQualityDoughnut', {
+                type: 'doughnut',
+                data: {
+                    labels: ['Inner Circle', 'Active Network', 'Acquaintances', 'Untracked'],
+                    datasets: [{
+                        data: [nh.innerCount, nh.activeCount, nh.acquaintanceCount, Math.max(0, (profile.connectionCount || 0) - nh.totalTracked)],
+                        backgroundColor: [CONFIG.chartColors.green, CONFIG.chartColors.blue, CONFIG.chartColors.purple, 'rgba(42,53,72,0.5)'],
+                        borderWidth: 0
+                    }]
+                },
+                options: { plugins: { legend: { position: 'right' } } }
+            });
+
+            // Goals
+            renderNHGoals();
+
+            // Gaps & recommendations
+            document.getElementById('nhGapsRecs').innerHTML = nh.gaps.length > 0 ?
+                nh.gaps.map(g => `
+                    <div class="flex gap-12 mb-12" style="padding:14px; background:var(--bg-input); border-radius:var(--radius-sm); border-left:3px solid ${g.severity === 'high' ? 'var(--accent-red)' : 'var(--accent-orange)'};">
+                        <div style="flex:1;">
+                            <div style="font-size:13px; font-weight:500; margin-bottom:4px;">${g.text}</div>
+                            <div style="font-size:12px; color:var(--accent-blue);"><i class="fas fa-arrow-right" style="margin-right:4px;"></i>${g.action}</div>
+                        </div>
+                        <span class="tag ${g.severity === 'high' ? 'red' : 'orange'}">${g.severity}</span>
+                    </div>
+                `).join('') :
+                '<p style="color:var(--accent-green); font-size:13px;"><i class="fas fa-check-circle"></i> Your network is in great shape! Keep up the consistent effort.</p>';
+
+            // === TRUST CIRCLES TAB ===
+            renderTrustCircles();
+
+            // === OUTREACH TAB ===
+            renderOutreachPipeline();
+
+            // === CADENCE TAB ===
+            renderWeeklyCadence(nh);
+
+            // === TEMPLATES TAB ===
+            renderTemplates();
+
+            // === EVENTS TAB ===
+            renderEvents();
+
+            // === STRATEGIES TAB ===
+            renderStrategies(profile, nh);
+
+            // === KEY CONTACTS TAB ===
+            renderKeyContacts();
+        }
+
+        function renderNHGoals() {
+            const goals = nhLoad(NH_STORAGE.goals);
+            const el = document.getElementById('nhGoalsList');
+            if (goals.length === 0) {
+                el.innerHTML = `
+                    <div class="empty-state" style="padding:30px;">
+                        <i class="fas fa-bullseye" style="font-size:32px;"></i>
+                        <h3>No networking goals set</h3>
+                        <p>Set goals like "Reach 500 connections", "Get 3 informational interviews this month", or "Attend 2 events per quarter".</p>
+                    </div>`;
+                return;
+            }
+            el.innerHTML = goals.map((g, i) => `
+                <div class="goal-card mb-12">
+                    <div class="goal-icon" style="background:${g.completed ? 'rgba(16,185,129,0.15)' : 'rgba(59,130,246,0.15)'}; color:${g.completed ? 'var(--accent-green)' : 'var(--accent-blue)'};">
+                        <i class="fas ${g.completed ? 'fa-check' : 'fa-bullseye'}"></i>
+                    </div>
+                    <div class="goal-progress">
+                        <div class="goal-title">${g.text}</div>
+                        <div class="goal-stat">
+                            <span>Progress: ${g.current || 0} / ${g.target || '?'}</span>
+                            <span>${g.deadline || ''}</span>
+                        </div>
+                        <div class="progress-bar"><div class="progress-fill" style="width:${Math.min(100, Math.round(((g.current || 0) / Math.max(1, g.target || 1)) * 100))}%; background:${g.completed ? 'var(--accent-green)' : 'var(--accent-blue)'};"></div></div>
+                    </div>
+                    <div class="flex gap-8">
+                        <button class="btn-icon" title="Increment" onclick="App.incrementGoal(${i})" style="width:28px;height:28px;font-size:11px;"><i class="fas fa-plus"></i></button>
+                        <button class="btn-icon" title="Delete" onclick="App.deleteGoal(${i})" style="width:28px;height:28px;font-size:11px;color:var(--accent-red);"><i class="fas fa-trash"></i></button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function renderTrustCircles() {
+            const tc = nhLoad(NH_STORAGE.trustCircle);
+            document.getElementById('nhInnerCount').textContent = tc.filter(c => c.level === 'inner').length;
+            document.getElementById('nhMidCount').textContent = tc.filter(c => c.level === 'active').length;
+            document.getElementById('nhOuterCount').textContent = tc.filter(c => c.level === 'acquaintance').length;
+            renderTrustDirectory('all');
+        }
+
+        function renderTrustDirectory(filter) {
+            const tc = nhLoad(NH_STORAGE.trustCircle);
+            const filtered = filter === 'all' ? tc : tc.filter(c => c.level === filter);
+            const el = document.getElementById('nhTrustDirectory');
+            if (filtered.length === 0) {
+                el.innerHTML = '<div class="empty-state" style="grid-column:1/-1; padding:30px;"><i class="fas fa-users" style="font-size:28px;"></i><h3>No contacts in this circle</h3><p>Add contacts using the form above.</p></div>';
+                return;
+            }
+            const levelColors = { inner: CONFIG.chartColors.green, active: CONFIG.chartColors.blue, acquaintance: CONFIG.chartColors.purple };
+            const levelLabels = { inner: 'Inner Circle', active: 'Active', acquaintance: 'Acquaintance' };
+            el.innerHTML = filtered.map((c, i) => {
+                const initials = (c.name || '??').split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+                const color = levelColors[c.level] || CONFIG.chartColors.blue;
+                return `
+                    <div class="contact-card">
+                        <div class="contact-avatar" style="background:${color};">${initials}</div>
+                        <div class="contact-info">
+                            <div class="contact-name">${c.name}</div>
+                            <div class="contact-role">${c.role || 'No role specified'}</div>
+                            ${c.notes ? `<div style="font-size:10px; color:var(--text-muted); margin-top:2px;">${c.notes.substring(0, 60)}${c.notes.length > 60 ? '...' : ''}</div>` : ''}
+                        </div>
+                        <span class="tag" style="background:${color}20; color:${color}; font-size:9px;">${levelLabels[c.level] || c.level}</span>
+                        <div class="contact-actions">
+                            <button title="Move level" onclick="App.cycleTrustLevel(${i})"><i class="fas fa-arrows-alt-v"></i></button>
+                            <button title="Remove" onclick="App.removeTrustContact(${i})" style="color:var(--accent-red);"><i class="fas fa-times"></i></button>
+                        </div>
+                    </div>`;
+            }).join('');
+        }
+
+        function renderOutreachPipeline() {
+            const outreach = nhLoad(NH_STORAGE.outreach);
+            const stages = ['identified', 'reached', 'connected', 'built'];
+            const stageLabels = { identified: 'Identified', reached: 'Reached Out', connected: 'Connected', built: 'Relationship Built' };
+            stages.forEach(stage => {
+                const items = outreach.filter(o => o.stage === stage);
+                const container = document.getElementById('nhPipe' + stage.charAt(0).toUpperCase() + stage.slice(1));
+                if (!container) return;
+                const idMap = { identified: 'nhPipeIdentified', reached: 'nhPipeReached', connected: 'nhPipeConnected', built: 'nhPipeBuilt' };
+                const el = document.getElementById(idMap[stage]);
+                if (el) {
+                    el.innerHTML = items.map((o, idx) => {
+                        const globalIdx = outreach.indexOf(o);
+                        return `
+                            <div class="pipeline-card">
+                                <div class="pc-name">${o.name}</div>
+                                <div class="pc-meta">${o.role || ''} &bull; ${o.purpose || ''}</div>
+                                <div class="flex gap-8 mt-8">
+                                    ${stage !== 'built' ? `<button class="btn btn-sm btn-secondary" style="padding:3px 8px; font-size:10px;" onclick="App.advanceOutreach(${globalIdx})"><i class="fas fa-arrow-right"></i> Advance</button>` : ''}
+                                    <button class="btn btn-sm btn-secondary" style="padding:3px 8px; font-size:10px; color:var(--accent-red);" onclick="App.removeOutreach(${globalIdx})"><i class="fas fa-times"></i></button>
+                                </div>
+                            </div>`;
+                    }).join('') || '<p style="font-size:11px; color:var(--text-muted); padding:8px;">Empty</p>';
+                }
+                const countEl = document.getElementById('nhPipe' + stage.charAt(0).toUpperCase() + stage.slice(1) + 'Count');
+                if (countEl) countEl.textContent = items.length;
+            });
+            // fix count element IDs
+            document.getElementById('nhPipeIdentCount').textContent = outreach.filter(o => o.stage === 'identified').length;
+            document.getElementById('nhPipeReachCount').textContent = outreach.filter(o => o.stage === 'reached').length;
+            document.getElementById('nhPipeConnCount').textContent = outreach.filter(o => o.stage === 'connected').length;
+            document.getElementById('nhPipeBuiltCount').textContent = outreach.filter(o => o.stage === 'built').length;
+
+            // Stats
+            const total = outreach.length;
+            const responded = outreach.filter(o => o.stage === 'connected' || o.stage === 'built').length;
+            document.getElementById('nhOutreachStats').innerHTML = [
+                { label: 'Total Pipeline', value: total, color: 'var(--accent-blue)' },
+                { label: 'Awaiting Response', value: outreach.filter(o => o.stage === 'reached').length, color: 'var(--accent-orange)' },
+                { label: 'Connected', value: responded, color: 'var(--accent-green)' },
+                { label: 'Response Rate', value: total > 0 ? Math.round((responded / total) * 100) + '%' : 'N/A', color: 'var(--accent-purple)' }
+            ].map(c => `<div class="metric-card"><div class="metric-label">${c.label}</div><div class="metric-value" style="color:${c.color}">${c.value}</div></div>`).join('');
+        }
+
+        function renderWeeklyCadence(nh) {
+            const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+            const now = new Date();
+            const todayIdx = now.getDay() === 0 ? 6 : now.getDay() - 1;
+            const actionLog = nhLoad(NH_STORAGE.actionLog);
+
+            // Get this week's dates
+            const mondayOffset = now.getDay() === 0 ? -6 : 1 - now.getDay();
+            const monday = new Date(now); monday.setDate(now.getDate() + mondayOffset); monday.setHours(0,0,0,0);
+
+            const weekDates = [];
+            for (let i = 0; i < 7; i++) {
+                const d = new Date(monday); d.setDate(monday.getDate() + i);
+                weekDates.push(d.toISOString().split('T')[0]);
+            }
+
+            document.getElementById('nhWeeklyCadence').innerHTML = days.map((day, i) => {
+                const dateStr = weekDates[i];
+                const count = actionLog.filter(a => a.date === dateStr).length;
+                const isToday = i === todayIdx;
+                return `
+                    <div class="cadence-day ${isToday ? 'today' : ''}">
+                        <div class="day-name">${day}</div>
+                        <div class="day-count" style="color:${count > 0 ? 'var(--accent-green)' : 'var(--text-muted)'};">${count}</div>
+                        <div class="day-label">${count === 0 ? 'No actions' : count === 1 ? '1 action' : count + ' actions'}</div>
+                    </div>`;
+            }).join('');
+
+            // Metrics
+            const thisWeekActions = nh.weeklyActionsCount;
+            const targetWeekly = 10;
+            document.getElementById('nhCadenceMetrics').innerHTML = [
+                { label: 'This Week', value: `${thisWeekActions}/${targetWeekly}`, color: thisWeekActions >= targetWeekly ? 'var(--accent-green)' : 'var(--accent-orange)' },
+                { label: 'Current Streak', value: nh.streak.days + ' days', color: nh.streak.days >= 5 ? 'var(--accent-green)' : nh.streak.days >= 2 ? 'var(--accent-blue)' : 'var(--accent-orange)' },
+                { label: 'Response Rate', value: nh.responseRate + '%', color: nh.responseRate >= 30 ? 'var(--accent-green)' : 'var(--accent-orange)' }
+            ].map(c => `<div class="metric-card"><div class="metric-label">${c.label}</div><div class="metric-value" style="color:${c.color}">${c.value}</div></div>`).join('');
+
+            // Streak bar (28 days)
+            const maxCount = Math.max(1, ...nh.streak.history.map(h => h.count));
+            document.getElementById('nhStreakBar').innerHTML = nh.streak.history.map(h => {
+                const height = h.count > 0 ? Math.max(8, Math.round((h.count / maxCount) * 50)) : 4;
+                const color = h.count > 0 ? CONFIG.chartColors.green : 'rgba(42,53,72,0.5)';
+                return `<div class="streak-day" style="height:${height}px; background:${color};" title="${h.date}: ${h.count} actions"></div>`;
+            }).join('');
+            document.getElementById('nhStreakText').textContent = nh.streak.days > 0 ?
+                `${nh.streak.days}-day networking streak! Keep it going.` : 'Start your networking streak by logging an action today.';
+            document.getElementById('nhStreakDisplay').innerHTML = `
+                <div class="text-center mb-8">
+                    <span style="font-size:48px; font-weight:800; font-family:'JetBrains Mono',monospace; color:${nh.streak.days >= 7 ? 'var(--accent-green)' : nh.streak.days >= 3 ? 'var(--accent-blue)' : 'var(--text-muted)'};">${nh.streak.days}</span>
+                    <span style="font-size:14px; color:var(--text-muted); display:block;">day streak</span>
+                </div>`;
+
+            // Weekly activity chart
+            const last4Weeks = [];
+            for (let w = 3; w >= 0; w--) {
+                const weekStart = new Date(monday); weekStart.setDate(monday.getDate() - w * 7);
+                const weekEnd = new Date(weekStart); weekEnd.setDate(weekStart.getDate() + 6);
+                const startStr = weekStart.toISOString().split('T')[0];
+                const endStr = weekEnd.toISOString().split('T')[0];
+                const count = actionLog.filter(a => a.date >= startStr && a.date <= endStr).length;
+                last4Weeks.push({ label: w === 0 ? 'This Week' : `${w} wk ago`, count });
+            }
+            ChartManager.create('nhWeeklyActivityChart', {
+                type: 'bar',
+                data: {
+                    labels: last4Weeks.map(w => w.label),
+                    datasets: [{ label: 'Actions', data: last4Weeks.map(w => w.count), backgroundColor: CONFIG.chartColors.blue, borderRadius: 6 }]
+                },
+                options: { plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } } }
+            });
+
+            // Action log
+            const recentActions = actionLog.slice(-15).reverse();
+            document.getElementById('nhActionLog').innerHTML = recentActions.length > 0 ?
+                recentActions.map(a => `
+                    <div class="flex items-center gap-12 mb-8" style="padding:10px; background:var(--bg-input); border-radius:var(--radius-sm);">
+                        <i class="fas fa-check-circle" style="color:var(--accent-green); font-size:12px;"></i>
+                        <span style="font-size:13px; flex:1;">${a.text}</span>
+                        <span style="font-size:11px; color:var(--text-muted);">${a.date}</span>
+                    </div>
+                `).join('') :
+                '<p style="color:var(--text-muted); font-size:13px; padding:12px;">No actions logged yet. Click "Log Action" to start tracking your networking efforts.</p>';
+        }
+
+        function renderTemplates() {
+            const customTemplates = nhLoad(NH_STORAGE.templates);
+            const allTemplates = [...NH_TEMPLATES, ...customTemplates];
+            const categoryColors = {
+                'Connection Request': 'var(--accent-blue)', 'Follow-up': 'var(--accent-green)',
+                'Informational Interview': 'var(--accent-purple)', 'Thank You': 'var(--accent-cyan)',
+                'Referral Ask': 'var(--accent-orange)', 'Event Networking': 'var(--accent-pink)',
+                'Reconnection': 'var(--accent-green)', 'Introduction Facilitation': 'var(--accent-blue)',
+                'Mentorship': 'var(--accent-purple)', 'Thought Leadership': 'var(--accent-cyan)'
+            };
+            document.getElementById('nhTemplatesGrid').innerHTML = allTemplates.map(t => {
+                const color = categoryColors[t.category] || 'var(--accent-blue)';
+                return `
+                    <div class="template-card" onclick="App.showTemplate('${t.id || t.name.replace(/\s/g,'-')}')">
+                        <span class="template-tag tag" style="background:${color}20; color:${color};">${t.category}</span>
+                        <h4 style="margin-top:24px;">${t.name}</h4>
+                        <p>${t.text.substring(0, 120).replace(/\n/g, ' ')}...</p>
+                        <div class="template-preview" id="tmpl-${t.id || t.name.replace(/\s/g,'-')}" style="display:none;">${t.text}</div>
+                    </div>`;
+            }).join('');
+        }
+
+        function renderEvents() {
+            const events = nhLoad(NH_STORAGE.events);
+            const now = new Date().toISOString().split('T')[0];
+            const upcoming = events.filter(e => e.date >= now).sort((a, b) => a.date.localeCompare(b.date));
+            const past = events.filter(e => e.date < now).sort((a, b) => b.date.localeCompare(a.date));
+
+            document.getElementById('nhEventMetrics').innerHTML = [
+                { label: 'Total Events', value: events.length, color: 'var(--accent-blue)' },
+                { label: 'Upcoming', value: upcoming.length, color: 'var(--accent-green)' },
+                { label: 'Attended', value: past.length, color: 'var(--accent-purple)' }
+            ].map(c => `<div class="metric-card"><div class="metric-label">${c.label}</div><div class="metric-value" style="color:${c.color}">${c.value}</div></div>`).join('');
+
+            // Event type chart
+            const typeCounts = {};
+            events.forEach(e => { typeCounts[e.type] = (typeCounts[e.type] || 0) + 1; });
+            const typeEntries = Object.entries(typeCounts).sort((a, b) => b[1] - a[1]);
+            if (typeEntries.length > 0) {
+                ChartManager.create('nhEventTypeChart', {
+                    type: 'bar',
+                    data: {
+                        labels: typeEntries.map(([t]) => t),
+                        datasets: [{ label: 'Events', data: typeEntries.map(([, c]) => c), backgroundColor: CONFIG.chartColors.purple, borderRadius: 4 }]
+                    },
+                    options: { indexAxis: 'y', plugins: { legend: { display: false } }, scales: { x: { ticks: { stepSize: 1 } } } }
+                });
+            }
+
+            const renderEventItem = (e, i) => {
+                const d = new Date(e.date + 'T00:00:00');
+                const months = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
+                return `
+                    <div class="event-item">
+                        <div class="event-date-badge">
+                            <div class="edb-month">${months[d.getMonth()]}</div>
+                            <div class="edb-day">${d.getDate()}</div>
+                        </div>
+                        <div class="event-info" style="flex:1;">
+                            <h4>${e.name}</h4>
+                            <p><span class="tag" style="font-size:9px;">${e.type}</span> ${e.notes ? '&bull; ' + e.notes.substring(0, 80) : ''}</p>
+                            ${e.targets ? `<p style="margin-top:4px;"><i class="fas fa-user" style="font-size:10px;"></i> ${e.targets}</p>` : ''}
+                        </div>
+                        <button class="btn-icon" onclick="App.removeEvent(${i})" title="Remove" style="color:var(--accent-red);"><i class="fas fa-times"></i></button>
+                    </div>`;
+            };
+
+            const el = document.getElementById('nhEventsList');
+            if (events.length === 0) {
+                el.innerHTML = '<div class="empty-state" style="padding:30px;"><i class="fas fa-calendar-alt" style="font-size:28px;"></i><h3>No events tracked</h3><p>Add networking events, conferences, and meetups to plan your networking strategically.</p></div>';
+            } else {
+                el.innerHTML = (upcoming.length > 0 ? `<h4 style="font-size:12px; color:var(--accent-green); text-transform:uppercase; letter-spacing:1px; margin-bottom:10px;">Upcoming</h4>` + upcoming.map((e, i) => renderEventItem(e, events.indexOf(e))).join('') : '') +
+                    (past.length > 0 ? `<h4 style="font-size:12px; color:var(--text-muted); text-transform:uppercase; letter-spacing:1px; margin:16px 0 10px;">Past</h4>` + past.slice(0, 10).map((e, i) => renderEventItem(e, events.indexOf(e))).join('') : '');
+            }
+        }
+
+        function renderStrategies(profile, nh) {
+            const industry = profile.industry || SkillsEngine.inferIndustry(profile);
+            const connCount = profile.connectionCount || (profile.connections || []).length || 0;
+            const exp = (profile.experience || []).length;
+            const currentTitle = profile.headline || (profile.experience && profile.experience[0] ? profile.experience[0].title : '');
+
+            const strategies = [
+                {
+                    title: 'The 5-5-5 Daily Method',
+                    color: 'st-green',
+                    icon: 'fa-seedling',
+                    description: 'A systematic daily networking routine that takes just 15 minutes.',
+                    items: [
+                        '5 profile views: Visit profiles of people you want to connect with (they\'ll see you viewed them)',
+                        '5 engagements: Like, comment on, or share 5 posts from your network',
+                        '5 messages: Send 5 personalized messages—connection requests, follow-ups, or check-ins',
+                        'Do this consistently for 30 days and your network will grow by 100+ quality connections',
+                        'Track your progress in the Weekly Cadence tab'
+                    ]
+                },
+                {
+                    title: 'Strategic Industry Positioning',
+                    color: 'st-blue',
+                    icon: 'fa-chess',
+                    description: `Tailored strategy for ${industry || 'your industry'} professionals.`,
+                    items: [
+                        `Join ${industry} LinkedIn groups and contribute to discussions weekly`,
+                        'Connect with 3-5 thought leaders in your space and engage with their content',
+                        'Identify conferences and meetups in your field—aim for 1 per quarter minimum',
+                        'Build a "target company" list of 10 companies and connect with 3+ people at each',
+                        'Create or share content about industry trends to establish your expertise'
+                    ]
+                },
+                {
+                    title: 'The Concentric Circles Strategy',
+                    color: 'st-purple',
+                    icon: 'fa-bullseye',
+                    description: 'Build trust systematically by moving contacts through relationship levels.',
+                    items: [
+                        'Map all contacts into Inner Circle (10-15), Active Network (50-100), and Acquaintances (rest)',
+                        'Inner Circle: Monthly 1:1 calls or coffee chats. These are your advocates and sponsors',
+                        'Active Network: Quarterly touchpoints—share articles, congratulate on milestones',
+                        'Acquaintances: Engage with their content, add value when you can, nurture toward Active',
+                        'Goal: Move 2-3 acquaintances to Active and 1 Active to Inner Circle each quarter'
+                    ]
+                },
+                {
+                    title: 'Warm Introduction Engine',
+                    color: 'st-orange',
+                    icon: 'fa-handshake',
+                    description: 'Leverage existing relationships to unlock new ones through warm intros.',
+                    items: [
+                        'Identify 5 "super-connectors" in your network who know many people',
+                        'Provide value to them first—make introductions, share opportunities, endorse their skills',
+                        'Ask for specific introductions: "Do you know anyone at [company] working on [topic]?"',
+                        'Always make it easy: provide a forwardable blurb about yourself they can share',
+                        'After every warm intro, send a thank-you note to the connector within 24 hours'
+                    ]
+                },
+                {
+                    title: 'The Content Networking Flywheel',
+                    color: 'st-cyan',
+                    icon: 'fa-sync-alt',
+                    description: 'Use content creation and engagement as a networking multiplier.',
+                    items: [
+                        'Share one insightful post per week about your expertise area',
+                        'Comment thoughtfully on 3 posts daily from target connections (not just "Great post!")',
+                        'When someone engages with your content, send a personalized connection request',
+                        'Celebrate others\' achievements publicly—promotions, launches, milestones',
+                        'Curate and share industry news with your perspective—position yourself as a go-to source'
+                    ]
+                }
+            ];
+
+            // Add personalized strategy based on career level
+            if (exp <= 2 || /junior|entry|intern|associate/i.test(currentTitle)) {
+                strategies.push({
+                    title: 'Early Career Accelerator',
+                    color: 'st-green',
+                    icon: 'fa-rocket',
+                    description: 'Strategies specifically for building your network early in your career.',
+                    items: [
+                        'Reach out to alumni from your school—shared background makes connection easy',
+                        'Attend every company event, meetup, and hackathon you can—be seen and be helpful',
+                        'Find 2-3 mentors: one peer mentor, one mid-career, one senior leader',
+                        'Volunteer for cross-team projects at work to build your internal network',
+                        'Don\'t be afraid to ask for informational interviews—most senior people are happy to help',
+                        'Join professional associations in your field for instant credibility and connections'
+                    ]
+                });
+            } else if (/senior|staff|lead|principal|manager|director/i.test(currentTitle)) {
+                strategies.push({
+                    title: 'Senior Leader Network Expansion',
+                    color: 'st-blue',
+                    icon: 'fa-crown',
+                    description: 'Networking strategies for mid-senior to senior professionals.',
+                    items: [
+                        'Shift from "networking up" to "networking across and down"—build a support ecosystem',
+                        'Become a mentor: mentoring 2-3 people builds loyalty and expands your influence',
+                        'Join or create a peer group of 5-8 professionals at your level for monthly discussions',
+                        'Speak at conferences, panels, or podcasts—inbound connections are higher quality',
+                        'Build relationships with VCs, board members, and executives for future opportunities',
+                        'Write recommendations for others proactively—reciprocity is powerful at this level'
+                    ]
+                });
+            }
+
+            // Add connection-count based strategy
+            if (connCount < 200) {
+                strategies.push({
+                    title: 'Foundation Builder (< 200 connections)',
+                    color: 'st-orange',
+                    icon: 'fa-layer-group',
+                    description: 'Your network is in early stages. Focus on breadth first.',
+                    items: [
+                        'Connect with every colleague, classmate, and professional you\'ve ever worked with',
+                        'Import your email contacts to find people already on LinkedIn',
+                        'Accept most connection requests—at this stage, quantity helps visibility',
+                        'Set a goal: send 10 personalized connection requests every weekday for a month',
+                        'Optimize your profile first (see Profile Strength)—people accept requests from complete profiles',
+                        'Use the "People You May Know" feature daily—LinkedIn\'s algorithm surfaces relevant connections'
+                    ]
+                });
+            }
+
+            document.getElementById('nhStrategiesContent').innerHTML = strategies.map(s => `
+                <div class="strategy-card ${s.color} mb-16">
+                    <h4><i class="fas ${s.icon}" style="margin-right:8px;"></i>${s.title}</h4>
+                    <p style="font-size:12px; color:var(--text-secondary); margin-bottom:10px;">${s.description}</p>
+                    <ul>${s.items.map(item => `<li>${item}</li>`).join('')}</ul>
+                </div>
+            `).join('');
+        }
+
+        function renderKeyContacts() {
+            const contacts = nhLoad(NH_STORAGE.contacts);
+
+            // Follow-up reminders
+            const now = new Date(); now.setHours(0,0,0,0);
+            const reminders = contacts.filter(c => {
+                if (!c.lastContact) return true;
+                const last = new Date(c.lastContact);
+                const daysSince = Math.round((now - last) / 86400000);
+                return daysSince >= (c.frequency || 30);
+            }).sort((a, b) => {
+                const da = a.lastContact ? new Date(a.lastContact) : new Date(0);
+                const db = b.lastContact ? new Date(b.lastContact) : new Date(0);
+                return da - db;
+            });
+
+            document.getElementById('nhFollowUpReminders').innerHTML = reminders.length > 0 ?
+                reminders.map(c => {
+                    const daysSince = c.lastContact ? Math.round((now - new Date(c.lastContact)) / 86400000) : 999;
+                    const urgency = daysSince > (c.frequency || 30) * 1.5 ? 'red' : 'orange';
+                    return `
+                        <div class="flex items-center gap-12 mb-8" style="padding:10px 14px; background:var(--bg-input); border-radius:var(--radius-sm); border-left:3px solid var(--accent-${urgency});">
+                            <i class="fas fa-bell" style="color:var(--accent-${urgency}); font-size:12px;"></i>
+                            <div style="flex:1;">
+                                <span style="font-size:13px; font-weight:500;">${c.name}</span>
+                                <span style="font-size:11px; color:var(--text-muted);"> &bull; ${c.role || ''} at ${c.company || ''}</span>
+                                <div style="font-size:11px; color:var(--text-muted);">${c.lastContact ? `Last contact: ${daysSince} days ago` : 'Never contacted'}</div>
+                            </div>
+                            <button class="btn btn-sm btn-secondary" style="font-size:11px;" onclick="App.markContacted(${contacts.indexOf(c)})">
+                                <i class="fas fa-check"></i> Mark Contacted
+                            </button>
+                        </div>`;
+                }).join('') :
+                '<p style="color:var(--accent-green); font-size:13px; padding:12px;"><i class="fas fa-check-circle"></i> All contacts are up-to-date! No follow-ups needed right now.</p>';
+
+            // Contacts directory
+            document.getElementById('nhContactsDirectory').innerHTML = contacts.length > 0 ?
+                contacts.map((c, i) => {
+                    const initials = (c.name || '??').split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+                    const colorIdx = i % CONFIG.chartColorArray.length;
+                    return `
+                        <div class="contact-card">
+                            <div class="contact-avatar" style="background:${CONFIG.chartColorArray[colorIdx]};">${initials}</div>
+                            <div class="contact-info">
+                                <div class="contact-name">${c.name}</div>
+                                <div class="contact-role">${c.role || ''} ${c.company ? 'at ' + c.company : ''}</div>
+                                <div style="font-size:10px; color:var(--text-muted); margin-top:2px;">
+                                    <span class="tag" style="font-size:9px;">${c.value || 'Contact'}</span>
+                                    <span style="margin-left:4px;">${c.frequency ? 'Every ' + c.frequency + 'd' : ''}</span>
+                                </div>
+                                ${c.notes ? `<div style="font-size:10px; color:var(--text-muted); margin-top:2px;">${c.notes.substring(0, 50)}${c.notes.length > 50 ? '...' : ''}</div>` : ''}
+                            </div>
+                            <div class="contact-actions">
+                                <button title="Mark contacted" onclick="App.markContacted(${i})"><i class="fas fa-check"></i></button>
+                                <button title="Remove" onclick="App.removeKeyContact(${i})" style="color:var(--accent-red);"><i class="fas fa-times"></i></button>
+                            </div>
+                        </div>`;
+                }).join('') :
+                '<div class="empty-state" style="grid-column:1/-1; padding:30px;"><i class="fas fa-address-book" style="font-size:28px;"></i><h3>No key contacts added</h3><p>Add your most important professional contacts to track follow-ups and nurture relationships.</p></div>';
+        }
+
+        // ============================================================
+        //  NETWORKING HUB ACTION HANDLERS
+        // ============================================================
+        function addTrustContact() {
+            const name = document.getElementById('nhTrustName').value.trim();
+            if (!name) { alert('Please enter a contact name.'); return; }
+            const tc = nhLoad(NH_STORAGE.trustCircle);
+            tc.push({
+                name,
+                role: document.getElementById('nhTrustRole').value.trim(),
+                level: document.getElementById('nhTrustLevel').value,
+                notes: document.getElementById('nhTrustNotes').value.trim(),
+                strength: parseInt(document.getElementById('nhTrustStrength').value) || 5,
+                addedAt: new Date().toISOString()
+            });
+            nhSave(NH_STORAGE.trustCircle, tc);
+            document.getElementById('nhTrustName').value = '';
+            document.getElementById('nhTrustRole').value = '';
+            document.getElementById('nhTrustNotes').value = '';
+            renderTrustCircles();
+        }
+
+        function removeTrustContact(idx) {
+            const tc = nhLoad(NH_STORAGE.trustCircle);
+            tc.splice(idx, 1);
+            nhSave(NH_STORAGE.trustCircle, tc);
+            renderTrustCircles();
+        }
+
+        function cycleTrustLevel(idx) {
+            const tc = nhLoad(NH_STORAGE.trustCircle);
+            const levels = ['acquaintance', 'active', 'inner'];
+            const current = levels.indexOf(tc[idx].level);
+            tc[idx].level = levels[(current + 1) % levels.length];
+            nhSave(NH_STORAGE.trustCircle, tc);
+            renderTrustCircles();
+        }
+
+        function filterTrustCircle(filter, btn) {
+            if (btn) {
+                btn.closest('.tab-bar').querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+            }
+            renderTrustDirectory(filter);
+        }
+
+        function addOutreachTarget() {
+            const name = document.getElementById('nhOutreachName').value.trim();
+            if (!name) { alert('Please enter a contact name.'); return; }
+            const outreach = nhLoad(NH_STORAGE.outreach);
+            outreach.push({
+                name,
+                role: document.getElementById('nhOutreachRole').value.trim(),
+                purpose: document.getElementById('nhOutreachPurpose').value,
+                stage: 'identified',
+                addedAt: new Date().toISOString()
+            });
+            nhSave(NH_STORAGE.outreach, outreach);
+            document.getElementById('nhOutreachName').value = '';
+            document.getElementById('nhOutreachRole').value = '';
+            renderOutreachPipeline();
+        }
+
+        function advanceOutreach(idx) {
+            const outreach = nhLoad(NH_STORAGE.outreach);
+            const stages = ['identified', 'reached', 'connected', 'built'];
+            const current = stages.indexOf(outreach[idx].stage);
+            if (current < stages.length - 1) {
+                outreach[idx].stage = stages[current + 1];
+                nhSave(NH_STORAGE.outreach, outreach);
+                renderOutreachPipeline();
+            }
+        }
+
+        function removeOutreach(idx) {
+            const outreach = nhLoad(NH_STORAGE.outreach);
+            outreach.splice(idx, 1);
+            nhSave(NH_STORAGE.outreach, outreach);
+            renderOutreachPipeline();
+        }
+
+        function addNetworkingGoal() {
+            const text = prompt('What is your networking goal? (e.g., "Reach 500 connections")');
+            if (!text) return;
+            const target = parseInt(prompt('Target number (e.g., 500):')) || 0;
+            const deadline = prompt('Deadline (optional, e.g., "2026-06-30"):') || '';
+            const goals = nhLoad(NH_STORAGE.goals);
+            goals.push({ text, target, deadline, current: 0, completed: false });
+            nhSave(NH_STORAGE.goals, goals);
+            renderNHGoals();
+        }
+
+        function incrementGoal(idx) {
+            const goals = nhLoad(NH_STORAGE.goals);
+            goals[idx].current = (goals[idx].current || 0) + 1;
+            if (goals[idx].current >= goals[idx].target && goals[idx].target > 0) goals[idx].completed = true;
+            nhSave(NH_STORAGE.goals, goals);
+            renderNHGoals();
+        }
+
+        function deleteGoal(idx) {
+            const goals = nhLoad(NH_STORAGE.goals);
+            goals.splice(idx, 1);
+            nhSave(NH_STORAGE.goals, goals);
+            renderNHGoals();
+        }
+
+        function logNetworkingAction() {
+            const text = prompt('What networking action did you take? (e.g., "Sent 5 connection requests", "Had coffee chat with Sarah")');
+            if (!text) return;
+            const log = nhLoad(NH_STORAGE.actionLog);
+            log.push({ text, date: new Date().toISOString().split('T')[0], timestamp: new Date().toISOString() });
+            nhSave(NH_STORAGE.actionLog, log);
+            // Re-render cadence with fresh data
+            const profile = DataStore.getActiveProfile();
+            if (profile) {
+                const nh = NetworkingHubEngine.analyze(profile);
+                renderWeeklyCadence(nh);
+            }
+        }
+
+        function resetWeeklyCadence() {
+            if (!confirm('Reset this week\'s action log?')) return;
+            const log = nhLoad(NH_STORAGE.actionLog);
+            const now = new Date();
+            const mondayOffset = now.getDay() === 0 ? -6 : 1 - now.getDay();
+            const monday = new Date(now); monday.setDate(now.getDate() + mondayOffset); monday.setHours(0,0,0,0);
+            const mondayStr = monday.toISOString().split('T')[0];
+            const filtered = log.filter(a => a.date < mondayStr);
+            nhSave(NH_STORAGE.actionLog, filtered);
+            const profile = DataStore.getActiveProfile();
+            if (profile) {
+                const nh = NetworkingHubEngine.analyze(profile);
+                renderWeeklyCadence(nh);
+            }
+        }
+
+        function addNetworkingEvent() {
+            const name = document.getElementById('nhEventName').value.trim();
+            if (!name) { alert('Please enter an event name.'); return; }
+            const events = nhLoad(NH_STORAGE.events);
+            events.push({
+                name,
+                date: document.getElementById('nhEventDate').value || new Date().toISOString().split('T')[0],
+                type: document.getElementById('nhEventType').value,
+                notes: document.getElementById('nhEventNotes').value.trim(),
+                targets: document.getElementById('nhEventTargets').value.trim()
+            });
+            nhSave(NH_STORAGE.events, events);
+            document.getElementById('nhEventName').value = '';
+            document.getElementById('nhEventNotes').value = '';
+            document.getElementById('nhEventTargets').value = '';
+            renderEvents();
+        }
+
+        function removeEvent(idx) {
+            const events = nhLoad(NH_STORAGE.events);
+            events.splice(idx, 1);
+            nhSave(NH_STORAGE.events, events);
+            renderEvents();
+        }
+
+        function addKeyContact() {
+            const name = document.getElementById('nhContactName').value.trim();
+            if (!name) { alert('Please enter a contact name.'); return; }
+            const contacts = nhLoad(NH_STORAGE.contacts);
+            contacts.push({
+                name,
+                role: document.getElementById('nhContactRole').value.trim(),
+                company: document.getElementById('nhContactCompany').value.trim(),
+                met: document.getElementById('nhContactMet').value.trim(),
+                value: document.getElementById('nhContactValue').value,
+                frequency: parseInt(document.getElementById('nhContactFreq').value) || 30,
+                notes: document.getElementById('nhContactNotes').value.trim(),
+                lastContact: null,
+                addedAt: new Date().toISOString()
+            });
+            nhSave(NH_STORAGE.contacts, contacts);
+            document.getElementById('nhContactName').value = '';
+            document.getElementById('nhContactRole').value = '';
+            document.getElementById('nhContactCompany').value = '';
+            document.getElementById('nhContactMet').value = '';
+            document.getElementById('nhContactNotes').value = '';
+            renderKeyContacts();
+        }
+
+        function markContacted(idx) {
+            const contacts = nhLoad(NH_STORAGE.contacts);
+            contacts[idx].lastContact = new Date().toISOString().split('T')[0];
+            nhSave(NH_STORAGE.contacts, contacts);
+            renderKeyContacts();
+        }
+
+        function removeKeyContact(idx) {
+            const contacts = nhLoad(NH_STORAGE.contacts);
+            contacts.splice(idx, 1);
+            nhSave(NH_STORAGE.contacts, contacts);
+            renderKeyContacts();
+        }
+
+        function showTemplate(id) {
+            const el = document.getElementById('tmpl-' + id);
+            if (el) {
+                const isVisible = el.style.display !== 'none';
+                // Hide all previews first
+                document.querySelectorAll('.template-preview').forEach(p => p.style.display = 'none');
+                if (!isVisible) {
+                    el.style.display = 'block';
+                    // Copy to clipboard
+                    const text = el.textContent;
+                    navigator.clipboard.writeText(text).catch(() => {});
+                }
+            }
+        }
+
+        function saveCustomTemplate() {
+            const name = document.getElementById('nhCustomTemplateName').value.trim();
+            const text = document.getElementById('nhCustomTemplateText').value.trim();
+            if (!name || !text) { alert('Please provide a template name and text.'); return; }
+            const templates = nhLoad(NH_STORAGE.templates);
+            templates.push({
+                id: 'custom_' + Date.now(),
+                name,
+                category: document.getElementById('nhCustomTemplateCategory').value,
+                text
+            });
+            nhSave(NH_STORAGE.templates, templates);
+            document.getElementById('nhCustomTemplateName').value = '';
+            document.getElementById('nhCustomTemplateText').value = '';
+            renderTemplates();
+        }
+
+        // ============================================================
         //  MAIN APP INTERFACE
         // ============================================================
         const sectionTitles = {
@@ -3611,7 +5245,7 @@
             'recommendations': 'Recommendations', 'brand': 'Personal Brand',
             'recruiter': 'Recruiter Visibility', 'comparison': 'Profile Comparison',
             'salary': 'Salary Intelligence', 'action-plan': 'Action Plan',
-            'export': 'Export & Reports'
+            'export': 'Export & Reports', 'networking-hub': 'Networking Hub'
         };
 
         let currentAnalyses = {};
@@ -3672,7 +5306,8 @@
                 experience: ExperienceAnalyzer.analyze(profile),
                 benchmarks: BenchmarkEngine.analyze(profile),
                 brand: BrandAnalyzer.analyze(profile),
-                salary: SalaryEngine.estimate(profile)
+                salary: SalaryEngine.estimate(profile),
+                networkingHub: NetworkingHubEngine.analyze(profile)
             };
             analyses.recruiter = RecruiterScorer.score(profile, analyses);
             currentAnalyses = analyses;
@@ -3691,6 +5326,7 @@
             renderRecruiter(profile, analyses);
             renderSalary(profile, analyses);
             renderActionPlan(profile, analyses);
+            renderNetworkingHub(profile, analyses);
             renderComparison();
 
             navigate('dashboard');
@@ -4053,6 +5689,14 @@
             addExperienceField, addEducationField, addCertField,
             exportJSON, exportCSV, exportPrintView, exportAllData,
             importBackup, clearCurrentProfile, toggleAction, runComparison,
+            // Networking Hub
+            addTrustContact, removeTrustContact, cycleTrustLevel, filterTrustCircle,
+            addOutreachTarget, advanceOutreach, removeOutreach,
+            addNetworkingGoal, incrementGoal, deleteGoal,
+            logNetworkingAction, resetWeeklyCadence,
+            addNetworkingEvent, removeEvent,
+            addKeyContact, markContacted, removeKeyContact,
+            showTemplate, saveCustomTemplate,
             init
         };
     })();
