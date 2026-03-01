@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+    <script src="https://js.stripe.com/v3/"></script>
     <style>
         :root {
             --bg-primary: #0a0e17;
@@ -1084,6 +1085,171 @@
             font-size: 10px; color: var(--text-muted); text-align: center;
             padding: 6px; margin-top: 6px;
         }
+
+        /* ====== CREDITS & BILLING STYLES ====== */
+        .credits-pill {
+            display: inline-flex; align-items: center; gap: 6px;
+            padding: 5px 14px; border-radius: 20px; font-size: 12px; font-weight: 600;
+            background: linear-gradient(135deg, rgba(245,158,11,0.15), rgba(249,115,22,0.15));
+            border: 1px solid rgba(245,158,11,0.3); color: var(--accent-orange);
+            cursor: pointer; transition: var(--transition-fast);
+        }
+        .credits-pill:hover { background: rgba(245,158,11,0.2); border-color: rgba(245,158,11,0.5); }
+        .credits-pill i { font-size: 10px; }
+        .credits-pill .cp-count { font-family: 'JetBrains Mono', monospace; }
+
+        .api-mode-toggle {
+            display: flex; background: var(--bg-input); border-radius: var(--radius-sm);
+            border: 1px solid var(--border-color); overflow: hidden;
+        }
+        .api-mode-btn {
+            flex: 1; padding: 12px 16px; border: none; background: transparent;
+            color: var(--text-secondary); font-family: inherit; font-size: 13px;
+            font-weight: 500; cursor: pointer; transition: var(--transition-fast);
+            display: flex; align-items: center; justify-content: center; gap: 8px;
+        }
+        .api-mode-btn.active {
+            background: var(--accent-blue); color: #fff;
+        }
+        .api-mode-btn:hover:not(.active) { background: rgba(255,255,255,0.05); color: var(--text-primary); }
+        .api-mode-panel { display: none; margin-top: 16px; }
+        .api-mode-panel.active { display: block; }
+
+        /* Pricing Cards */
+        .pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; }
+        .pricing-card {
+            background: var(--bg-card); border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg); padding: 28px; text-align: center;
+            transition: var(--transition-normal); position: relative;
+        }
+        .pricing-card:hover { border-color: var(--border-hover); transform: translateY(-4px); box-shadow: var(--shadow-card); }
+        .pricing-card.popular {
+            border-color: var(--accent-orange); box-shadow: 0 0 24px rgba(245,158,11,0.15);
+        }
+        .pricing-card.popular::before {
+            content: 'Most Popular'; position: absolute; top: -12px; left: 50%; transform: translateX(-50%);
+            background: var(--accent-orange); color: #fff; font-size: 10px; font-weight: 700;
+            padding: 4px 14px; border-radius: 10px; letter-spacing: 0.5px; text-transform: uppercase;
+        }
+        .pricing-card .pc-name { font-size: 16px; font-weight: 700; margin-bottom: 4px; }
+        .pricing-card .pc-credits {
+            font-size: 36px; font-weight: 800; font-family: 'JetBrains Mono', monospace;
+            color: var(--accent-orange); margin: 12px 0 4px;
+        }
+        .pricing-card .pc-credits small { font-size: 14px; color: var(--text-muted); font-weight: 500; }
+        .pricing-card .pc-price {
+            font-size: 24px; font-weight: 700; margin-bottom: 16px;
+        }
+        .pricing-card .pc-price small { font-size: 13px; color: var(--text-muted); font-weight: 400; }
+        .pricing-card .pc-features {
+            list-style: none; text-align: left; margin: 16px 0; font-size: 13px;
+            color: var(--text-secondary); line-height: 2;
+        }
+        .pricing-card .pc-features li::before {
+            content: '\f00c'; font-family: 'Font Awesome 6 Free'; font-weight: 900;
+            color: var(--accent-green); margin-right: 8px; font-size: 11px;
+        }
+        .pricing-card .pc-buy-btn {
+            width: 100%; padding: 12px; border: none; border-radius: var(--radius-sm);
+            font-family: inherit; font-size: 14px; font-weight: 600; cursor: pointer;
+            transition: var(--transition-fast); background: var(--accent-orange); color: #fff;
+        }
+        .pricing-card .pc-buy-btn:hover { background: #d97706; box-shadow: 0 0 16px rgba(245,158,11,0.3); }
+        .pricing-card.popular .pc-buy-btn { background: linear-gradient(135deg, #f59e0b, #f97316); }
+
+        /* Usage Meter */
+        .usage-meter { margin-bottom: 20px; }
+        .usage-meter .um-header { display: flex; justify-content: space-between; margin-bottom: 6px; }
+        .usage-meter .um-label { font-size: 12px; color: var(--text-secondary); }
+        .usage-meter .um-value { font-size: 12px; font-weight: 600; font-family: 'JetBrains Mono', monospace; }
+        .usage-meter .um-bar {
+            height: 8px; background: var(--bg-input); border-radius: 4px; overflow: hidden;
+        }
+        .usage-meter .um-fill {
+            height: 100%; border-radius: 4px; transition: width 0.6s ease;
+            background: linear-gradient(90deg, var(--accent-green), var(--accent-orange));
+        }
+        .usage-meter .um-fill.warning { background: linear-gradient(90deg, var(--accent-orange), var(--accent-red)); }
+
+        /* Usage History Table */
+        .usage-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+        .usage-table th {
+            text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--border-color);
+            color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; font-size: 10px;
+        }
+        .usage-table td {
+            padding: 10px 12px; border-bottom: 1px solid rgba(42,53,72,0.3);
+            color: var(--text-secondary);
+        }
+        .usage-table tr:hover td { background: rgba(59,130,246,0.03); }
+
+        /* ====== RESEARCH TOOLS STYLES ====== */
+        .research-input-card {
+            background: var(--bg-card); border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg); padding: 24px; margin-bottom: 20px;
+            border-top: 3px solid var(--accent-blue);
+        }
+        .research-input-card h3 { font-size: 15px; font-weight: 700; margin-bottom: 12px; }
+        .research-input-row {
+            display: flex; gap: 10px; align-items: flex-end;
+        }
+        .research-input-row .form-group { flex: 1; margin-bottom: 0; }
+        .research-results { margin-top: 20px; }
+        .research-card {
+            background: var(--bg-card); border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg); padding: 24px; margin-bottom: 16px;
+            transition: var(--transition-normal);
+        }
+        .research-card:hover { border-color: var(--border-hover); }
+        .research-card .rc-header {
+            display: flex; align-items: center; gap: 12px; margin-bottom: 16px;
+        }
+        .research-card .rc-icon {
+            width: 44px; height: 44px; border-radius: var(--radius-sm);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 20px; flex-shrink: 0;
+        }
+        .research-card .rc-icon.blue { background: rgba(59,130,246,0.15); color: var(--accent-blue); }
+        .research-card .rc-icon.green { background: rgba(16,185,129,0.15); color: var(--accent-green); }
+        .research-card .rc-icon.purple { background: rgba(139,92,246,0.15); color: var(--accent-purple); }
+        .research-card .rc-icon.orange { background: rgba(245,158,11,0.15); color: var(--accent-orange); }
+        .research-card .rc-title { font-size: 15px; font-weight: 700; }
+        .research-card .rc-subtitle { font-size: 12px; color: var(--text-muted); }
+
+        .research-section { margin-bottom: 16px; }
+        .research-section h4 {
+            font-size: 12px; font-weight: 700; color: var(--accent-blue);
+            text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px;
+            padding-bottom: 6px; border-bottom: 1px solid var(--border-color);
+        }
+        .research-section p, .research-section li {
+            font-size: 13px; color: var(--text-secondary); line-height: 1.7;
+        }
+        .research-section ul { padding-left: 16px; }
+        .research-section li { margin-bottom: 4px; }
+
+        .research-score-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 10px;
+        }
+        .research-score {
+            text-align: center; padding: 14px; background: var(--bg-input);
+            border-radius: var(--radius-sm); border: 1px solid var(--border-color);
+        }
+        .research-score .rs-val {
+            font-size: 24px; font-weight: 800; font-family: 'JetBrains Mono', monospace;
+        }
+        .research-score .rs-val.high { color: var(--accent-green); }
+        .research-score .rs-val.med { color: var(--accent-orange); }
+        .research-score .rs-val.low { color: var(--accent-red); }
+        .research-score .rs-label { font-size: 10px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
+
+        /* Cost indicator */
+        .cost-badge {
+            display: inline-flex; align-items: center; gap: 4px;
+            font-size: 10px; padding: 3px 10px; border-radius: 10px;
+            background: rgba(245,158,11,0.1); border: 1px solid rgba(245,158,11,0.25);
+            color: var(--accent-orange); font-weight: 600;
+        }
     </style>
 </head>
 <body>
@@ -1149,10 +1315,27 @@
                 <i class="fas fa-eye"></i> Recruiter Visibility
             </div>
 
+            <div class="nav-section-label">Research</div>
+            <div class="nav-item" data-section="sales-intel" onclick="App.navigate('sales-intel')">
+                <i class="fas fa-crosshairs"></i> Sales Intelligence
+                <span class="badge" style="background:var(--accent-orange);">Pro</span>
+            </div>
+            <div class="nav-item" data-section="prospect-research" onclick="App.navigate('prospect-research')">
+                <i class="fas fa-user-secret"></i> Prospect Research
+                <span class="badge" style="background:var(--accent-orange);">Pro</span>
+            </div>
+            <div class="nav-item" data-section="hiring-eval" onclick="App.navigate('hiring-eval')">
+                <i class="fas fa-clipboard-check"></i> Hiring Evaluator
+                <span class="badge" style="background:var(--accent-orange);">Pro</span>
+            </div>
+
             <div class="nav-section-label">AI</div>
             <div class="nav-item" data-section="ai-insights" onclick="App.navigate('ai-insights')">
                 <i class="fas fa-brain"></i> Claude AI Insights
                 <span class="badge" style="background:var(--accent-purple);">New</span>
+            </div>
+            <div class="nav-item" data-section="billing" onclick="App.navigate('billing')">
+                <i class="fas fa-coins"></i> Credits & Billing
             </div>
 
             <div class="nav-section-label">Growth</div>
@@ -1187,6 +1370,9 @@
                 <div class="top-bar-title" id="topBarTitle">Dashboard</div>
             </div>
             <div class="top-bar-actions">
+                <div class="credits-pill" id="creditsPill" onclick="App.navigate('billing')" title="AI Credits Balance" style="display:none;">
+                    <i class="fas fa-coins"></i> <span class="cp-count" id="creditsCount">0</span> credits
+                </div>
                 <button class="btn btn-sm btn-secondary" onclick="App.navigate('import')">
                     <i class="fas fa-plus"></i> Import Profile
                 </button>
@@ -2270,6 +2456,275 @@
                 </div>
             </div>
 
+            <!-- ==================== SALES INTELLIGENCE ==================== -->
+            <div class="section" id="sec-sales-intel">
+                <div class="section-header">
+                    <h2><i class="fas fa-crosshairs" style="color:var(--accent-orange);"></i> Sales Intelligence</h2>
+                    <p>Deep-dive company and industry research to power your outreach and close deals</p>
+                </div>
+
+                <div class="research-input-card">
+                    <h3><i class="fas fa-building" style="color:var(--accent-blue);margin-right:8px;"></i>Company Research</h3>
+                    <p style="font-size:12px;color:var(--text-secondary);margin-bottom:14px;">Enter a company name to generate comprehensive sales intelligence — decision makers, pain points, competitive landscape, and outreach strategy.</p>
+                    <div class="research-input-row">
+                        <div class="form-group">
+                            <label class="form-label">Company Name</label>
+                            <input type="text" class="form-input" id="salesCompanyInput" placeholder="e.g., Acme Corp">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Industry (optional)</label>
+                            <input type="text" class="form-input" id="salesIndustryInput" placeholder="e.g., SaaS, Healthcare">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Your Product/Service</label>
+                            <input type="text" class="form-input" id="salesProductInput" placeholder="What are you selling?">
+                        </div>
+                        <button class="btn btn-primary" onclick="App.runSalesResearch()" id="salesResearchBtn">
+                            <i class="fas fa-search"></i> Research
+                        </button>
+                    </div>
+                    <div style="margin-top:8px;">
+                        <span class="cost-badge"><i class="fas fa-coins"></i> ~5 credits per research</span>
+                    </div>
+                </div>
+
+                <div id="salesResearchResults" class="research-results"></div>
+
+                <div id="salesResearchEmpty" class="empty-state">
+                    <i class="fas fa-crosshairs"></i>
+                    <h3>Company Intelligence Hub</h3>
+                    <p>Enter a target company above to generate AI-powered sales intelligence. Get decision-maker mapping, pain point analysis, competitive positioning, and personalized outreach scripts.</p>
+                </div>
+            </div>
+
+            <!-- ==================== PROSPECT RESEARCH ==================== -->
+            <div class="section" id="sec-prospect-research">
+                <div class="section-header">
+                    <h2><i class="fas fa-user-tie" style="color:var(--accent-blue);"></i> Prospect Research</h2>
+                    <p>Analyze any LinkedIn profile for sales, networking, or partnership opportunities</p>
+                </div>
+
+                <div class="research-input-card">
+                    <h3><i class="fas fa-user-secret" style="color:var(--accent-purple);margin-right:8px;"></i>Profile Intelligence</h3>
+                    <p style="font-size:12px;color:var(--text-secondary);margin-bottom:14px;">Paste a LinkedIn profile (Ctrl+A from their page) to get deep analysis — communication style, influence level, shared interests, and optimal approach strategy.</p>
+                    <div class="form-group">
+                        <label class="form-label">Paste LinkedIn Profile Text</label>
+                        <textarea class="form-textarea" id="prospectProfileInput" rows="6" placeholder="Copy the prospect's full LinkedIn page (Ctrl+A) and paste here..."></textarea>
+                    </div>
+                    <div class="research-input-row">
+                        <div class="form-group">
+                            <label class="form-label">Your Goal</label>
+                            <select class="form-select" id="prospectGoalSelect">
+                                <option value="sales">Close a sale</option>
+                                <option value="networking">Build relationship</option>
+                                <option value="partnership">Explore partnership</option>
+                                <option value="recruiting">Recruit them</option>
+                                <option value="investor">Seek investment</option>
+                                <option value="general">General intelligence</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Context (optional)</label>
+                            <input type="text" class="form-input" id="prospectContextInput" placeholder="Any additional context...">
+                        </div>
+                        <button class="btn btn-primary" onclick="App.runProspectResearch()" id="prospectResearchBtn">
+                            <i class="fas fa-microscope"></i> Analyze Prospect
+                        </button>
+                    </div>
+                    <div style="margin-top:8px;">
+                        <span class="cost-badge"><i class="fas fa-coins"></i> ~5 credits per analysis</span>
+                    </div>
+                </div>
+
+                <div id="prospectResearchResults" class="research-results"></div>
+
+                <div id="prospectResearchEmpty" class="empty-state">
+                    <i class="fas fa-user-tie"></i>
+                    <h3>Prospect Intelligence</h3>
+                    <p>Paste a prospect's LinkedIn profile to unlock AI-powered analysis. Get personality insights, influence mapping, talking points, and a custom approach strategy tailored to your goal.</p>
+                </div>
+            </div>
+
+            <!-- ==================== HIRING EVALUATOR ==================== -->
+            <div class="section" id="sec-hiring-eval">
+                <div class="section-header">
+                    <h2><i class="fas fa-clipboard-check" style="color:var(--accent-green);"></i> Hiring Evaluator</h2>
+                    <p>AI-powered candidate evaluation — compare profiles against job requirements</p>
+                </div>
+
+                <div class="research-input-card">
+                    <h3><i class="fas fa-briefcase" style="color:var(--accent-green);margin-right:8px;"></i>Candidate Assessment</h3>
+                    <p style="font-size:12px;color:var(--text-secondary);margin-bottom:14px;">Paste a candidate's LinkedIn profile and describe the role. Get a comprehensive hiring evaluation with fit scores, risk flags, and interview questions.</p>
+                    <div class="grid-2" style="gap:16px;">
+                        <div class="form-group">
+                            <label class="form-label">Candidate Profile (paste LinkedIn text)</label>
+                            <textarea class="form-textarea" id="hiringCandidateInput" rows="6" placeholder="Paste the candidate's LinkedIn page here..."></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Job Description / Requirements</label>
+                            <textarea class="form-textarea" id="hiringJobInput" rows="6" placeholder="Describe the role, required skills, experience level..."></textarea>
+                        </div>
+                    </div>
+                    <div class="research-input-row" style="margin-top:8px;">
+                        <div class="form-group">
+                            <label class="form-label">Company Culture (optional)</label>
+                            <input type="text" class="form-input" id="hiringCultureInput" placeholder="e.g., Fast-paced startup, collaborative, remote-first">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Seniority Level</label>
+                            <select class="form-select" id="hiringSenioritySelect">
+                                <option value="junior">Junior / Entry-level</option>
+                                <option value="mid">Mid-level</option>
+                                <option value="senior" selected>Senior</option>
+                                <option value="lead">Lead / Staff</option>
+                                <option value="director">Director</option>
+                                <option value="vp">VP / Executive</option>
+                            </select>
+                        </div>
+                        <button class="btn btn-success" onclick="App.runHiringEval()" id="hiringEvalBtn">
+                            <i class="fas fa-clipboard-check"></i> Evaluate
+                        </button>
+                    </div>
+                    <div style="margin-top:8px;">
+                        <span class="cost-badge"><i class="fas fa-coins"></i> ~8 credits per evaluation</span>
+                    </div>
+                </div>
+
+                <div id="hiringEvalResults" class="research-results"></div>
+
+                <div id="hiringEvalEmpty" class="empty-state">
+                    <i class="fas fa-clipboard-check"></i>
+                    <h3>Candidate Evaluation Hub</h3>
+                    <p>Paste a candidate's LinkedIn profile and job description to get an AI-powered hiring evaluation. Get fit scores across multiple dimensions, culture alignment, risk flags, and targeted interview questions.</p>
+                </div>
+            </div>
+
+            <!-- ==================== BILLING & CREDITS ==================== -->
+            <div class="section" id="sec-billing">
+                <div class="section-header">
+                    <h2><i class="fas fa-coins" style="color:var(--accent-orange);"></i> Credits & Billing</h2>
+                    <p>Manage your AI credits — choose BYO API key or purchase credit packs</p>
+                </div>
+
+                <!-- API Mode Toggle -->
+                <div class="card mb-20">
+                    <div class="card-header">
+                        <div class="card-title"><i class="fas fa-toggle-on" style="color:var(--accent-blue);"></i> API Mode</div>
+                    </div>
+                    <p style="font-size:13px;color:var(--text-secondary);margin-bottom:16px;">Choose how AI features are powered. Use your own Anthropic API key for free, or purchase credit packs for a seamless experience.</p>
+                    <div class="api-mode-toggle" id="apiModeToggle">
+                        <button class="api-mode-btn active" onclick="App.setApiMode('byo')" id="apiModeByo">
+                            <i class="fas fa-key"></i> BYO API Key <small style="color:inherit;opacity:0.7;">(Free)</small>
+                        </button>
+                        <button class="api-mode-btn" onclick="App.setApiMode('credits')" id="apiModeCredits">
+                            <i class="fas fa-coins"></i> Pro Credits <small style="color:inherit;opacity:0.7;">(Pay as you go)</small>
+                        </button>
+                    </div>
+                    <div class="api-mode-panel active" id="panelByo">
+                        <div style="padding:16px;background:var(--bg-input);border-radius:var(--radius-sm);border:1px solid var(--border-color);">
+                            <p style="font-size:13px;color:var(--text-secondary);margin-bottom:10px;"><i class="fas fa-info-circle" style="color:var(--accent-blue);margin-right:6px;"></i>Your API key is stored in your browser and sent directly to Anthropic. We never see or store your key.</p>
+                            <p style="font-size:12px;color:var(--text-muted);">Configure your key in the <a href="#" onclick="App.navigate('ai-insights');return false;" style="color:var(--accent-purple);">AI Settings</a> section.</p>
+                        </div>
+                    </div>
+                    <div class="api-mode-panel" id="panelCredits">
+                        <div class="grid-3 mb-20" id="creditsOverviewCards">
+                            <div class="metric-card">
+                                <div class="metric-label">Available Credits</div>
+                                <div class="metric-value" style="color:var(--accent-orange);" id="billingCreditsBalance">0</div>
+                            </div>
+                            <div class="metric-card">
+                                <div class="metric-label">Credits Used (All Time)</div>
+                                <div class="metric-value" id="billingCreditsUsed">0</div>
+                            </div>
+                            <div class="metric-card">
+                                <div class="metric-label">Avg Cost / Request</div>
+                                <div class="metric-value" id="billingAvgCost">0</div>
+                            </div>
+                        </div>
+                        <div class="usage-meter" id="creditsUsageMeter">
+                            <div class="um-header">
+                                <span class="um-label">Credits Remaining</span>
+                                <span class="um-value" id="creditsMeterValue">0 / 0</span>
+                            </div>
+                            <div class="um-bar">
+                                <div class="um-fill" id="creditsMeterFill" style="width:0%;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pricing Tiers -->
+                <div class="card mb-20" id="pricingSection">
+                    <div class="card-header">
+                        <div class="card-title"><i class="fas fa-tags" style="color:var(--accent-orange);"></i> Credit Packs</div>
+                    </div>
+                    <p style="font-size:13px;color:var(--text-secondary);margin-bottom:20px;">Purchase credit packs to power AI research, enhancements, and analysis. Credits never expire.</p>
+                    <div class="pricing-grid">
+                        <div class="pricing-card">
+                            <div class="pc-name">Starter</div>
+                            <div class="pc-credits">50 <small>credits</small></div>
+                            <div class="pc-price">$5 <small>/ one-time</small></div>
+                            <ul class="pc-features">
+                                <li>~10 section enhancements</li>
+                                <li>~5 research reports</li>
+                                <li>Chat with Claude</li>
+                                <li>Credits never expire</li>
+                            </ul>
+                            <button class="pc-buy-btn" onclick="App.purchaseCredits('starter')">Buy Starter Pack</button>
+                        </div>
+                        <div class="pricing-card popular">
+                            <div class="pc-name">Professional</div>
+                            <div class="pc-credits">200 <small>credits</small></div>
+                            <div class="pc-price">$15 <small>/ one-time</small></div>
+                            <ul class="pc-features">
+                                <li>~40 section enhancements</li>
+                                <li>~25 research reports</li>
+                                <li>Hiring evaluations</li>
+                                <li>25% more value vs Starter</li>
+                            </ul>
+                            <button class="pc-buy-btn" onclick="App.purchaseCredits('professional')">Buy Professional Pack</button>
+                        </div>
+                        <div class="pricing-card">
+                            <div class="pc-name">Enterprise</div>
+                            <div class="pc-credits">500 <small>credits</small></div>
+                            <div class="pc-price">$30 <small>/ one-time</small></div>
+                            <ul class="pc-features">
+                                <li>~100 section enhancements</li>
+                                <li>~60 research reports</li>
+                                <li>Unlimited hiring evals</li>
+                                <li>40% more value vs Starter</li>
+                            </ul>
+                            <button class="pc-buy-btn" onclick="App.purchaseCredits('enterprise')">Buy Enterprise Pack</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Usage History -->
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title"><i class="fas fa-history" style="color:var(--text-muted);"></i> Usage History</div>
+                        <button class="btn btn-sm btn-secondary" onclick="App.clearUsageHistory()"><i class="fas fa-trash-alt"></i> Clear</button>
+                    </div>
+                    <div id="usageHistoryContent">
+                        <table class="usage-table" id="usageHistoryTable">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Action</th>
+                                    <th>Credits</th>
+                                    <th>Balance</th>
+                                </tr>
+                            </thead>
+                            <tbody id="usageHistoryBody"></tbody>
+                        </table>
+                        <div id="usageHistoryEmpty" style="text-align:center;padding:30px;color:var(--text-muted);font-size:13px;">
+                            <i class="fas fa-receipt" style="font-size:24px;margin-bottom:8px;display:block;"></i>
+                            No usage history yet
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <!-- ==================== AI INSIGHTS ==================== -->
             <div class="section" id="sec-ai-insights">
                 <div class="section-header">
@@ -2915,6 +3370,134 @@
         };
 
         // ============================================================
+        //  CREDITS MANAGER - Balance tracking, usage metering, Stripe
+        // ============================================================
+        const CREDITS_CONFIG = {
+            storageKeyBalance: 'li_analyzer_credits_balance',
+            storageKeyHistory: 'li_analyzer_credits_history',
+            storageKeyMode: 'li_analyzer_api_mode',
+            storageKeyPurchased: 'li_analyzer_credits_purchased',
+            proxyUrl: '', // Set to your serverless proxy URL in production
+            stripePublishableKey: '', // Set to your Stripe publishable key
+            pricingTiers: {
+                starter:      { credits: 50,  priceUsd: 5,  stripePriceId: '' },
+                professional: { credits: 200, priceUsd: 15, stripePriceId: '' },
+                enterprise:   { credits: 500, priceUsd: 30, stripePriceId: '' }
+            },
+            costs: {
+                enhance: 3,
+                enhanceAll: 25,
+                salesResearch: 5,
+                prospectResearch: 5,
+                hiringEval: 8,
+                chat: 1
+            }
+        };
+
+        const CreditsManager = {
+            getMode() { return localStorage.getItem(CREDITS_CONFIG.storageKeyMode) || 'byo'; },
+            setMode(mode) { localStorage.setItem(CREDITS_CONFIG.storageKeyMode, mode); },
+            isCreditsMode() { return this.getMode() === 'credits'; },
+
+            getBalance() { return parseInt(localStorage.getItem(CREDITS_CONFIG.storageKeyBalance) || '0'); },
+            setBalance(n) { localStorage.setItem(CREDITS_CONFIG.storageKeyBalance, String(Math.max(0, n))); },
+            getTotalPurchased() { return parseInt(localStorage.getItem(CREDITS_CONFIG.storageKeyPurchased) || '0'); },
+
+            getHistory() { try { return JSON.parse(localStorage.getItem(CREDITS_CONFIG.storageKeyHistory)) || []; } catch(e) { return []; } },
+            saveHistory(h) { try { localStorage.setItem(CREDITS_CONFIG.storageKeyHistory, JSON.stringify(h.slice(-200))); } catch(e) {} },
+            clearHistory() { localStorage.removeItem(CREDITS_CONFIG.storageKeyHistory); },
+
+            canAfford(cost) {
+                if (!this.isCreditsMode()) return true;
+                return this.getBalance() >= cost;
+            },
+
+            deduct(cost, action) {
+                if (!this.isCreditsMode()) return true;
+                const balance = this.getBalance();
+                if (balance < cost) return false;
+                this.setBalance(balance - cost);
+                this.logUsage(action, -cost, balance - cost);
+                return true;
+            },
+
+            addCredits(amount, source) {
+                const balance = this.getBalance();
+                this.setBalance(balance + amount);
+                const totalPurchased = this.getTotalPurchased();
+                localStorage.setItem(CREDITS_CONFIG.storageKeyPurchased, String(totalPurchased + amount));
+                this.logUsage('Purchase: ' + source, amount, balance + amount);
+            },
+
+            logUsage(action, amount, newBalance) {
+                const history = this.getHistory();
+                history.push({
+                    date: new Date().toISOString(),
+                    action,
+                    amount,
+                    balance: newBalance
+                });
+                this.saveHistory(history);
+            },
+
+            getTotalUsed() {
+                return this.getHistory().filter(h => h.amount < 0).reduce((sum, h) => sum + Math.abs(h.amount), 0);
+            },
+
+            getAvgCost() {
+                const debits = this.getHistory().filter(h => h.amount < 0);
+                if (debits.length === 0) return 0;
+                return (debits.reduce((sum, h) => sum + Math.abs(h.amount), 0) / debits.length).toFixed(1);
+            },
+
+            async purchaseCredits(tier) {
+                const plan = CREDITS_CONFIG.pricingTiers[tier];
+                if (!plan) { alert('Unknown plan.'); return; }
+
+                // Check if Stripe is configured
+                if (CREDITS_CONFIG.stripePublishableKey && plan.stripePriceId) {
+                    try {
+                        const stripe = Stripe(CREDITS_CONFIG.stripePublishableKey);
+                        const { error } = await stripe.redirectToCheckout({
+                            lineItems: [{ price: plan.stripePriceId, quantity: 1 }],
+                            mode: 'payment',
+                            successUrl: window.location.href + '#billing-success-' + tier,
+                            cancelUrl: window.location.href + '#billing'
+                        });
+                        if (error) throw error;
+                    } catch(e) {
+                        alert('Payment error: ' + e.message);
+                    }
+                } else {
+                    // Demo mode: add credits directly
+                    if (confirm(`Demo Mode: Add ${plan.credits} credits (${tier} pack — $${plan.priceUsd})?\n\nIn production, this redirects to Stripe Checkout.`)) {
+                        this.addCredits(plan.credits, tier + ' pack');
+                        this.setMode('credits');
+                        return true;
+                    }
+                }
+                return false;
+            },
+
+            checkSuccessRedirect() {
+                const hash = window.location.hash;
+                const match = hash.match(/^#billing-success-(\w+)$/);
+                if (match) {
+                    const tier = match[1];
+                    const plan = CREDITS_CONFIG.pricingTiers[tier];
+                    if (plan) {
+                        this.addCredits(plan.credits, tier + ' pack');
+                        this.setMode('credits');
+                        window.location.hash = '#billing';
+                        alert(`Payment successful! ${plan.credits} credits added to your account.`);
+                        return true;
+                    }
+                }
+                return false;
+            }
+        };
+
+        // ============================================================
         //  CLAUDE AI MODULE
         // ============================================================
         const CLAUDE_CONFIG = {
@@ -3086,9 +3669,57 @@ Give 3-4 recruiter-focused metrics, 3-4 insights about search visibility, and 4-
 Give 3-4 salary metrics (market rate, negotiation leverage, etc.), 3-4 insights about compensation positioning, and 3-5 actions for salary growth.`
             },
 
-            async callAPI(systemPrompt, userMessage) {
-                const apiKey = this.getApiKey();
-                if (!apiKey) throw new Error('No API key configured.');
+            // Check if AI is available (either BYO key or sufficient credits)
+            isAvailable(creditCost) {
+                if (CreditsManager.isCreditsMode()) {
+                    return CreditsManager.canAfford(creditCost || 1);
+                }
+                return this.isConnected();
+            },
+
+            async callAPI(systemPrompt, userMessage, opts = {}) {
+                const creditCost = opts.creditCost || 0;
+                const actionLabel = opts.actionLabel || 'API call';
+
+                if (CreditsManager.isCreditsMode()) {
+                    // Credits mode — use proxy endpoint
+                    if (!CreditsManager.canAfford(creditCost)) {
+                        throw new Error(`Insufficient credits (need ${creditCost}). Purchase more credits to continue.`);
+                    }
+                    if (!CREDITS_CONFIG.proxyUrl) {
+                        // Demo mode: use BYO key as fallback
+                        const apiKey = this.getApiKey();
+                        if (!apiKey) throw new Error('Credits mode requires a configured proxy endpoint. For demo, also set a BYO API key.');
+                        const result = await this._directCall(apiKey, systemPrompt, userMessage);
+                        CreditsManager.deduct(creditCost, actionLabel);
+                        return result;
+                    }
+                    const response = await fetch(CREDITS_CONFIG.proxyUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            model: this.getModel(),
+                            max_tokens: CLAUDE_CONFIG.maxTokens,
+                            system: systemPrompt,
+                            messages: [{ role: 'user', content: userMessage }]
+                        })
+                    });
+                    if (!response.ok) {
+                        const err = await response.json().catch(() => ({}));
+                        throw new Error(err?.error?.message || `Proxy error (${response.status})`);
+                    }
+                    const data = await response.json();
+                    CreditsManager.deduct(creditCost, actionLabel);
+                    return data.content?.[0]?.text || '';
+                } else {
+                    // BYO mode — direct to Anthropic
+                    const apiKey = this.getApiKey();
+                    if (!apiKey) throw new Error('No API key configured. Add your key in AI Settings or switch to Credits mode.');
+                    return this._directCall(apiKey, systemPrompt, userMessage);
+                }
+            },
+
+            async _directCall(apiKey, systemPrompt, userMessage) {
                 const response = await fetch(CLAUDE_CONFIG.apiUrl, {
                     method: 'POST',
                     headers: {
@@ -3117,30 +3748,16 @@ Give 3-4 salary metrics (market rate, negotiation leverage, etc.), 3-4 insights 
             async sendChatMessage(userMessage, profile, analyses) {
                 const history = this.getChatHistory();
                 history.push({ role: 'user', content: userMessage });
-                const response = await fetch(CLAUDE_CONFIG.apiUrl, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'x-api-key': this.getApiKey(),
-                        'anthropic-version': '2023-06-01',
-                        'anthropic-dangerous-direct-browser-access': 'true'
-                    },
-                    body: JSON.stringify({
-                        model: this.getModel(),
-                        max_tokens: CLAUDE_CONFIG.maxTokens,
-                        system: this.getChatSystemPrompt(profile, analyses),
-                        messages: history.map(m => ({ role: m.role, content: m.content }))
-                    })
+                // For chat, use callAPI with single message (history context in system prompt)
+                const systemPrompt = this.getChatSystemPrompt(profile, analyses) + '\n\nConversation so far:\n' +
+                    history.slice(0, -1).map(m => `${m.role}: ${m.content}`).join('\n');
+                const reply = await this.callAPI(systemPrompt, userMessage, {
+                    creditCost: CREDITS_CONFIG.costs.chat,
+                    actionLabel: 'Chat message'
                 });
-                if (!response.ok) {
-                    const err = await response.json().catch(() => ({}));
-                    throw new Error(err?.error?.message || `API error (${response.status})`);
-                }
-                const data = await response.json();
-                const reply = data.content?.[0]?.text || 'No response.';
-                history.push({ role: 'assistant', content: reply });
+                history.push({ role: 'assistant', content: reply || 'No response.' });
                 this.saveChatHistory(history);
-                return reply;
+                return reply || 'No response.';
             },
 
             async enhanceSection(section, profile, analyses) {
@@ -3148,7 +3765,204 @@ Give 3-4 salary metrics (market rate, negotiation leverage, etc.), 3-4 insights 
                 if (!prompt) throw new Error('Unknown section: ' + section);
                 const context = this.buildProfileContext(profile, analyses);
                 const systemPrompt = `You are a world-class LinkedIn optimization expert. Analyze this profile and return structured JSON for the ${section} section. The user's profile:\n\n${context}\n\nCRITICAL: Return ONLY valid JSON. No markdown formatting, no code fences, no explanation text before or after the JSON.`;
-                const raw = await this.callAPI(systemPrompt, prompt);
+                const raw = await this.callAPI(systemPrompt, prompt, {
+                    creditCost: CREDITS_CONFIG.costs.enhance,
+                    actionLabel: 'Enhance: ' + section
+                });
+                return this.parseJSON(raw);
+            },
+
+            // ---- Research Methods ----
+            async runSalesResearch(company, industry, product, profile) {
+                const ctx = profile ? this.buildProfileContext(profile, null) : 'No user profile loaded.';
+                const systemPrompt = `You are a world-class sales intelligence analyst and B2B strategist. You have deep expertise in company analysis, competitive intelligence, and sales strategy. Return ONLY valid JSON (no markdown, no code fences).
+
+Seller's profile context:\n${ctx}`;
+                const userPrompt = `Research this company for a sales opportunity and return structured JSON:
+
+Company: ${company}
+Industry: ${industry || 'Unknown'}
+Product/Service being sold: ${product || 'Not specified'}
+
+Return this exact JSON structure:
+{
+  "company_overview": {
+    "name": "string",
+    "industry": "string",
+    "estimated_size": "string (e.g., '500-1000 employees')",
+    "growth_stage": "string (e.g., 'Series B', 'Public', 'Bootstrapped')",
+    "key_facts": ["string array of 4-6 key facts"]
+  },
+  "decision_makers": [
+    {"title": "string", "why_relevant": "string", "approach_strategy": "string"}
+  ],
+  "pain_points": [
+    {"pain": "string", "severity": "high|medium|low", "how_you_solve": "string"}
+  ],
+  "competitive_landscape": {
+    "main_competitors": ["string"],
+    "your_differentiators": ["string"],
+    "competitive_risks": ["string"]
+  },
+  "outreach_strategy": {
+    "best_channel": "string",
+    "timing": "string",
+    "subject_line": "string",
+    "opening_message": "string (2-3 sentences, personalized)",
+    "follow_up_cadence": ["string array of 3-4 follow-up steps"]
+  },
+  "deal_intelligence": {
+    "estimated_deal_size": "string",
+    "sales_cycle": "string",
+    "budget_timing": "string",
+    "champion_profile": "string"
+  },
+  "scores": {
+    "fit_score": "number 0-100",
+    "timing_score": "number 0-100",
+    "accessibility_score": "number 0-100",
+    "overall_opportunity": "number 0-100"
+  }
+}
+
+Provide 3-5 decision makers, 4-6 pain points, and be very specific to this company. Make the outreach message compelling and personalized.`;
+                const raw = await this.callAPI(systemPrompt, userPrompt, {
+                    creditCost: CREDITS_CONFIG.costs.salesResearch,
+                    actionLabel: 'Sales research: ' + company
+                });
+                return this.parseJSON(raw);
+            },
+
+            async runProspectResearch(profileText, goal, context, userProfile) {
+                const ctx = userProfile ? this.buildProfileContext(userProfile, null) : 'No user profile loaded.';
+                const systemPrompt = `You are a world-class networking strategist and people analyst. You excel at reading between the lines of professional profiles to understand personality, motivations, and influence. Return ONLY valid JSON (no markdown, no code fences).
+
+Researcher's own profile:\n${ctx}`;
+                const userPrompt = `Analyze this LinkedIn profile for ${goal} purposes and return structured JSON:
+
+PROSPECT'S PROFILE:
+${profileText}
+
+GOAL: ${goal}
+ADDITIONAL CONTEXT: ${context || 'None'}
+
+Return this exact JSON structure:
+{
+  "prospect_summary": {
+    "name": "string",
+    "current_role": "string",
+    "seniority_level": "string",
+    "years_experience": "number",
+    "career_trajectory": "string (ascending/plateaued/transitioning/etc)"
+  },
+  "personality_profile": {
+    "communication_style": "string (analytical/driver/expressive/amiable)",
+    "decision_making": "string",
+    "likely_motivations": ["string"],
+    "values": ["string"],
+    "pet_peeves": ["string"]
+  },
+  "influence_analysis": {
+    "influence_score": "number 0-100",
+    "network_reach": "string",
+    "thought_leadership": "string",
+    "decision_authority": "string"
+  },
+  "shared_ground": {
+    "common_connections_strategy": "string",
+    "shared_interests": ["string"],
+    "mutual_benefits": ["string"],
+    "conversation_starters": ["string (3-4 personalized openers)"]
+  },
+  "approach_strategy": {
+    "best_channel": "string",
+    "optimal_timing": "string",
+    "opening_message": "string (2-3 sentences, highly personalized)",
+    "value_proposition": "string (what you offer them)",
+    "ask_strategy": "string (how to make your request)",
+    "things_to_avoid": ["string"],
+    "follow_up_plan": ["string"]
+  },
+  "risk_assessment": {
+    "receptivity_score": "number 0-100",
+    "risks": ["string"],
+    "mitigations": ["string"]
+  },
+  "scores": {
+    "relevance": "number 0-100",
+    "receptivity": "number 0-100",
+    "influence": "number 0-100",
+    "overall_priority": "number 0-100"
+  }
+}
+
+Be extremely specific to this prospect. Reference their actual experience, companies, and interests.`;
+                const raw = await this.callAPI(systemPrompt, userPrompt, {
+                    creditCost: CREDITS_CONFIG.costs.prospectResearch,
+                    actionLabel: 'Prospect research'
+                });
+                return this.parseJSON(raw);
+            },
+
+            async runHiringEval(candidateText, jobDesc, culture, seniority) {
+                const systemPrompt = `You are a world-class talent acquisition expert and hiring consultant. You evaluate candidates objectively across multiple dimensions. Return ONLY valid JSON (no markdown, no code fences).`;
+                const userPrompt = `Evaluate this candidate against the job requirements and return structured JSON:
+
+CANDIDATE'S LINKEDIN PROFILE:
+${candidateText}
+
+JOB DESCRIPTION / REQUIREMENTS:
+${jobDesc}
+
+TARGET SENIORITY: ${seniority}
+COMPANY CULTURE: ${culture || 'Not specified'}
+
+Return this exact JSON structure:
+{
+  "candidate_summary": {
+    "name": "string",
+    "current_role": "string",
+    "total_experience_years": "number",
+    "education_highlight": "string",
+    "career_trajectory": "string"
+  },
+  "fit_scores": {
+    "technical_skills": {"score": "number 0-100", "reasoning": "string"},
+    "experience_level": {"score": "number 0-100", "reasoning": "string"},
+    "industry_fit": {"score": "number 0-100", "reasoning": "string"},
+    "culture_alignment": {"score": "number 0-100", "reasoning": "string"},
+    "leadership": {"score": "number 0-100", "reasoning": "string"},
+    "growth_potential": {"score": "number 0-100", "reasoning": "string"},
+    "overall_fit": {"score": "number 0-100", "reasoning": "string"}
+  },
+  "strengths": [
+    {"area": "string", "evidence": "string", "impact": "high|medium|low"}
+  ],
+  "concerns": [
+    {"area": "string", "detail": "string", "severity": "high|medium|low", "mitigation": "string"}
+  ],
+  "skill_gaps": [
+    {"skill": "string", "importance": "critical|nice-to-have", "trainability": "string"}
+  ],
+  "interview_questions": [
+    {"question": "string", "purpose": "string", "what_to_listen_for": "string"}
+  ],
+  "compensation_guidance": {
+    "market_range": "string",
+    "negotiation_notes": "string"
+  },
+  "recommendation": {
+    "verdict": "Strong Hire|Hire|Lean Hire|Lean No Hire|No Hire",
+    "confidence": "high|medium|low",
+    "summary": "string (2-3 sentences)"
+  }
+}
+
+Provide 4-6 strengths, 3-5 concerns, 3-5 skill gaps, and 5-7 targeted interview questions. Be specific and reference actual profile content.`;
+                const raw = await this.callAPI(systemPrompt, userPrompt, {
+                    creditCost: CREDITS_CONFIG.costs.hiringEval,
+                    actionLabel: 'Hiring evaluation'
+                });
                 return this.parseJSON(raw);
             },
 
@@ -3290,6 +4104,98 @@ Give 3-4 salary metrics (market rate, negotiation leverage, etc.), 3-4 insights 
                 html = html.replace(/^[-•]\s+(.+)$/gm, '<li>$1</li>');
                 html = html.replace(/(<li>.*?<\/li>(?:\s*<li>.*?<\/li>)*)/gs, '<ul>$1</ul>');
                 html = html.replace(/\n/g, '<br>');
+                return html;
+            },
+
+            // ---- Research result renderers ----
+            renderScoreGrid(scores) {
+                return `<div class="research-score-grid">${Object.entries(scores).map(([key, val]) => {
+                    const num = parseInt(val) || 0;
+                    const cls = num >= 70 ? 'high' : num >= 40 ? 'med' : 'low';
+                    const label = key.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+                    return `<div class="research-score"><div class="rs-val ${cls}">${num}</div><div class="rs-label">${label}</div></div>`;
+                }).join('')}</div>`;
+            },
+
+            renderResearchSection(title, content) {
+                let html = `<div class="research-section"><h4>${this.esc(title)}</h4>`;
+                if (typeof content === 'string') {
+                    html += `<p>${this.formatText(content)}</p>`;
+                } else if (Array.isArray(content)) {
+                    html += '<ul>' + content.map(item => {
+                        if (typeof item === 'string') return `<li>${this.formatText(item)}</li>`;
+                        if (typeof item === 'object') {
+                            const parts = Object.entries(item).map(([k, v]) => `<strong>${k.replace(/_/g, ' ')}:</strong> ${this.esc(String(v))}`);
+                            return `<li>${parts.join(' &mdash; ')}</li>`;
+                        }
+                        return '';
+                    }).join('') + '</ul>';
+                } else if (typeof content === 'object') {
+                    html += '<ul>' + Object.entries(content).map(([k, v]) => {
+                        const label = k.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+                        if (Array.isArray(v)) return `<li><strong>${label}:</strong> ${v.map(x => this.esc(String(x))).join(', ')}</li>`;
+                        return `<li><strong>${label}:</strong> ${this.esc(String(v))}</li>`;
+                    }).join('') + '</ul>';
+                }
+                html += '</div>';
+                return html;
+            },
+
+            renderSalesResults(data) {
+                let html = '<div class="research-card">';
+                html += `<div class="rc-header"><div class="rc-icon blue"><i class="fas fa-building"></i></div><div><div class="rc-title">${this.esc(data.company_overview?.name || 'Company')}</div><div class="rc-subtitle">${this.esc(data.company_overview?.industry || '')} &bull; ${this.esc(data.company_overview?.estimated_size || '')}</div></div></div>`;
+                if (data.scores) html += this.renderScoreGrid(data.scores);
+                if (data.company_overview?.key_facts) html += this.renderResearchSection('Key Facts', data.company_overview.key_facts);
+                if (data.decision_makers) html += this.renderResearchSection('Decision Makers', data.decision_makers);
+                if (data.pain_points) html += this.renderResearchSection('Pain Points', data.pain_points);
+                if (data.competitive_landscape) html += this.renderResearchSection('Competitive Landscape', data.competitive_landscape);
+                if (data.outreach_strategy) html += this.renderResearchSection('Outreach Strategy', data.outreach_strategy);
+                if (data.deal_intelligence) html += this.renderResearchSection('Deal Intelligence', data.deal_intelligence);
+                html += '</div>';
+                return html;
+            },
+
+            renderProspectResults(data) {
+                let html = '<div class="research-card">';
+                html += `<div class="rc-header"><div class="rc-icon purple"><i class="fas fa-user-tie"></i></div><div><div class="rc-title">${this.esc(data.prospect_summary?.name || 'Prospect')}</div><div class="rc-subtitle">${this.esc(data.prospect_summary?.current_role || '')} &bull; ${this.esc(data.prospect_summary?.career_trajectory || '')}</div></div></div>`;
+                if (data.scores) html += this.renderScoreGrid(data.scores);
+                if (data.personality_profile) html += this.renderResearchSection('Personality Profile', data.personality_profile);
+                if (data.influence_analysis) html += this.renderResearchSection('Influence Analysis', data.influence_analysis);
+                if (data.shared_ground) html += this.renderResearchSection('Shared Ground & Openers', data.shared_ground);
+                if (data.approach_strategy) html += this.renderResearchSection('Approach Strategy', data.approach_strategy);
+                if (data.risk_assessment) html += this.renderResearchSection('Risk Assessment', data.risk_assessment);
+                html += '</div>';
+                return html;
+            },
+
+            renderHiringResults(data) {
+                let html = '<div class="research-card">';
+                const verdict = data.recommendation?.verdict || 'N/A';
+                const verdictColor = verdict.includes('Strong Hire') ? 'green' : verdict.includes('Hire') && !verdict.includes('No') ? 'blue' : verdict.includes('Lean') ? 'orange' : 'red';
+                html += `<div class="rc-header"><div class="rc-icon ${verdictColor}"><i class="fas fa-clipboard-check"></i></div><div><div class="rc-title">${this.esc(data.candidate_summary?.name || 'Candidate')}</div><div class="rc-subtitle">${this.esc(data.candidate_summary?.current_role || '')} &bull; ${this.esc(data.candidate_summary?.total_experience_years || '?')} years exp</div></div><div style="margin-left:auto;"><span style="font-size:18px;font-weight:800;color:var(--accent-${verdictColor});">${this.esc(verdict)}</span></div></div>`;
+                if (data.fit_scores) {
+                    const scores = {};
+                    Object.entries(data.fit_scores).forEach(([k, v]) => {
+                        scores[k] = typeof v === 'object' ? v.score : v;
+                    });
+                    html += this.renderScoreGrid(scores);
+                    // Add reasoning
+                    html += '<div class="research-section"><h4>Score Reasoning</h4><ul>';
+                    Object.entries(data.fit_scores).forEach(([k, v]) => {
+                        if (typeof v === 'object' && v.reasoning) {
+                            const label = k.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+                            html += `<li><strong>${label}:</strong> ${this.esc(v.reasoning)}</li>`;
+                        }
+                    });
+                    html += '</ul></div>';
+                }
+                if (data.strengths) html += this.renderResearchSection('Strengths', data.strengths);
+                if (data.concerns) html += this.renderResearchSection('Concerns & Risks', data.concerns);
+                if (data.skill_gaps) html += this.renderResearchSection('Skill Gaps', data.skill_gaps);
+                if (data.interview_questions) html += this.renderResearchSection('Interview Questions', data.interview_questions);
+                if (data.compensation_guidance) html += this.renderResearchSection('Compensation Guidance', data.compensation_guidance);
+                if (data.recommendation) html += this.renderResearchSection('Recommendation', data.recommendation);
+                html += '</div>';
                 return html;
             }
         };
@@ -6530,7 +7436,9 @@ Give 3-4 salary metrics (market rate, negotiation leverage, etc.), 3-4 insights 
             'recruiter': 'Recruiter Visibility', 'comparison': 'Profile Comparison',
             'salary': 'Salary Intelligence', 'action-plan': 'Action Plan',
             'export': 'Export & Reports', 'networking-hub': 'Networking Hub',
-            'ai-insights': 'Claude AI Insights'
+            'ai-insights': 'Claude AI Insights',
+            'sales-intel': 'Sales Intelligence', 'prospect-research': 'Prospect Research',
+            'hiring-eval': 'Hiring Evaluator', 'billing': 'Credits & Billing'
         };
 
         let currentAnalyses = {};
@@ -7023,10 +7931,7 @@ Give 3-4 salary metrics (market rate, negotiation leverage, etc.), 3-4 insights 
         }
 
         async function enhanceSection(section) {
-            if (!ClaudeAI.isConnected()) {
-                navigate('ai-insights');
-                return;
-            }
+            if (!checkAIAvailable(CREDITS_CONFIG.costs.enhance)) return;
             const profile = DataStore.getActiveProfile();
             if (!profile) { alert('Import a profile first.'); return; }
 
@@ -7041,6 +7946,7 @@ Give 3-4 salary metrics (market rate, negotiation leverage, etc.), 3-4 insights 
                 const data = await ClaudeAI.enhanceSection(section, profile, currentAnalyses);
                 ClaudeAI.cacheEnhancement(section, data);
                 renderEnhancementToZone(section, data);
+                updateCreditsUI();
             } catch(err) {
                 if (zone) {
                     zone.innerHTML = AIRenderer.renderError(err.message);
@@ -7053,7 +7959,8 @@ Give 3-4 salary metrics (market rate, negotiation leverage, etc.), 3-4 insights 
         }
 
         async function enhanceAllSections() {
-            if (!ClaudeAI.isConnected()) { navigate('ai-insights'); return; }
+            const totalCost = CREDITS_CONFIG.costs.enhance * CLAUDE_CONFIG.enhanceableSections.length;
+            if (!checkAIAvailable(totalCost)) return;
             const profile = DataStore.getActiveProfile();
             if (!profile) { alert('Import a profile first.'); return; }
 
@@ -7142,7 +8049,7 @@ Give 3-4 salary metrics (market rate, negotiation leverage, etc.), 3-4 insights 
             const btn = document.getElementById('aiSendBtn');
             const msg = input?.value?.trim();
             if (!msg) return;
-            if (!ClaudeAI.isConnected()) { appendAIChatMessage('system', 'Connect your API key first.'); return; }
+            if (!checkAIAvailable(CREDITS_CONFIG.costs.chat)) { appendAIChatMessage('system', 'Connect your API key or purchase credits first.'); return; }
             const profile = DataStore.getActiveProfile();
 
             appendAIChatMessage('user', msg);
@@ -7162,6 +8069,7 @@ Give 3-4 salary metrics (market rate, negotiation leverage, etc.), 3-4 insights 
                 const reply = await ClaudeAI.sendChatMessage(msg, profile, currentAnalyses);
                 document.getElementById('aiTyping')?.remove();
                 appendAIChatMessage('assistant', reply);
+                updateCreditsUI();
             } catch(err) {
                 document.getElementById('aiTyping')?.remove();
                 appendAIChatMessage('system', 'Error: ' + err.message);
@@ -7317,6 +8225,213 @@ Give 3-4 salary metrics (market rate, negotiation leverage, etc.), 3-4 insights 
         }
 
         // ============================================================
+        //  CREDITS & BILLING HANDLERS
+        // ============================================================
+        function setApiMode(mode) {
+            CreditsManager.setMode(mode);
+            // Update toggle UI
+            document.getElementById('apiModeByo')?.classList.toggle('active', mode === 'byo');
+            document.getElementById('apiModeCredits')?.classList.toggle('active', mode === 'credits');
+            document.getElementById('panelByo')?.classList.toggle('active', mode === 'byo');
+            document.getElementById('panelCredits')?.classList.toggle('active', mode === 'credits');
+            updateCreditsUI();
+        }
+
+        function updateCreditsUI() {
+            const balance = CreditsManager.getBalance();
+            const totalPurchased = CreditsManager.getTotalPurchased();
+            const totalUsed = CreditsManager.getTotalUsed();
+            const avgCost = CreditsManager.getAvgCost();
+            const isCredits = CreditsManager.isCreditsMode();
+
+            // Top bar pill
+            const pill = document.getElementById('creditsPill');
+            if (pill) {
+                pill.style.display = isCredits ? 'inline-flex' : 'none';
+                document.getElementById('creditsCount').textContent = balance;
+            }
+
+            // Billing page
+            const billingBalance = document.getElementById('billingCreditsBalance');
+            if (billingBalance) billingBalance.textContent = balance;
+            const billingUsed = document.getElementById('billingCreditsUsed');
+            if (billingUsed) billingUsed.textContent = totalUsed;
+            const billingAvg = document.getElementById('billingAvgCost');
+            if (billingAvg) billingAvg.textContent = avgCost;
+
+            // Usage meter
+            const meterValue = document.getElementById('creditsMeterValue');
+            const meterFill = document.getElementById('creditsMeterFill');
+            if (meterValue && totalPurchased > 0) {
+                meterValue.textContent = `${balance} / ${totalPurchased}`;
+                const pct = Math.min(100, (balance / totalPurchased) * 100);
+                meterFill.style.width = pct + '%';
+                meterFill.className = 'um-fill' + (pct < 20 ? ' warning' : '');
+            }
+
+            // Usage history
+            renderUsageHistory();
+        }
+
+        function renderUsageHistory() {
+            const body = document.getElementById('usageHistoryBody');
+            const empty = document.getElementById('usageHistoryEmpty');
+            if (!body) return;
+            const history = CreditsManager.getHistory();
+            if (history.length === 0) {
+                body.innerHTML = '';
+                if (empty) empty.style.display = 'block';
+                return;
+            }
+            if (empty) empty.style.display = 'none';
+            body.innerHTML = history.slice().reverse().slice(0, 50).map(h => {
+                const date = new Date(h.date).toLocaleString([], { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+                const amtColor = h.amount > 0 ? 'var(--accent-green)' : 'var(--accent-red)';
+                const amtPrefix = h.amount > 0 ? '+' : '';
+                return `<tr>
+                    <td>${date}</td>
+                    <td>${AIRenderer.esc(h.action)}</td>
+                    <td style="color:${amtColor};font-weight:600;font-family:'JetBrains Mono',monospace;">${amtPrefix}${h.amount}</td>
+                    <td style="font-family:'JetBrains Mono',monospace;">${h.balance}</td>
+                </tr>`;
+            }).join('');
+        }
+
+        function clearUsageHistory() {
+            if (confirm('Clear all usage history?')) {
+                CreditsManager.clearHistory();
+                renderUsageHistory();
+            }
+        }
+
+        async function purchaseCredits(tier) {
+            const result = await CreditsManager.purchaseCredits(tier);
+            if (result) {
+                setApiMode('credits');
+                updateCreditsUI();
+            }
+        }
+
+        function initBilling() {
+            // Check for Stripe success redirect
+            CreditsManager.checkSuccessRedirect();
+            // Set initial mode
+            const mode = CreditsManager.getMode();
+            setApiMode(mode);
+        }
+
+        // ============================================================
+        //  RESEARCH HANDLERS
+        // ============================================================
+        function setResearchBtnState(btnId, loading) {
+            const btn = document.getElementById(btnId);
+            if (!btn) return;
+            if (loading) {
+                btn.disabled = true;
+                btn.innerHTML = '<i class="fas fa-spinner spin"></i> Analyzing...';
+            } else {
+                btn.disabled = false;
+                // Restore button text based on ID
+                if (btnId === 'salesResearchBtn') btn.innerHTML = '<i class="fas fa-search"></i> Research';
+                else if (btnId === 'prospectResearchBtn') btn.innerHTML = '<i class="fas fa-microscope"></i> Analyze Prospect';
+                else if (btnId === 'hiringEvalBtn') btn.innerHTML = '<i class="fas fa-clipboard-check"></i> Evaluate';
+            }
+        }
+
+        function checkAIAvailable(creditCost) {
+            if (CreditsManager.isCreditsMode()) {
+                if (!CreditsManager.canAfford(creditCost)) {
+                    alert(`Insufficient credits (need ${creditCost}). Purchase more credits in the Billing section.`);
+                    navigate('billing');
+                    return false;
+                }
+                return true;
+            }
+            if (!ClaudeAI.isConnected()) {
+                alert('Connect your API key first, or switch to Credits mode.');
+                navigate('ai-insights');
+                return false;
+            }
+            return true;
+        }
+
+        async function runSalesResearch() {
+            const company = document.getElementById('salesCompanyInput')?.value?.trim();
+            const industry = document.getElementById('salesIndustryInput')?.value?.trim();
+            const product = document.getElementById('salesProductInput')?.value?.trim();
+            if (!company) { alert('Enter a company name.'); return; }
+            if (!checkAIAvailable(CREDITS_CONFIG.costs.salesResearch)) return;
+
+            const resultsEl = document.getElementById('salesResearchResults');
+            const emptyEl = document.getElementById('salesResearchEmpty');
+            if (emptyEl) emptyEl.style.display = 'none';
+            if (resultsEl) resultsEl.innerHTML = AIRenderer.renderShimmer();
+            setResearchBtnState('salesResearchBtn', true);
+
+            try {
+                const profile = DataStore.getActiveProfile();
+                const data = await ClaudeAI.runSalesResearch(company, industry, product, profile);
+                if (resultsEl) resultsEl.innerHTML = AIRenderer.renderSalesResults(data);
+                updateCreditsUI();
+            } catch(err) {
+                if (resultsEl) resultsEl.innerHTML = AIRenderer.renderError(err.message);
+            } finally {
+                setResearchBtnState('salesResearchBtn', false);
+            }
+        }
+
+        async function runProspectResearch() {
+            const profileText = document.getElementById('prospectProfileInput')?.value?.trim();
+            const goal = document.getElementById('prospectGoalSelect')?.value || 'general';
+            const context = document.getElementById('prospectContextInput')?.value?.trim();
+            if (!profileText) { alert('Paste a LinkedIn profile first.'); return; }
+            if (!checkAIAvailable(CREDITS_CONFIG.costs.prospectResearch)) return;
+
+            const resultsEl = document.getElementById('prospectResearchResults');
+            const emptyEl = document.getElementById('prospectResearchEmpty');
+            if (emptyEl) emptyEl.style.display = 'none';
+            if (resultsEl) resultsEl.innerHTML = AIRenderer.renderShimmer();
+            setResearchBtnState('prospectResearchBtn', true);
+
+            try {
+                const userProfile = DataStore.getActiveProfile();
+                const data = await ClaudeAI.runProspectResearch(profileText, goal, context, userProfile);
+                if (resultsEl) resultsEl.innerHTML = AIRenderer.renderProspectResults(data);
+                updateCreditsUI();
+            } catch(err) {
+                if (resultsEl) resultsEl.innerHTML = AIRenderer.renderError(err.message);
+            } finally {
+                setResearchBtnState('prospectResearchBtn', false);
+            }
+        }
+
+        async function runHiringEval() {
+            const candidateText = document.getElementById('hiringCandidateInput')?.value?.trim();
+            const jobDesc = document.getElementById('hiringJobInput')?.value?.trim();
+            const culture = document.getElementById('hiringCultureInput')?.value?.trim();
+            const seniority = document.getElementById('hiringSenioritySelect')?.value || 'senior';
+            if (!candidateText) { alert('Paste a candidate profile first.'); return; }
+            if (!jobDesc) { alert('Enter a job description.'); return; }
+            if (!checkAIAvailable(CREDITS_CONFIG.costs.hiringEval)) return;
+
+            const resultsEl = document.getElementById('hiringEvalResults');
+            const emptyEl = document.getElementById('hiringEvalEmpty');
+            if (emptyEl) emptyEl.style.display = 'none';
+            if (resultsEl) resultsEl.innerHTML = AIRenderer.renderShimmer();
+            setResearchBtnState('hiringEvalBtn', true);
+
+            try {
+                const data = await ClaudeAI.runHiringEval(candidateText, jobDesc, culture, seniority);
+                if (resultsEl) resultsEl.innerHTML = AIRenderer.renderHiringResults(data);
+                updateCreditsUI();
+            } catch(err) {
+                if (resultsEl) resultsEl.innerHTML = AIRenderer.renderError(err.message);
+            } finally {
+                setResearchBtnState('hiringEvalBtn', false);
+            }
+        }
+
+        // ============================================================
         //  DRAG & DROP
         // ============================================================
         function initDragDrop() {
@@ -7338,6 +8453,7 @@ Give 3-4 salary metrics (market rate, negotiation leverage, etc.), 3-4 insights 
             updateProfileSelector();
             initDragDrop();
             initAI();
+            initBilling();
             const activeId = DataStore.getActiveId();
             if (activeId && DataStore.getProfile(activeId)) {
                 runFullAnalysis();
@@ -7369,6 +8485,10 @@ Give 3-4 salary metrics (market rate, negotiation leverage, etc.), 3-4 insights 
             enhanceSection, enhanceAllSections, clearAllEnhancements, clearAIChat,
             // Section Paste Import
             importSectionPaste,
+            // Credits & Billing
+            setApiMode, purchaseCredits, clearUsageHistory,
+            // Research
+            runSalesResearch, runProspectResearch, runHiringEval,
             init
         };
     })();
