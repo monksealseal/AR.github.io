@@ -1315,13 +1315,17 @@
                 <i class="fas fa-eye"></i> Recruiter Visibility
             </div>
 
-            <div class="nav-section-label">Research</div>
+            <div class="nav-section-label">Founder Tools</div>
             <div class="nav-item" data-section="sales-intel" onclick="App.navigate('sales-intel')">
-                <i class="fas fa-crosshairs"></i> Sales Intelligence
+                <i class="fas fa-building"></i> Company & Investor Intel
                 <span class="badge" style="background:var(--accent-orange);">Pro</span>
             </div>
             <div class="nav-item" data-section="prospect-research" onclick="App.navigate('prospect-research')">
-                <i class="fas fa-user-secret"></i> Prospect Research
+                <i class="fas fa-route"></i> Connection Intelligence
+                <span class="badge" style="background:var(--accent-orange);">Pro</span>
+            </div>
+            <div class="nav-item" data-section="warm-intros" onclick="App.navigate('warm-intros')">
+                <i class="fas fa-people-arrows"></i> Warm Intro Finder
                 <span class="badge" style="background:var(--accent-orange);">Pro</span>
             </div>
             <div class="nav-item" data-section="hiring-eval" onclick="App.navigate('hiring-eval')">
@@ -2456,28 +2460,35 @@
                 </div>
             </div>
 
-            <!-- ==================== SALES INTELLIGENCE ==================== -->
+            <!-- ==================== COMPANY & INVESTOR INTEL ==================== -->
             <div class="section" id="sec-sales-intel">
                 <div class="section-header">
-                    <h2><i class="fas fa-crosshairs" style="color:var(--accent-orange);"></i> Sales Intelligence</h2>
-                    <p>Deep-dive company and industry research to power your outreach and close deals</p>
+                    <h2><i class="fas fa-building" style="color:var(--accent-orange);"></i> Company & Investor Intelligence</h2>
+                    <p>Research companies, VCs, and potential partners — know everything before you reach out</p>
                 </div>
 
                 <div class="research-input-card">
-                    <h3><i class="fas fa-building" style="color:var(--accent-blue);margin-right:8px;"></i>Company Research</h3>
-                    <p style="font-size:12px;color:var(--text-secondary);margin-bottom:14px;">Enter a company name to generate comprehensive sales intelligence — decision makers, pain points, competitive landscape, and outreach strategy.</p>
+                    <h3><i class="fas fa-search" style="color:var(--accent-blue);margin-right:8px;"></i>Research a Company or VC Firm</h3>
+                    <p style="font-size:12px;color:var(--text-secondary);margin-bottom:14px;">Enter a company, VC firm, or accelerator. Get founder-relevant intelligence: who to talk to, what they care about, how to position your startup, and the best angle for your first message.</p>
                     <div class="research-input-row">
                         <div class="form-group">
-                            <label class="form-label">Company Name</label>
-                            <input type="text" class="form-input" id="salesCompanyInput" placeholder="e.g., Acme Corp">
+                            <label class="form-label">Company / VC / Organization</label>
+                            <input type="text" class="form-input" id="salesCompanyInput" placeholder="e.g., Sequoia Capital, Stripe, Y Combinator">
                         </div>
                         <div class="form-group">
-                            <label class="form-label">Industry (optional)</label>
-                            <input type="text" class="form-input" id="salesIndustryInput" placeholder="e.g., SaaS, Healthcare">
+                            <label class="form-label">Relationship Type</label>
+                            <select class="form-select" id="salesIndustryInput">
+                                <option value="investor">Potential Investor / VC</option>
+                                <option value="customer">Potential Customer</option>
+                                <option value="partner">Strategic Partner</option>
+                                <option value="acquirer">Potential Acquirer</option>
+                                <option value="accelerator">Accelerator / Incubator</option>
+                                <option value="competitor">Competitor Intel</option>
+                            </select>
                         </div>
                         <div class="form-group">
-                            <label class="form-label">Your Product/Service</label>
-                            <input type="text" class="form-input" id="salesProductInput" placeholder="What are you selling?">
+                            <label class="form-label">Your Startup (one-liner)</label>
+                            <input type="text" class="form-input" id="salesProductInput" placeholder="e.g., AI-powered sales intelligence platform">
                         </div>
                         <button class="btn btn-primary" onclick="App.runSalesResearch()" id="salesResearchBtn">
                             <i class="fas fa-search"></i> Research
@@ -2491,44 +2502,46 @@
                 <div id="salesResearchResults" class="research-results"></div>
 
                 <div id="salesResearchEmpty" class="empty-state">
-                    <i class="fas fa-crosshairs"></i>
-                    <h3>Company Intelligence Hub</h3>
-                    <p>Enter a target company above to generate AI-powered sales intelligence. Get decision-maker mapping, pain point analysis, competitive positioning, and personalized outreach scripts.</p>
+                    <i class="fas fa-building"></i>
+                    <h3>Company & Investor Intelligence</h3>
+                    <p>Research any company, VC firm, or accelerator before reaching out. Get the key people to target, their investment thesis or buying criteria, how to position your startup, and a personalized first message.</p>
                 </div>
             </div>
 
-            <!-- ==================== PROSPECT RESEARCH ==================== -->
+            <!-- ==================== CONNECTION INTELLIGENCE ==================== -->
             <div class="section" id="sec-prospect-research">
                 <div class="section-header">
-                    <h2><i class="fas fa-user-tie" style="color:var(--accent-blue);"></i> Prospect Research</h2>
-                    <p>Analyze any LinkedIn profile for sales, networking, or partnership opportunities</p>
+                    <h2><i class="fas fa-route" style="color:var(--accent-blue);"></i> Connection Intelligence</h2>
+                    <p>Analyze anyone on LinkedIn — understand who they are and craft the perfect approach</p>
                 </div>
 
                 <div class="research-input-card">
-                    <h3><i class="fas fa-user-secret" style="color:var(--accent-purple);margin-right:8px;"></i>Profile Intelligence</h3>
-                    <p style="font-size:12px;color:var(--text-secondary);margin-bottom:14px;">Paste a LinkedIn profile (Ctrl+A from their page) to get deep analysis — communication style, influence level, shared interests, and optimal approach strategy.</p>
+                    <h3><i class="fas fa-user-tie" style="color:var(--accent-purple);margin-right:8px;"></i>Person Deep-Dive</h3>
+                    <p style="font-size:12px;color:var(--text-secondary);margin-bottom:14px;">Paste someone's LinkedIn profile (Ctrl+A from their page). Get a full read on who they are — personality, influence, what motivates them, and exactly how to approach them for your specific goal.</p>
                     <div class="form-group">
-                        <label class="form-label">Paste LinkedIn Profile Text</label>
-                        <textarea class="form-textarea" id="prospectProfileInput" rows="6" placeholder="Copy the prospect's full LinkedIn page (Ctrl+A) and paste here..."></textarea>
+                        <label class="form-label">Paste Their LinkedIn Profile</label>
+                        <textarea class="form-textarea" id="prospectProfileInput" rows="6" placeholder="Go to their LinkedIn profile, press Ctrl+A to select all, Ctrl+C to copy, then paste here..."></textarea>
                     </div>
                     <div class="research-input-row">
                         <div class="form-group">
-                            <label class="form-label">Your Goal</label>
+                            <label class="form-label">What Do You Need From Them?</label>
                             <select class="form-select" id="prospectGoalSelect">
-                                <option value="sales">Close a sale</option>
-                                <option value="networking">Build relationship</option>
-                                <option value="partnership">Explore partnership</option>
-                                <option value="recruiting">Recruit them</option>
-                                <option value="investor">Seek investment</option>
-                                <option value="general">General intelligence</option>
+                                <option value="fundraising">Fundraising — get them to invest or intro to investors</option>
+                                <option value="customer">Customer — sell to them or their company</option>
+                                <option value="advisor">Advisor — get them to advise your startup</option>
+                                <option value="partnership">Partnership — explore working together</option>
+                                <option value="cofounder">Co-founder — evaluate as potential co-founder</option>
+                                <option value="hiring">Hiring — recruit them to join your team</option>
+                                <option value="intro">Warm intro — they know someone you need to reach</option>
+                                <option value="general">General — just understand who they are</option>
                             </select>
                         </div>
                         <div class="form-group">
-                            <label class="form-label">Context (optional)</label>
-                            <input type="text" class="form-input" id="prospectContextInput" placeholder="Any additional context...">
+                            <label class="form-label">Your Startup Context (optional)</label>
+                            <input type="text" class="form-input" id="prospectContextInput" placeholder="e.g., Series A fintech startup, 12 people, $2M ARR">
                         </div>
                         <button class="btn btn-primary" onclick="App.runProspectResearch()" id="prospectResearchBtn">
-                            <i class="fas fa-microscope"></i> Analyze Prospect
+                            <i class="fas fa-microscope"></i> Analyze
                         </button>
                     </div>
                     <div style="margin-top:8px;">
@@ -2539,9 +2552,58 @@
                 <div id="prospectResearchResults" class="research-results"></div>
 
                 <div id="prospectResearchEmpty" class="empty-state">
-                    <i class="fas fa-user-tie"></i>
-                    <h3>Prospect Intelligence</h3>
-                    <p>Paste a prospect's LinkedIn profile to unlock AI-powered analysis. Get personality insights, influence mapping, talking points, and a custom approach strategy tailored to your goal.</p>
+                    <i class="fas fa-route"></i>
+                    <h3>Connection Intelligence</h3>
+                    <p>Paste anyone's LinkedIn profile to understand who they really are. Get personality insights, what motivates them, how much influence they have, and a step-by-step approach strategy customized to your goal as a founder.</p>
+                </div>
+            </div>
+
+            <!-- ==================== WARM INTRO FINDER ==================== -->
+            <div class="section" id="sec-warm-intros">
+                <div class="section-header">
+                    <h2><i class="fas fa-people-arrows" style="color:var(--accent-green);"></i> Warm Intro Finder</h2>
+                    <p>Find the shortest path to anyone through your existing network</p>
+                </div>
+
+                <div class="research-input-card" style="border-top-color:var(--accent-green);">
+                    <h3><i class="fas fa-people-arrows" style="color:var(--accent-green);margin-right:8px;"></i>Who Do You Need to Reach?</h3>
+                    <p style="font-size:12px;color:var(--text-secondary);margin-bottom:14px;">Paste the target person's LinkedIn profile. We'll cross-reference your imported connections to find mutual links, suggest who can make the introduction, and draft the ask for you.</p>
+                    <div class="form-group">
+                        <label class="form-label">Target Person's LinkedIn Profile</label>
+                        <textarea class="form-textarea" id="warmIntroTargetInput" rows="5" placeholder="Paste their LinkedIn profile page (Ctrl+A, Ctrl+C from their profile)..."></textarea>
+                    </div>
+                    <div class="research-input-row">
+                        <div class="form-group">
+                            <label class="form-label">Why Do You Want to Reach Them?</label>
+                            <input type="text" class="form-input" id="warmIntroReasonInput" placeholder="e.g., They're a partner at Andreessen, I'm raising a Series A">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Urgency</label>
+                            <select class="form-select" id="warmIntroUrgencySelect">
+                                <option value="high">High — need this intro this week</option>
+                                <option value="medium" selected>Medium — within a month</option>
+                                <option value="low">Low — building for the long term</option>
+                            </select>
+                        </div>
+                        <button class="btn btn-success" onclick="App.runWarmIntroFinder()" id="warmIntroBtn">
+                            <i class="fas fa-people-arrows"></i> Find Paths
+                        </button>
+                    </div>
+                    <div style="margin-top:8px;display:flex;gap:12px;align-items:center;">
+                        <span class="cost-badge"><i class="fas fa-coins"></i> ~5 credits per search</span>
+                        <span style="font-size:11px;color:var(--text-muted);"><i class="fas fa-info-circle"></i> Tip: Import your connections first for better results</span>
+                    </div>
+                </div>
+
+                <div id="warmIntroResults" class="research-results"></div>
+
+                <div id="warmIntroEmpty" class="empty-state">
+                    <i class="fas fa-people-arrows"></i>
+                    <h3>Warm Intro Finder</h3>
+                    <p>Cold outreach converts at 1-2%. Warm intros convert at 40%+. Paste a target person's profile and we'll analyze your network to find the best introduction paths, draft the ask message, and suggest alternative approaches if no direct path exists.</p>
+                    <button class="btn btn-secondary mt-20" onclick="App.navigate('import')">
+                        <i class="fas fa-file-import"></i> Import Your Connections First
+                    </button>
                 </div>
             </div>
 
@@ -2549,26 +2611,26 @@
             <div class="section" id="sec-hiring-eval">
                 <div class="section-header">
                     <h2><i class="fas fa-clipboard-check" style="color:var(--accent-green);"></i> Hiring Evaluator</h2>
-                    <p>AI-powered candidate evaluation — compare profiles against job requirements</p>
+                    <p>Evaluate candidates for your startup — fit scores, culture alignment, and interview prep</p>
                 </div>
 
                 <div class="research-input-card">
                     <h3><i class="fas fa-briefcase" style="color:var(--accent-green);margin-right:8px;"></i>Candidate Assessment</h3>
-                    <p style="font-size:12px;color:var(--text-secondary);margin-bottom:14px;">Paste a candidate's LinkedIn profile and describe the role. Get a comprehensive hiring evaluation with fit scores, risk flags, and interview questions.</p>
+                    <p style="font-size:12px;color:var(--text-secondary);margin-bottom:14px;">Paste a candidate's LinkedIn profile and describe the role you're hiring for. Get fit scores, startup-readiness assessment, risk flags, and targeted interview questions.</p>
                     <div class="grid-2" style="gap:16px;">
                         <div class="form-group">
                             <label class="form-label">Candidate Profile (paste LinkedIn text)</label>
                             <textarea class="form-textarea" id="hiringCandidateInput" rows="6" placeholder="Paste the candidate's LinkedIn page here..."></textarea>
                         </div>
                         <div class="form-group">
-                            <label class="form-label">Job Description / Requirements</label>
-                            <textarea class="form-textarea" id="hiringJobInput" rows="6" placeholder="Describe the role, required skills, experience level..."></textarea>
+                            <label class="form-label">Role Description</label>
+                            <textarea class="form-textarea" id="hiringJobInput" rows="6" placeholder="Describe the role, required skills, what your startup needs..."></textarea>
                         </div>
                     </div>
                     <div class="research-input-row" style="margin-top:8px;">
                         <div class="form-group">
-                            <label class="form-label">Company Culture (optional)</label>
-                            <input type="text" class="form-input" id="hiringCultureInput" placeholder="e.g., Fast-paced startup, collaborative, remote-first">
+                            <label class="form-label">Your Startup Stage & Culture</label>
+                            <input type="text" class="form-input" id="hiringCultureInput" placeholder="e.g., Pre-seed, 4 people, remote-first, move fast">
                         </div>
                         <div class="form-group">
                             <label class="form-label">Seniority Level</label>
@@ -2594,8 +2656,8 @@
 
                 <div id="hiringEvalEmpty" class="empty-state">
                     <i class="fas fa-clipboard-check"></i>
-                    <h3>Candidate Evaluation Hub</h3>
-                    <p>Paste a candidate's LinkedIn profile and job description to get an AI-powered hiring evaluation. Get fit scores across multiple dimensions, culture alignment, risk flags, and targeted interview questions.</p>
+                    <h3>Startup Hiring Evaluator</h3>
+                    <p>Early hires make or break a startup. Paste a candidate's LinkedIn profile and role description to get fit scores, startup-readiness assessment, culture alignment, risk flags, and interview questions designed for startup hiring.</p>
                 </div>
             </div>
 
@@ -3773,78 +3835,96 @@ Give 3-4 salary metrics (market rate, negotiation leverage, etc.), 3-4 insights 
             },
 
             // ---- Research Methods ----
-            async runSalesResearch(company, industry, product, profile) {
-                const ctx = profile ? this.buildProfileContext(profile, null) : 'No user profile loaded.';
-                const systemPrompt = `You are a world-class sales intelligence analyst and B2B strategist. You have deep expertise in company analysis, competitive intelligence, and sales strategy. Return ONLY valid JSON (no markdown, no code fences).
+            async runSalesResearch(company, relationshipType, startupDesc, profile) {
+                const ctx = profile ? this.buildProfileContext(profile, null) : 'No founder profile loaded.';
+                const systemPrompt = `You are a world-class startup advisor and investor relations expert. You deeply understand how founders navigate fundraising, partnerships, and customer acquisition. You know how VCs, accelerators, and enterprise companies think. Return ONLY valid JSON (no markdown, no code fences).
 
-Seller's profile context:\n${ctx}`;
-                const userPrompt = `Research this company for a sales opportunity and return structured JSON:
+Founder's profile context:\n${ctx}`;
 
-Company: ${company}
-Industry: ${industry || 'Unknown'}
-Product/Service being sold: ${product || 'Not specified'}
+                const goalDescriptions = {
+                    investor: 'This is a VC/angel investor the founder wants to raise money from',
+                    customer: 'This is a potential customer the founder wants to sell to',
+                    partner: 'This is a potential strategic partner for collaboration',
+                    acquirer: 'This is a potential acquirer — the founder is exploring M&A',
+                    accelerator: 'This is an accelerator/incubator the founder wants to get into',
+                    competitor: 'This is a competitor — the founder wants competitive intelligence'
+                };
+
+                const userPrompt = `Research this organization from a founder's perspective and return structured JSON:
+
+Organization: ${company}
+Relationship Type: ${relationshipType || 'general'} — ${goalDescriptions[relationshipType] || 'General research'}
+Founder's Startup: ${startupDesc || 'Not described'}
 
 Return this exact JSON structure:
 {
   "company_overview": {
     "name": "string",
-    "industry": "string",
-    "estimated_size": "string (e.g., '500-1000 employees')",
-    "growth_stage": "string (e.g., 'Series B', 'Public', 'Bootstrapped')",
-    "key_facts": ["string array of 4-6 key facts"]
+    "what_they_do": "string (1-2 sentence description)",
+    "estimated_size": "string",
+    "stage": "string (e.g., 'Series C VC', 'Public Corp', 'Top-tier Accelerator')",
+    "key_facts": ["string array of 4-6 founder-relevant facts"]
   },
   "decision_makers": [
-    {"title": "string", "why_relevant": "string", "approach_strategy": "string"}
+    {"title": "string (e.g., 'Partner — leads fintech deals')", "why_relevant": "string (why this person matters for the founder)", "approach_strategy": "string (how to get to them)"}
   ],
-  "pain_points": [
-    {"pain": "string", "severity": "high|medium|low", "how_you_solve": "string"}
+  "what_they_care_about": [
+    {"topic": "string (e.g., 'Market size > $1B')", "relevance": "high|medium|low", "how_to_position": "string (how the founder should frame their startup)"}
   ],
-  "competitive_landscape": {
-    "main_competitors": ["string"],
-    "your_differentiators": ["string"],
-    "competitive_risks": ["string"]
-  },
+  "red_flags_for_them": ["string (things that would make them say no)"],
   "outreach_strategy": {
-    "best_channel": "string",
-    "timing": "string",
-    "subject_line": "string",
-    "opening_message": "string (2-3 sentences, personalized)",
-    "follow_up_cadence": ["string array of 3-4 follow-up steps"]
+    "best_approach": "string (warm intro, cold email, event, etc)",
+    "timing_advice": "string",
+    "subject_line": "string (if email)",
+    "opening_message": "string (3-4 sentences — specific, not generic founder spam)",
+    "what_to_prepare": ["string (deck? metrics? demo?)"],
+    "follow_up_plan": ["string"]
   },
-  "deal_intelligence": {
-    "estimated_deal_size": "string",
-    "sales_cycle": "string",
-    "budget_timing": "string",
-    "champion_profile": "string"
+  "founder_prep": {
+    "questions_they_will_ask": ["string (what should the founder be ready to answer)"],
+    "talking_points": ["string (strongest angles for this conversation)"],
+    "common_mistakes": ["string (what founders get wrong with this type of org)"]
   },
   "scores": {
-    "fit_score": "number 0-100",
-    "timing_score": "number 0-100",
-    "accessibility_score": "number 0-100",
-    "overall_opportunity": "number 0-100"
+    "fit_score": "number 0-100 (how well does this org match the founder's needs)",
+    "accessibility": "number 0-100 (how easy to get a meeting)",
+    "timing": "number 0-100 (is now a good time to reach out)",
+    "overall_priority": "number 0-100"
   }
 }
 
-Provide 3-5 decision makers, 4-6 pain points, and be very specific to this company. Make the outreach message compelling and personalized.`;
+Be very specific to this organization. Provide 3-5 decision makers, 4-6 things they care about, and make the outreach message specific — not generic founder template garbage.`;
                 const raw = await this.callAPI(systemPrompt, userPrompt, {
                     creditCost: CREDITS_CONFIG.costs.salesResearch,
-                    actionLabel: 'Sales research: ' + company
+                    actionLabel: 'Company intel: ' + company
                 });
                 return this.parseJSON(raw);
             },
 
             async runProspectResearch(profileText, goal, context, userProfile) {
-                const ctx = userProfile ? this.buildProfileContext(userProfile, null) : 'No user profile loaded.';
-                const systemPrompt = `You are a world-class networking strategist and people analyst. You excel at reading between the lines of professional profiles to understand personality, motivations, and influence. Return ONLY valid JSON (no markdown, no code fences).
+                const ctx = userProfile ? this.buildProfileContext(userProfile, null) : 'No founder profile loaded.';
+                const founderGoals = {
+                    fundraising: 'This person is a potential investor or can intro to investors',
+                    customer: 'This person could be a customer or product champion at their company',
+                    advisor: 'The founder wants this person as a startup advisor or mentor',
+                    partnership: 'Exploring a strategic partnership or collaboration',
+                    cofounder: 'Evaluating as a potential co-founder',
+                    hiring: 'The founder wants to recruit this person to the team',
+                    intro: 'This person knows someone the founder needs to reach — want a warm intro',
+                    press: 'This is a journalist/creator — want media coverage',
+                    general: 'General relationship building and network expansion'
+                };
+                const goalContext = founderGoals[goal] || founderGoals.general;
+                const systemPrompt = `You are an expert at founder networking strategy. You help startup founders understand people deeply so they can build the right relationships. You read LinkedIn profiles and extract personality, motivations, influence, and the optimal approach strategy. Think like a master networker who's helped hundreds of founders get their most important meetings. Return ONLY valid JSON (no markdown, no code fences).
 
-Researcher's own profile:\n${ctx}`;
-                const userPrompt = `Analyze this LinkedIn profile for ${goal} purposes and return structured JSON:
+Founder's own profile:\n${ctx}`;
+                const userPrompt = `Analyze this person's LinkedIn profile from a founder's perspective. Goal: ${goalContext}
 
-PROSPECT'S PROFILE:
+THEIR LINKEDIN PROFILE:
 ${profileText}
 
-GOAL: ${goal}
-ADDITIONAL CONTEXT: ${context || 'None'}
+FOUNDER'S GOAL: ${goal} — ${goalContext}
+STARTUP CONTEXT: ${context || 'Not specified'}
 
 Return this exact JSON structure:
 {
@@ -3964,6 +4044,95 @@ Provide 4-6 strengths, 3-5 concerns, 3-5 skill gaps, and 5-7 targeted interview 
                     actionLabel: 'Hiring evaluation'
                 });
                 return this.parseJSON(raw);
+            },
+
+            async runWarmIntroFinder(targetProfileText, reason, urgency, userProfile, connections) {
+                const ctx = userProfile ? this.buildProfileContext(userProfile, null) : 'No founder profile loaded.';
+                const connSummary = this.buildConnectionsSummary(connections);
+                const systemPrompt = `You are an expert at mapping relationship paths and warm introductions for startup founders. You understand how professional networks work, who knows whom based on shared companies/industries/schools, and how to craft introduction requests that get accepted. Return ONLY valid JSON (no markdown, no code fences).
+
+Founder's profile:\n${ctx}
+
+Founder's imported connections (${connections?.length || 0} total):\n${connSummary}`;
+                const userPrompt = `Find warm introduction paths from the founder's network to this target person:
+
+TARGET PERSON'S LINKEDIN PROFILE:
+${targetProfileText}
+
+WHY THE FOUNDER WANTS TO CONNECT: ${reason || 'Not specified'}
+URGENCY: ${urgency || 'medium'}
+
+Analyze the target person's background (companies, schools, industries, roles) and cross-reference with the founder's connections to find potential introducers.
+
+Return this exact JSON structure:
+{
+  "target_summary": {
+    "name": "string (extracted from profile)",
+    "role": "string",
+    "company": "string",
+    "key_background": ["string array of notable companies, schools, affiliations"]
+  },
+  "intro_paths": [
+    {
+      "connector_name": "string (name from founder's connections)",
+      "connector_role": "string",
+      "connection_reason": "string (why this person likely knows the target — shared company, industry, school, etc)",
+      "confidence": "high|medium|low",
+      "intro_request_message": "string (2-3 sentence message the founder can send to the connector asking for the intro)"
+    }
+  ],
+  "alternative_paths": [
+    {
+      "strategy": "string (e.g., 'Engage with their content first', 'Attend same events', 'Connect through their portfolio company')",
+      "detail": "string (specific steps)",
+      "effort": "low|medium|high",
+      "effectiveness": "high|medium|low"
+    }
+  ],
+  "direct_approach": {
+    "recommended": "boolean (true if cold outreach could work)",
+    "reasoning": "string",
+    "cold_message": "string (if recommended, a compelling cold outreach message)",
+    "subject_line": "string"
+  },
+  "approach_priority": [
+    "string — ordered list of recommended approaches from best to worst"
+  ],
+  "scores": {
+    "warm_path_strength": "number 0-100",
+    "target_accessibility": "number 0-100",
+    "connection_relevance": "number 0-100"
+  }
+}
+
+Find 3-5 potential intro paths if possible (match connections by shared companies, industries, schools, or roles with the target). If no strong matches exist, say so honestly and focus on alternative paths. Be realistic about confidence levels.`;
+                const raw = await this.callAPI(systemPrompt, userPrompt, {
+                    creditCost: CREDITS_CONFIG.costs.prospectResearch,
+                    actionLabel: 'Warm intro finder'
+                });
+                return this.parseJSON(raw);
+            },
+
+            buildConnectionsSummary(connections) {
+                if (!connections?.length) return 'No connections imported. The founder should import their LinkedIn connections for better results.';
+                const sample = connections.slice(0, 150);
+                const lines = sample.map(c => {
+                    const name = ((c.firstName || '') + ' ' + (c.lastName || '')).trim();
+                    const parts = [name];
+                    if (c.position) parts.push(c.position);
+                    if (c.company) parts.push('at ' + c.company);
+                    return parts.join(' — ');
+                });
+                let summary = `${connections.length} connections imported. Sample:\n${lines.join('\n')}`;
+                if (connections.length > 150) summary += `\n... and ${connections.length - 150} more.`;
+                // Add company distribution
+                const companies = {};
+                connections.forEach(c => { if (c.company) companies[c.company] = (companies[c.company] || 0) + 1; });
+                const topCompanies = Object.entries(companies).sort((a, b) => b[1] - a[1]).slice(0, 20);
+                if (topCompanies.length) {
+                    summary += '\n\nTop companies in network: ' + topCompanies.map(([name, count]) => `${name} (${count})`).join(', ');
+                }
+                return summary;
             },
 
             parseJSON(raw) {
@@ -4195,6 +4364,57 @@ Provide 4-6 strengths, 3-5 concerns, 3-5 skill gaps, and 5-7 targeted interview 
                 if (data.interview_questions) html += this.renderResearchSection('Interview Questions', data.interview_questions);
                 if (data.compensation_guidance) html += this.renderResearchSection('Compensation Guidance', data.compensation_guidance);
                 if (data.recommendation) html += this.renderResearchSection('Recommendation', data.recommendation);
+                html += '</div>';
+                return html;
+            },
+
+            renderWarmIntroResults(data) {
+                let html = '<div class="research-card">';
+                html += `<div class="rc-header"><div class="rc-icon green"><i class="fas fa-people-arrows"></i></div><div><div class="rc-title">Paths to ${this.esc(data.target_summary?.name || 'Target')}</div><div class="rc-subtitle">${this.esc(data.target_summary?.role || '')} at ${this.esc(data.target_summary?.company || '')}</div></div></div>`;
+                if (data.scores) html += this.renderScoreGrid(data.scores);
+                if (data.target_summary?.key_background?.length) {
+                    html += this.renderResearchSection('Target Background', data.target_summary.key_background);
+                }
+                if (data.intro_paths?.length) {
+                    html += '<div class="research-section"><h4>Warm Introduction Paths</h4>';
+                    data.intro_paths.forEach((path, i) => {
+                        const confColor = path.confidence === 'high' ? 'var(--accent-green)' : path.confidence === 'medium' ? 'var(--accent-orange)' : 'var(--text-muted)';
+                        html += `<div style="padding:14px;background:var(--bg-input);border-radius:var(--radius-sm);border:1px solid var(--border-color);margin-bottom:10px;">
+                            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+                                <strong style="font-size:14px;">${i+1}. Through ${this.esc(path.connector_name)}</strong>
+                                <span style="font-size:10px;color:${confColor};font-weight:700;text-transform:uppercase;">${this.esc(path.confidence)} confidence</span>
+                            </div>
+                            <div style="font-size:12px;color:var(--text-muted);margin-bottom:6px;">${this.esc(path.connector_role || '')}</div>
+                            <div style="font-size:12px;color:var(--text-secondary);margin-bottom:8px;"><strong>Why they connect:</strong> ${this.esc(path.connection_reason)}</div>
+                            <div style="padding:10px 12px;background:var(--bg-card);border-radius:var(--radius-sm);border-left:3px solid var(--accent-green);font-size:12px;color:var(--text-primary);position:relative;">
+                                <div style="font-size:10px;color:var(--accent-green);font-weight:700;margin-bottom:4px;">DRAFT INTRO REQUEST</div>
+                                ${this.esc(path.intro_request_message)}
+                                <button class="rw-copy-btn" style="position:absolute;top:8px;right:8px;" onclick="navigator.clipboard.writeText(this.parentElement.textContent.replace('DRAFT INTRO REQUEST','').replace('Copy','').trim());this.textContent='Copied!'"><i class="fas fa-copy"></i> Copy</button>
+                            </div>
+                        </div>`;
+                    });
+                    html += '</div>';
+                } else {
+                    html += '<div class="research-section"><h4>Warm Paths</h4><p style="color:var(--accent-orange);">No strong warm paths found in your imported connections. See alternative approaches below.</p></div>';
+                }
+                if (data.alternative_paths?.length) html += this.renderResearchSection('Alternative Approaches', data.alternative_paths);
+                if (data.direct_approach) {
+                    html += '<div class="research-section"><h4>Direct Outreach Option</h4>';
+                    if (data.direct_approach.recommended) {
+                        html += `<p style="margin-bottom:8px;">${this.esc(data.direct_approach.reasoning)}</p>`;
+                        if (data.direct_approach.subject_line) html += `<p><strong>Subject:</strong> ${this.esc(data.direct_approach.subject_line)}</p>`;
+                        if (data.direct_approach.cold_message) {
+                            html += `<div style="padding:10px 12px;background:var(--bg-card);border-radius:var(--radius-sm);border-left:3px solid var(--accent-blue);font-size:12px;color:var(--text-primary);position:relative;margin-top:8px;">
+                                ${this.esc(data.direct_approach.cold_message)}
+                                <button class="rw-copy-btn" style="position:absolute;top:8px;right:8px;" onclick="navigator.clipboard.writeText(this.parentElement.textContent.replace('Copy','').trim());this.textContent='Copied!'"><i class="fas fa-copy"></i> Copy</button>
+                            </div>`;
+                        }
+                    } else {
+                        html += `<p style="color:var(--accent-orange);">${this.esc(data.direct_approach.reasoning || 'Cold outreach not recommended. Focus on warm paths.')}</p>`;
+                    }
+                    html += '</div>';
+                }
+                if (data.approach_priority?.length) html += this.renderResearchSection('Priority Order', data.approach_priority);
                 html += '</div>';
                 return html;
             }
@@ -7437,8 +7657,9 @@ Provide 4-6 strengths, 3-5 concerns, 3-5 skill gaps, and 5-7 targeted interview 
             'salary': 'Salary Intelligence', 'action-plan': 'Action Plan',
             'export': 'Export & Reports', 'networking-hub': 'Networking Hub',
             'ai-insights': 'Claude AI Insights',
-            'sales-intel': 'Sales Intelligence', 'prospect-research': 'Prospect Research',
-            'hiring-eval': 'Hiring Evaluator', 'billing': 'Credits & Billing'
+            'sales-intel': 'Company & Investor Intel', 'prospect-research': 'Connection Intelligence',
+            'warm-intros': 'Warm Intro Finder', 'hiring-eval': 'Hiring Evaluator',
+            'billing': 'Credits & Billing'
         };
 
         let currentAnalyses = {};
@@ -8333,7 +8554,8 @@ Provide 4-6 strengths, 3-5 concerns, 3-5 skill gaps, and 5-7 targeted interview 
                 btn.disabled = false;
                 // Restore button text based on ID
                 if (btnId === 'salesResearchBtn') btn.innerHTML = '<i class="fas fa-search"></i> Research';
-                else if (btnId === 'prospectResearchBtn') btn.innerHTML = '<i class="fas fa-microscope"></i> Analyze Prospect';
+                else if (btnId === 'prospectResearchBtn') btn.innerHTML = '<i class="fas fa-microscope"></i> Analyze';
+                else if (btnId === 'warmIntroBtn') btn.innerHTML = '<i class="fas fa-people-arrows"></i> Find Paths';
                 else if (btnId === 'hiringEvalBtn') btn.innerHTML = '<i class="fas fa-clipboard-check"></i> Evaluate';
             }
         }
@@ -8431,6 +8653,32 @@ Provide 4-6 strengths, 3-5 concerns, 3-5 skill gaps, and 5-7 targeted interview 
             }
         }
 
+        async function runWarmIntroFinder() {
+            const targetText = document.getElementById('warmIntroTargetInput')?.value?.trim();
+            const reason = document.getElementById('warmIntroReasonInput')?.value?.trim();
+            const urgency = document.getElementById('warmIntroUrgencySelect')?.value || 'medium';
+            if (!targetText) { alert('Paste the target person\'s LinkedIn profile first.'); return; }
+            if (!checkAIAvailable(CREDITS_CONFIG.costs.prospectResearch)) return;
+
+            const resultsEl = document.getElementById('warmIntroResults');
+            const emptyEl = document.getElementById('warmIntroEmpty');
+            if (emptyEl) emptyEl.style.display = 'none';
+            if (resultsEl) resultsEl.innerHTML = AIRenderer.renderShimmer();
+            setResearchBtnState('warmIntroBtn', true);
+
+            try {
+                const profile = DataStore.getActiveProfile();
+                const connections = profile?.connections || [];
+                const data = await ClaudeAI.runWarmIntroFinder(targetText, reason, urgency, profile, connections);
+                if (resultsEl) resultsEl.innerHTML = AIRenderer.renderWarmIntroResults(data);
+                updateCreditsUI();
+            } catch(err) {
+                if (resultsEl) resultsEl.innerHTML = AIRenderer.renderError(err.message);
+            } finally {
+                setResearchBtnState('warmIntroBtn', false);
+            }
+        }
+
         // ============================================================
         //  DRAG & DROP
         // ============================================================
@@ -8487,8 +8735,8 @@ Provide 4-6 strengths, 3-5 concerns, 3-5 skill gaps, and 5-7 targeted interview 
             importSectionPaste,
             // Credits & Billing
             setApiMode, purchaseCredits, clearUsageHistory,
-            // Research
-            runSalesResearch, runProspectResearch, runHiringEval,
+            // Research / Founder Tools
+            runSalesResearch, runProspectResearch, runWarmIntroFinder, runHiringEval,
             init
         };
     })();
